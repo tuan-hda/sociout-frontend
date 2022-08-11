@@ -6,10 +6,15 @@ import {
   MiddleContainer
 } from './containers/index'
 import Logo from './Logo'
-import { FiSearch } from 'react-icons/fi'
-import Button from './Button'
+import { FiSearch, FiChevronDown } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+import Avatar from './Avatar'
 
 const Header = () => {
+  const avatarProps = {
+    width: '36px'
+  }
+
   return (
     <div className='bg-white h-20'>
       <Container>
@@ -34,7 +39,14 @@ const Header = () => {
           {/* Right */}
           <RightContainer>
             <div className='flex justify-end'>
-              <Button>New Post</Button>
+              <Link to='./profile' className='flex items-center'>
+                <Avatar
+                  Src={require('../img/Makima.jpg')}
+                  props={avatarProps}
+                />
+                <span className='font-bold ml-3'>Tuấn</span>
+                <FiChevronDown className='ml-5 text-[#8B8E95]' />
+              </Link>
             </div>
           </RightContainer>
         </div>
