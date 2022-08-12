@@ -13,14 +13,16 @@ const Wrapper = ({ children }) => {
   return children
 }
 
-const getHeader = () => {
-  return <Header />
+const getHeader = location => {
+  if (location.pathname !== '/login') return <Header />
 }
 
 const App = () => {
+  const location = useLocation()
+
   return (
     <div className='bg-[#F8F8F8] h-screen'>
-      {getHeader()}
+      {getHeader(location)}
       <Wrapper>
         <Routes>
           <Route path='/' element={<Home />} />

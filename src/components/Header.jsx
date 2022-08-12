@@ -39,7 +39,7 @@ const Header = () => {
           {/* Right */}
           <RightContainer>
             <div className='flex justify-end'>
-              <Link to='./profile' className='flex items-center'>
+              <Link to='/login' className='flex items-center'>
                 <Avatar
                   Src={require('../img/Makima.jpg')}
                   props={avatarProps}
