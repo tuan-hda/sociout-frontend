@@ -59,107 +59,105 @@ const Login = () => {
   })
 
   return (
-    <Container>
-      <div className='flex h-full items-center justify-center bg-mainBackground'>
-        <div className='flex h-[90%] items-center justify-center aspect-[8/5] bg-[white]'>
-          {/* Left */}
-          <div className='flex-1 h-full'>
-            <img
-              src={require('../img/login_bg.png')}
-              alt='Login background'
-              className='h-full'
-            />
-          </div>
+    <div className='flex items-center justify-center bg-mainBackground overflow-auto h-screen min-h-[732px]'>
+      <div className='flex items-center justify-center h-[700px] w-authHalf authRes:w-full max-w-authRes bg-[white]'>
+        {/* Left */}
+        <div className='h-full authRes:block hidden'>
+          <img
+            src={require('../img/login_bg.png')}
+            alt='Login background'
+            className='object-contain h-full'
+          />
+        </div>
 
-          {/* Right */}
-          <div className='flex-1 flex items-center justify-center'>
-            {/* Wrapper */}
-            <div>
-              <header>
-                <h2 className='text-primary font-bold text-[#2F3367]'>
-                  Login to your account
-                </h2>
-                <p className='text-[#303468] mt-3 font-medium text-base'>
-                  Welcome back
-                </p>
-              </header>
+        {/* Right */}
+        <div className='flex-1 flex items-center justify-center min-w-authHalf'>
+          {/* Wrapper */}
+          <div>
+            <header>
+              <h2 className='text-primary font-bold text-[#2F3367]'>
+                Login to your account
+              </h2>
+              <p className='text-[#303468] mt-3 font-medium text-base'>
+                Welcome back
+              </p>
+            </header>
 
-              {/* Form wrapper */}
-              <div className='mt-8 space-y-5 font-medium'>
-                <Input
-                  props={getInputProps(
-                    'Email',
-                    'text',
-                    require('../img/icon/profile.png'),
-                    'profile'
-                  )}
+            {/* Form wrapper */}
+            <div className='mt-8 space-y-5 font-medium'>
+              <Input
+                props={getInputProps(
+                  'Email',
+                  'text',
+                  require('../img/icon/profile.png'),
+                  'profile'
+                )}
+              />
+              <Input
+                props={getInputProps(
+                  'Password',
+                  'password',
+                  require('../img/icon/password.png')
+                )}
+              />
+            </div>
+
+            {/* Remember me & forgot password*/}
+            <div className='flex justify-between items-center mt-7'>
+              <div className=''>
+                <input
+                  type='checkbox'
+                  id='rememberMe'
+                  className='accent-blue-500'
                 />
-                <Input
-                  props={getInputProps(
-                    'Password',
-                    'password',
-                    require('../img/icon/password.png')
-                  )}
-                />
+                <label
+                  className='text-darkBlue ml-3 font-medium'
+                  htmlFor='rememberMe'
+                >
+                  Remember me
+                </label>
               </div>
 
-              {/* Remember me & forgot password*/}
-              <div className='flex justify-between items-center mt-7'>
-                <div className=''>
-                  <input
-                    type='checkbox'
-                    id='rememberMe'
-                    className='accent-blue-500'
-                  />
-                  <label
-                    className='text-darkBlue ml-3 font-medium'
-                    htmlFor='rememberMe'
-                  >
-                    Remember me
-                  </label>
-                </div>
+              <Link
+                to='/forgotpassword'
+                className='text-textBlue font-semibold'
+              >
+                Forgot password?
+              </Link>
+            </div>
 
-                <Link
-                  to='/forgotpassword'
-                  className='text-textBlue font-semibold'
-                >
-                  Forgot password?
+            {/* Button */}
+            <div className='mt-8 space-y-4 flex justify-end'>
+              <Button
+                width='130px'
+                height='50px'
+                text={
+                  <div className='flex justify-between items-center'>
+                    <span>Login</span>
+                    <IoIosArrowForward className='text-lg font-extrabold' />
+                  </div>
+                }
+                backgroundColor='#0078EF'
+                color='#fff'
+                fontWeight='600'
+              />
+            </div>
+
+            <footer className='mt-8'>
+              <hr />
+              <div className='flex justify-between mt-5'>
+                <span className='text-darkBlue font-medium'>
+                  Don't have an account?
+                </span>
+                <Link to='/signup' className='font-semibold text-textBlue'>
+                  Join now
                 </Link>
               </div>
-
-              {/* Button */}
-              <div className='mt-8 space-y-4 flex justify-end'>
-                <Button
-                  width='150px'
-                  height='50px'
-                  text={
-                    <div className='flex justify-between items-center'>
-                      <span>Login</span>
-                      <IoIosArrowForward className='text-lg' />
-                    </div>
-                  }
-                  backgroundColor='#0078EF'
-                  color='#fff'
-                  fontWeight='600'
-                />
-              </div>
-
-              <footer className='mt-8'>
-                <hr />
-                <div className='flex justify-between mt-5'>
-                  <span className='text-darkBlue font-medium'>
-                    Don't have an account?
-                  </span>
-                  <Link to='/signup' className='font-semibold text-textBlue'>
-                    Join now
-                  </Link>
-                </div>
-              </footer>
-            </div>
+            </footer>
           </div>
         </div>
       </div>
-    </Container>
+    </div>
   )
 }
 

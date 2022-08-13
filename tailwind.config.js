@@ -4,18 +4,23 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        '2xl': '1440px'
+        authRes: '1120px'
+      },
+      width: {
+        authHalf: '560px'
       },
       height: {
         button: '42px'
       },
       maxWidth: {
-        container: '1440px',
-        side: '400px'
+        container: '1280px',
+        side: '320px',
+        authRes: '1120px'
       },
       minWidth: {
         button: '100px',
-        main: '600px'
+        main: '600px',
+        authHalf: '560px'
       },
       minHeight: {
         button: '40px'
