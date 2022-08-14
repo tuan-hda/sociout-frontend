@@ -13,23 +13,32 @@ const TextField = ({
   icon,
   name,
   marginTop,
-  register
+  register,
+  width
 }) => {
   return (
     <div
       className={`w-[350px] h-[50px] pl-4 flex items-center bg-blueGray rounded-[10px] outline-[#80BEFC] outline-2 focus-within:outline`}
       style={{
-        marginTop
+        marginTop,
+        width
       }}
     >
       {/* Icon */}
-      <div className='w-4 h-4'>
-        {icon && <img src={icon} alt={name + 'icon'} />}
+
+      <div className='w-4 h-4 flex items-center'>
+        {icon ? (
+          <img src={icon} alt={name + 'icon'} />
+        ) : (
+          <span className='font-extrabold text-[#868AA5]'>
+            {name.charAt(0).toUpperCase() + name.charAt(1)}
+          </span>
+        )}
       </div>
 
       {/* Input */}
       <input
-        className='w-full placeholder-[#8B8FA8] text-[#3C4071] outline-none bg-transparent px-4 font-medium leading-8'
+        className='w-full placeholder-[#8B8FA8] text-[#3C4071] outline-none bg-transparent px-4 font-medium leading-7'
         placeholder={placeholderText}
         name={name}
         {...register}
@@ -71,8 +80,16 @@ const Button = ({
 }
 
 const schema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().min(8).max(16).required(),
+  email: yup.string().email().required('email is required'),
+  firstName: yup.string().required('first name is required'),
+  lastName: yup.string().required('last name is required'),
+  password: yup
+    .string()
+    .min(8)
+    .max(16)
+    .required('password is required')
+    .matches(/^.*\d.*/g, 'password must contain at least 1 number')
+    .matches(/^.*[A-Za-z].*/g, 'password must contain at least 1 char'),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref('password'), null], 'passwords must match')
@@ -146,6 +163,22 @@ const SignUp = () => {
                 name='email'
                 register={register('email')}
               />
+              <div className='flex justify-between mt-5'>
+                <TextField
+                  placeholderText='First name'
+                  type='text'
+                  name='firstName'
+                  register={register('firstName')}
+                  width='170px'
+                />
+                <TextField
+                  placeholderText='Last name'
+                  type='text'
+                  name='lastName'
+                  register={register('lastName')}
+                  width='170px'
+                />
+              </div>
               <TextField
                 placeholderText='Password'
                 type='password'
