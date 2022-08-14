@@ -2,7 +2,7 @@ import React from 'react'
 import { useLayoutEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Header from './components/Header'
-import { Home, Login, SignUp } from './pages/index'
+import { Home, Login, RecoverPassword, SignUp } from './pages/index'
 
 // Scroll to top whenever navigate to other tab
 const Wrapper = ({ children }) => {
@@ -13,7 +13,7 @@ const Wrapper = ({ children }) => {
   return children
 }
 
-const excludePath = ['login', 'signup']
+const excludePath = ['login', 'signup', 'recoverpassword']
 
 const getHeader = location => {
   if (!excludePath.includes(location.pathname.substring(1))) return <Header />
@@ -30,6 +30,7 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
+          <Route path='/recoverpassword' element={<RecoverPassword />} />
         </Routes>
       </Wrapper>
     </div>

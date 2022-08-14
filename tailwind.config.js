@@ -35,7 +35,11 @@ module.exports = {
       },
       textColor: {
         darkBlue: '#393D6E',
-        textBlue: '#007DFA'
+        textBlue: '#007DFA',
+        darkInput: '#3C4071'
+      },
+      outlineColor: {
+        lightBlue: '#80BEFC'
       }
     }
   },

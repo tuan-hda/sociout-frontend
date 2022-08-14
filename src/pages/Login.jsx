@@ -4,71 +4,9 @@ import { IoIosArrowForward } from 'react-icons/io'
 import { IoClose } from 'react-icons/io5'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { TextField, Button } from '../components/index'
 import * as yup from 'yup'
 import capitalize from '../components/utils/capitalize'
-
-const TextField = ({
-  placeholderText,
-  type,
-  icon,
-  name,
-  marginTop,
-  register
-}) => {
-  return (
-    <div
-      className={`w-[350px] h-[50px] pl-4 flex items-center bg-blueGray rounded-[10px] outline-[#80BEFC] outline-2 focus-within:outline`}
-      style={{
-        marginTop
-      }}
-    >
-      {/* Icon */}
-      <div className='w-4 h-4'>
-        {icon && <img src={icon} alt={name + 'icon'} />}
-      </div>
-
-      {/* Input */}
-      <input
-        className='w-full placeholder-[#8B8FA8] text-[#3C4071] outline-none bg-transparent px-4 font-medium leading-8'
-        placeholder={placeholderText}
-        name={name}
-        {...register}
-        type={type ?? 'text'}
-      />
-    </div>
-  )
-}
-
-const Button = ({
-  width,
-  height,
-  text,
-  backgroundColor,
-  color,
-  fontWeight,
-  fontSize,
-  padding,
-  type
-}) => {
-  return (
-    <button
-      className={`min-w-button min-h-button flex items-center hover:opacity-90 rounded-[5px] p-4 176 
-      `}
-      type={type}
-      style={{
-        width,
-        height,
-        backgroundColor,
-        color,
-        fontWeight,
-        fontSize,
-        padding
-      }}
-    >
-      <div className='w-full'>{text}</div>
-    </button>
-  )
-}
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -106,7 +44,7 @@ const Login = () => {
         <div className='flex-1 flex items-center justify-center min-w-[50%]'>
           {/* Wrapper */}
           <div>
-            <header>
+            <header className='w-[350px]'>
               <h2 className='text-primary font-bold text-[#2F3367]'>
                 Login to your account
               </h2>
@@ -174,7 +112,7 @@ const Login = () => {
                 </div>
 
                 <Link
-                  to='/forgotpassword'
+                  to='/recoverpassword'
                   className='text-textBlue font-semibold'
                 >
                   Forgot password?

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IoIosArrowForward } from 'react-icons/io'
 import { IoClose } from 'react-icons/io5'
@@ -7,24 +7,27 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField, Button } from '../components/index'
 import * as yup from 'yup'
 import capitalize from '../components/utils/capitalize'
+import { useEffect } from 'react'
+import { useRef } from 'react'
 
 const schema = yup.object().shape({
-  email: yup.string().email().required('email is required'),
-  firstName: yup.string().required('first name is required'),
-  lastName: yup.string().required('last name is required'),
-  password: yup
+  email: yup.string().email().required()
+})
+
+const lastStepSchema = yup.object().shape({
+  newPassword: yup
     .string()
     .min(8)
     .max(16)
     .required('password is required')
     .matches(/^.*\d.*/g, 'password must contain at least 1 number')
     .matches(/^.*[A-Za-z].*/g, 'password must contain at least 1 char'),
-  confirmPassword: yup
+  confirmNewPassword: yup
     .string()
     .oneOf([yup.ref('password'), null], 'passwords must match')
 })
 
-const SignUp = () => {
+const RecoverPassword = () => {
   const {
     register,
     handleSubmit,
@@ -34,8 +37,81 @@ const SignUp = () => {
     resolver: yupResolver(schema)
   })
 
-  // Handle submit form
-  const onSubmit = data => console.log(data)
+  // There are 3 step:
+  //    1. Enter Email
+  //    2. Enter OTP
+  //    3. Set new password
+  const [currentStep, setStep] = useState(0)
+  const [otp, setOtp] = useState(new Array(6).fill(''))
+  const ref = useRef()
+
+  // STEP 1 HANDLING
+  const onMailSubmit = data => {
+    console.log(data)
+    setStep(currentStep + 1)
+  }
+
+  // STEP 2 HANDLING
+  const handleOtpChange = (e, index) => {
+    const {
+      target: { value }
+    } = e
+
+    if (!value.match(/^\d+$/)) {
+      console.log(value)
+      console.log("doesn't match")
+      return
+    }
+
+    const newOtp = [...otp]
+    newOtp[index] = value.charAt(value.length - 1)
+    setOtp(newOtp)
+  }
+
+  const countFilledInputs = () => {
+    let index = otp.filter(x => x !== '').length
+    if (index === 6) {
+      index = 5
+    }
+    return index
+  }
+
+  // Auto focus next input
+  useEffect(() => {
+    ref.current?.focus()
+  }, [otp])
+
+  const handleKeyDown = ({ key }) => {
+    if (key === 'Backspace') {
+      console.log('Handlekeydown')
+      // Case 1: if all input are filled
+      if (otp[5] !== '') {
+        const newOtp = [...otp]
+        newOtp[5] = ''
+        setOtp(newOtp)
+        console.log(newOtp)
+        return
+      }
+
+      // Case 2: otherwise
+      let currentIndex = countFilledInputs() - 1
+      if (currentIndex < 0) currentIndex = 0
+      const newOtp = [...otp]
+      console.log(newOtp)
+      newOtp[currentIndex] = ''
+      setOtp(newOtp)
+    }
+  }
+
+  const getOtp = () => {
+    return otp.reduce((result, current) => (result += current), '')
+  }
+
+  const onOtpSubmit = e => {
+    console.log(getOtp())
+    setStep(currentStep + 1)
+    e.preventDefault()
+  }
 
   return (
     <div className='flex items-center justify-center bg-mainBackground overflow-auto h-screen min-h-[732px] px-4'>
@@ -55,9 +131,13 @@ const SignUp = () => {
           {/* Wrapper */}
           <div>
             <header className='w-[350px]'>
-              <h2 className='text-primary font-bold text-[#2F3367]'>Sign Up</h2>
+              <h2 className='text-primary font-bold text-[#2F3367]'>
+                Recover Password
+              </h2>
               <p className='text-[#303468] mt-3 font-medium text-base'>
-                Please fill your information below
+                {currentStep === 0 && "Don't worry, happens to the best of us"}
+                {currentStep === 1 &&
+                  'Fill the code you received from your email below'}
               </p>
             </header>
 
@@ -83,47 +163,36 @@ const SignUp = () => {
             {/* Form wrapper */}
             <form
               className='mt-8 font-medium'
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={
+                currentStep === 1 ? onOtpSubmit : handleSubmit(onMailSubmit)
+              }
             >
-              <TextField
-                placeholderText='Email'
-                type='text'
-                icon={require('../img/icon/profile.png')}
-                name='email'
-                register={register('email')}
-              />
-              <div className='flex justify-between mt-5'>
+              {currentStep === 0 && (
                 <TextField
-                  placeholderText='First name'
+                  placeholderText='Email'
                   type='text'
-                  name='firstName'
-                  register={register('firstName')}
-                  width='170px'
+                  icon={require('../img/icon/profile.png')}
+                  name='email'
+                  register={register('email')}
                 />
-                <TextField
-                  placeholderText='Last name'
-                  type='text'
-                  name='lastName'
-                  register={register('lastName')}
-                  width='170px'
-                />
-              </div>
-              <TextField
-                placeholderText='Password'
-                type='password'
-                icon={require('../img/icon/password.png')}
-                name='password'
-                marginTop='20px'
-                register={register('password')}
-              />
-              <TextField
-                placeholderText='Confirm password'
-                type='password'
-                icon={require('../img/icon/password.png')}
-                name='confirmPassword'
-                marginTop='20px'
-                register={register('confirmPassword')}
-              />
+              )}
+
+              {/* OTP input */}
+              {currentStep === 1 && (
+                <div className='flex justify-between'>
+                  {otp.map((_, index) => (
+                    <input
+                      ref={index === countFilledInputs() ? ref : null}
+                      key={index}
+                      type='text'
+                      className='w-[50px] h-[50px] outline-none bg-blueGray rounded-md text-center font-medium leading-7 text-darkInput focus:outline-lightBlue outline-2 border-none'
+                      value={otp[index]}
+                      onChange={e => handleOtpChange(e, index)}
+                      onKeyDown={handleKeyDown}
+                    />
+                  ))}
+                </div>
+              )}
 
               {/* Button */}
               <div className='mt-7 space-y-4 flex justify-end'>
@@ -148,10 +217,10 @@ const SignUp = () => {
               <hr />
               <div className='flex justify-between mt-5'>
                 <span className='text-darkBlue font-medium'>
-                  Already have an account?
+                  Already remember?
                 </span>
                 <Link to='/login' className='font-semibold text-textBlue'>
-                  Login
+                  Back to login
                 </Link>
               </div>
             </footer>
@@ -162,4 +231,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default RecoverPassword
