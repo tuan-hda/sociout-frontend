@@ -28,6 +28,7 @@ const lastStepSchema = yup.object().shape({
 })
 
 const RecoverPassword = () => {
+  // First step schema
   const {
     register,
     handleSubmit,
@@ -35,6 +36,15 @@ const RecoverPassword = () => {
     formState: { errors }
   } = useForm({
     resolver: yupResolver(schema)
+  })
+  // Last step schema
+  const {
+    register: l_register,
+    handleSubmit: l_handleSubmit,
+    clearErrors: l_clearErrors,
+    formState: { errors: l_errors }
+  } = useForm({
+    resolver: yupResolver(lastStepSchema)
   })
 
   // There are 3 step:
@@ -113,6 +123,17 @@ const RecoverPassword = () => {
     e.preventDefault()
   }
 
+  // STEP 3 HANDLING
+  const onSetNewPasswordSubmit = data => {
+    console.log(data)
+  }
+
+  const submitOptions = [
+    handleSubmit(onMailSubmit),
+    onOtpSubmit,
+    l_handleSubmit(onSetNewPasswordSubmit)
+  ]
+
   return (
     <div className='flex items-center justify-center bg-mainBackground overflow-auto h-screen min-h-[732px] px-4'>
       {/* Wrapper */}
@@ -136,8 +157,8 @@ const RecoverPassword = () => {
               </h2>
               <p className='text-[#303468] mt-3 font-medium text-base'>
                 {currentStep === 0 && "Don't worry, happens to the best of us"}
-                {currentStep === 1 &&
-                  'Fill the code you received from your email below'}
+                {currentStep === 1 && 'Fill the code you received'}
+                {currentStep === 2 && 'Set your new password'}
               </p>
             </header>
 
@@ -163,10 +184,9 @@ const RecoverPassword = () => {
             {/* Form wrapper */}
             <form
               className='mt-8 font-medium'
-              onSubmit={
-                currentStep === 1 ? onOtpSubmit : handleSubmit(onMailSubmit)
-              }
+              onSubmit={submitOptions[currentStep]}
             >
+              {/* Step 1 */}
               {currentStep === 0 && (
                 <TextField
                   placeholderText='Email'
@@ -177,7 +197,7 @@ const RecoverPassword = () => {
                 />
               )}
 
-              {/* OTP input */}
+              {/* Step 2: OTP input */}
               {currentStep === 1 && (
                 <div className='flex justify-between'>
                   {otp.map((_, index) => (
@@ -194,6 +214,28 @@ const RecoverPassword = () => {
                 </div>
               )}
 
+              {/* Step 3 */}
+              {currentStep === 2 && (
+                <React.Fragment>
+                  <TextField
+                    placeholderText='New password'
+                    type='password'
+                    icon={require('../img/icon/password.png')}
+                    name='newPassword'
+                    marginTop='20px'
+                    register={l_register('newPassword')}
+                  />
+                  <TextField
+                    placeholderText='Confirm new password'
+                    type='password'
+                    icon={require('../img/icon/password.png')}
+                    name='confirmNewPassword'
+                    marginTop='20px'
+                    register={l_register('confirmNewPassword')}
+                  />
+                </React.Fragment>
+              )}
+
               {/* Button */}
               <div className='mt-7 space-y-4 flex justify-end'>
                 <Button
@@ -201,7 +243,7 @@ const RecoverPassword = () => {
                   height='50px'
                   text={
                     <div className='flex justify-between items-center'>
-                      <span>Next</span>
+                      <span>{currentStep !== 2 ? 'Next' : 'Finish'}</span>
                       <IoIosArrowForward className='text-lg font-extrabold' />
                     </div>
                   }
