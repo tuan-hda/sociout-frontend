@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { IoIosArrowForward } from 'react-icons/io'
 import { IoClose } from 'react-icons/io5'
 import { useForm } from 'react-hook-form'
@@ -17,14 +17,14 @@ const schema = yup.object().shape({
 const lastStepSchema = yup.object().shape({
   newPassword: yup
     .string()
-    .min(8)
-    .max(16)
+    .min(8, 'password must be at least 8 characters')
+    .max(16, 'password must be at most 16 characters')
     .required('password is required')
     .matches(/^.*\d.*/g, 'password must contain at least 1 number')
     .matches(/^.*[A-Za-z].*/g, 'password must contain at least 1 char'),
   confirmNewPassword: yup
     .string()
-    .oneOf([yup.ref('password'), null], 'passwords must match')
+    .oneOf([yup.ref('newPassword'), null], 'passwords must match')
 })
 
 const RecoverPassword = () => {
@@ -47,6 +47,8 @@ const RecoverPassword = () => {
     resolver: yupResolver(lastStepSchema)
   })
 
+  const navigate = useNavigate()
+
   // There are 3 step:
   //    1. Enter Email
   //    2. Enter OTP
@@ -54,6 +56,8 @@ const RecoverPassword = () => {
   const [currentStep, setStep] = useState(0)
   const [otp, setOtp] = useState(new Array(6).fill(''))
   const ref = useRef()
+
+  const [otpError, setOtpError] = useState({})
 
   // STEP 1 HANDLING
   const onMailSubmit = data => {
@@ -118,20 +122,48 @@ const RecoverPassword = () => {
   }
 
   const onOtpSubmit = e => {
-    console.log(getOtp())
-    setStep(currentStep + 1)
     e.preventDefault()
+    if (getOtp().length < 6) {
+      setOtpError({
+        content: {
+          message: 'You must fill in all fields'
+        }
+      })
+      return
+    }
+    setOtpError({})
+    setStep(currentStep + 1)
   }
 
   // STEP 3 HANDLING
   const onSetNewPasswordSubmit = data => {
     console.log(data)
+    navigate('/login')
   }
 
-  const submitOptions = [
-    handleSubmit(onMailSubmit),
-    onOtpSubmit,
-    l_handleSubmit(onSetNewPasswordSubmit)
+  // SUMMARY
+  const steps = [
+    {
+      message: 'We will send you an email',
+      errors: errors,
+      submitOption: handleSubmit(onMailSubmit),
+      buttonText: 'Next',
+      clearErrors: clearErrors
+    },
+    {
+      message: 'Fill the code you received from email',
+      errors: otpError,
+      submitOption: onOtpSubmit,
+      buttonText: 'Next',
+      clearErrors: () => setOtpError({})
+    },
+    {
+      message: 'Set your new password',
+      errors: l_errors,
+      submitOption: l_handleSubmit(onSetNewPasswordSubmit),
+      buttonText: 'Finish',
+      clearErrors: l_clearErrors
+    }
   ]
 
   return (
@@ -156,26 +188,24 @@ const RecoverPassword = () => {
                 Recover Password
               </h2>
               <p className='text-[#303468] mt-3 font-medium text-base'>
-                {currentStep === 0 && "Don't worry, happens to the best of us"}
-                {currentStep === 1 && 'Fill the code you received'}
-                {currentStep === 2 && 'Set your new password'}
+                {steps[currentStep].message}
               </p>
             </header>
 
             {/* Error messages */}
-            {Object.keys(errors).length > 0 && (
+            {Object.keys(steps[currentStep].errors).length > 0 && (
               <div className='relative rounded-[10px] bg-[#FFEBE9] border-[1px] border-[#DE5F67] p-4 mt-5'>
                 {/* Close button */}
                 <button
                   className='absolute right-0 top-0 p-2'
-                  onClick={() => clearErrors()}
+                  onClick={() => steps[currentStep].clearErrors()}
                 >
                   <IoClose className='text-[#DE5F67] text-lg' />
                 </button>
 
-                {Object.keys(errors).map((key, index) => (
+                {Object.keys(steps[currentStep].errors).map((key, index) => (
                   <p className='font-light' key={index}>
-                    {capitalize(errors[key].message)}.
+                    {capitalize(steps[currentStep].errors[key].message)}.
                   </p>
                 ))}
               </div>
@@ -184,7 +214,7 @@ const RecoverPassword = () => {
             {/* Form wrapper */}
             <form
               className='mt-8 font-medium'
-              onSubmit={submitOptions[currentStep]}
+              onSubmit={steps[currentStep].submitOption}
             >
               {/* Step 1 */}
               {currentStep === 0 && (
@@ -243,7 +273,7 @@ const RecoverPassword = () => {
                   height='50px'
                   text={
                     <div className='flex justify-between items-center'>
-                      <span>{currentStep !== 2 ? 'Next' : 'Finish'}</span>
+                      <span>{steps[currentStep].buttonText}</span>
                       <IoIosArrowForward className='text-lg font-extrabold' />
                     </div>
                   }
