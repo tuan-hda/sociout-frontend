@@ -1,15 +1,13 @@
 import base from './base'
 
 const logInService = async (email, password) => {
-  try {
-    const result = await base.post('login', {
-      email,
-      password
-    })
-    return result.data
-  } catch (err) {
-    return err
-  }
+  console.log({ email, password })
+  return new Promise((resolve, reject) => {
+    base
+      .post('login', { email, password })
+      .then(response => resolve(response))
+      .catch(error => reject(error))
+  })
 }
 
 export default logInService

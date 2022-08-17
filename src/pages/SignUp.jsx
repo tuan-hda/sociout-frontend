@@ -1,12 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { IoIosArrowForward } from 'react-icons/io'
-import { IoClose } from 'react-icons/io5'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { TextField, Button } from '../components/index'
+import { TextField, Button, ErrorMessage } from '../components/index'
 import * as yup from 'yup'
-import capitalize from '../utils/capitalize'
 
 const schema = yup.object().shape({
   email: yup.string().email().required('email is required'),
@@ -18,7 +16,14 @@ const schema = yup.object().shape({
     .max(16)
     .required('password is required')
     .matches(/^.*\d.*/g, 'password must contain at least 1 number')
-    .matches(/^.*[A-Za-z].*/g, 'password must contain at least 1 char'),
+    .matches(
+      /^.*[A-Z].*/g,
+      'password must contain at least 1 uppercase character'
+    )
+    .matches(
+      /^.*[a-z].*/g,
+      'password must contain at least 1 lowercase character'
+    ),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref('password'), null], 'passwords must match')
@@ -53,8 +58,8 @@ const SignUp = () => {
         {/* Right */}
         <div className='flex-1 flex items-center justify-center min-w-[50%]'>
           {/* Wrapper */}
-          <div>
-            <header className='w-[350px]'>
+          <div className='w-[350px]'>
+            <header className=''>
               <h2 className='text-primary font-bold text-[#2F3367]'>Sign Up</h2>
               <p className='text-[#303468] mt-3 font-medium text-base'>
                 Please fill your information below
@@ -63,21 +68,7 @@ const SignUp = () => {
 
             {/* Error messages */}
             {Object.keys(errors).length > 0 && (
-              <div className='relative rounded-[10px] bg-[#FFEBE9] border-[1px] border-[#DE5F67] p-4 mt-5'>
-                {/* Close button */}
-                <button
-                  className='absolute right-0 top-0 p-2'
-                  onClick={() => clearErrors()}
-                >
-                  <IoClose className='text-[#DE5F67] text-lg' />
-                </button>
-
-                {Object.keys(errors).map((key, index) => (
-                  <p className='font-light' key={index}>
-                    {capitalize(errors[key].message)}.
-                  </p>
-                ))}
-              </div>
+              <ErrorMessage clearErrors={clearErrors} errors={errors} />
             )}
 
             {/* Form wrapper */}

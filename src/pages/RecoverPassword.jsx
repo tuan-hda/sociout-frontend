@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { IoIosArrowForward } from 'react-icons/io'
-import { IoClose } from 'react-icons/io5'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { TextField, Button } from '../components/index'
+import { TextField, Button, ErrorMessage } from '../components/index'
 import * as yup from 'yup'
-import capitalize from '../utils/capitalize'
 import { useEffect } from 'react'
 import { useRef } from 'react'
 
@@ -21,7 +19,14 @@ const lastStepSchema = yup.object().shape({
     .max(16, 'password must be at most 16 characters')
     .required('password is required')
     .matches(/^.*\d.*/g, 'password must contain at least 1 number')
-    .matches(/^.*[A-Za-z].*/g, 'password must contain at least 1 char'),
+    .matches(
+      /^.*[A-Z].*/g,
+      'password must contain at least 1 uppercase character'
+    )
+    .matches(
+      /^.*[a-z].*/g,
+      'password must contain at least 1 lowercase character'
+    ),
   confirmNewPassword: yup
     .string()
     .oneOf([yup.ref('newPassword'), null], 'passwords must match')
@@ -182,8 +187,8 @@ const RecoverPassword = () => {
         {/* Right */}
         <div className='flex-1 flex items-center justify-center min-w-[50%]'>
           {/* Wrapper */}
-          <div>
-            <header className='w-[350px]'>
+          <div className='w-[350px]'>
+            <header className=''>
               <h2 className='text-primary font-bold text-[#2F3367]'>
                 Recover Password
               </h2>
@@ -194,21 +199,10 @@ const RecoverPassword = () => {
 
             {/* Error messages */}
             {Object.keys(steps[currentStep].errors).length > 0 && (
-              <div className='relative rounded-[10px] bg-[#FFEBE9] border-[1px] border-[#DE5F67] p-4 mt-5'>
-                {/* Close button */}
-                <button
-                  className='absolute right-0 top-0 p-2'
-                  onClick={() => steps[currentStep].clearErrors()}
-                >
-                  <IoClose className='text-[#DE5F67] text-lg' />
-                </button>
-
-                {Object.keys(steps[currentStep].errors).map((key, index) => (
-                  <p className='font-light' key={index}>
-                    {capitalize(steps[currentStep].errors[key].message)}.
-                  </p>
-                ))}
-              </div>
+              <ErrorMessage
+                errors={steps[currentStep].errors}
+                clearErrors={steps[currentStep].clearErrors}
+              />
             )}
 
             {/* Form wrapper */}

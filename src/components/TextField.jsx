@@ -11,7 +11,7 @@ const TextField = ({
 }) => {
   return (
     <div
-      className={`w-[350px] h-[50px] pl-4 flex items-center bg-blueGray rounded-[10px] outline-lightBlue outline-2 focus-within:outline`}
+      className={`w-[350px] h-[50px] pl-4 pr-2 gap-2 flex items-center bg-blueGray rounded-[10px] outline-lightBlue outline-2 focus-within:outline`}
       style={{
         marginTop,
         width
@@ -31,7 +31,7 @@ const TextField = ({
 
       {/* Input */}
       <input
-        className='w-full placeholder-[#8B8FA8] text-darkInput outline-none bg-transparent px-4 font-medium leading-7'
+        className='flex-1 w-full placeholder-[#8B8FA8] text-darkInput outline-none bg-transparent px-2 font-medium leading-7 rounded-md'
         placeholder={placeholderText}
         name={name}
         {...register}

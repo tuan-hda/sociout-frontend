@@ -7,7 +7,7 @@ const logInStart = () => ({
 })
 
 const logInSuccess = user => ({
-  types: types.LOG_IN_SUCCESS,
+  type: types.LOG_IN_SUCCESS,
   payload: user
 })
 
