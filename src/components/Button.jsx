@@ -13,7 +13,7 @@ const Button = ({
 }) => {
   return (
     <button
-      className={`min-w-button min-h-button flex items-center hover:opacity-90 rounded-[5px] p-4 176 
+      className={`min-w-button min-h-button flex items-center hover:opacity-90 transition duration-200 rounded-[5px] p-4 176 
       `}
       type={type}
       style={{

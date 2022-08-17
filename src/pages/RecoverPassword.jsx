@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField, Button } from '../components/index'
 import * as yup from 'yup'
-import capitalize from '../components/utils/capitalize'
+import capitalize from '../utils/capitalize'
 import { useEffect } from 'react'
 import { useRef } from 'react'
 

@@ -18,7 +18,7 @@ const Header = () => {
   return (
     <div className='bg-white h-20'>
       <Container>
-        <div className='flex items-center h-full'>
+        <div className='flex items-center h-full gap-6'>
           {/* Left */}
           <LeftContainer>
             <Logo />
@@ -27,7 +27,7 @@ const Header = () => {
           {/* Middle */}
           <MiddleContainer>
             {/* Search */}
-            <div className='rounded-full bg-mainBackground flex items-center p-3 gap-3'>
+            <div className='rounded-full bg-mainBackground flex items-center px-3 py-[10px] gap-3'>
               <FiSearch className='inline text-2xl' />
               <input
                 className='outline-none bg-transparent flex-1'

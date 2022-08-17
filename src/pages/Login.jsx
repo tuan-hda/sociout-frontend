@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField, Button } from '../components/index'
 import * as yup from 'yup'
-import capitalize from '../components/utils/capitalize'
+import capitalize from '../utils/capitalize'
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
