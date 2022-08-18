@@ -7,7 +7,7 @@ module.exports = {
         authRes: '1120px'
       },
       colors: {
-        primary: '#1A86F1',
+        primaryColor: '#1A86F1',
         idColor: '#536471'
       },
       width: {

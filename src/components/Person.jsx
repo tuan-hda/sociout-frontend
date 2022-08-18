@@ -20,7 +20,7 @@ const Person = props => {
 
         {/* Add friend button */}
         <button className='w-10 h-10 flex items-center justify-center hover:bg-gray-300 transition rounded-full'>
-          <BiUserPlus className='fill-primary' />
+          <BiUserPlus className='fill-primaryColor text-xl' />
         </button>
       </div>
     </div>
