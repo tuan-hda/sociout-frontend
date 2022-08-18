@@ -6,6 +6,10 @@ module.exports = {
       screens: {
         authRes: '1120px'
       },
+      colors: {
+        primary: '#1A86F1',
+        textColor: '#333'
+      },
       width: {
         authHalf: '560px'
       },

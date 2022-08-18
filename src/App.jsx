@@ -7,7 +7,7 @@ import {
   MiddleContainer,
   RightContainer
 } from './components/containers'
-import { Header, Navbar, Sidebar } from './components/index'
+import { Header, Navbar, SuggestionBar } from './components/index'
 import { Home, Login, RecoverPassword, SignUp } from './pages/index'
 
 // Scroll to top whenever navigate to other tab
@@ -28,7 +28,7 @@ const getHeader = location => {
 const SideBar = props => {
   if (!excludePath.includes(props.location?.pathname.substring(1)))
     return (
-      <div className='flex mt-5 gap-6'>
+      <div className='flex gap-6'>
         <LeftContainer>
           <Navbar />
         </LeftContainer>
@@ -36,7 +36,9 @@ const SideBar = props => {
         {/* Routes */}
         <MiddleContainer>{props.children}</MiddleContainer>
 
-        <RightContainer></RightContainer>
+        <RightContainer>
+          <SuggestionBar />
+        </RightContainer>
       </div>
     )
   else return props.children
@@ -46,10 +48,14 @@ const App = () => {
   const location = useLocation()
 
   return (
-    <div className='bg-[#F8F8F8] h-screen'>
+    <div>
       {getHeader(location)}
       <Wrapper>
-        <Container>
+        <Container
+          marginTop={
+            excludePath.includes(location.pathname.substring(1)) ? '' : '20px'
+          }
+        >
           <SideBar location={location}>
             <Routes>
               <Route path='/' element={<Home />} />

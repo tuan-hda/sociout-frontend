@@ -6,7 +6,7 @@ import {
   MiddleContainer
 } from './containers/index'
 import Logo from './Logo'
-import { FiSearch, FiChevronDown } from 'react-icons/fi'
+import { FiSearch } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import Avatar from './Avatar'
 
@@ -16,7 +16,7 @@ const Header = () => {
   }
 
   return (
-    <div className='bg-white h-20'>
+    <div className='bg-white h-20 sticky top-0'>
       <Container>
         <div className='flex items-center h-full gap-6'>
           {/* Left */}
@@ -39,13 +39,12 @@ const Header = () => {
           {/* Right */}
           <RightContainer>
             <div className='flex justify-end'>
-              <Link to='/login' className='flex items-center'>
+              <Link to='/login'>
                 <Avatar
                   Src={require('../img/Makima.jpg')}
                   props={avatarProps}
+                  text='Tuấn'
                 />
-                <span className='font-bold ml-3'>Tuấn</span>
-                <FiChevronDown className='ml-5 text-[#8B8E95]' />
               </Link>
             </div>
           </RightContainer>

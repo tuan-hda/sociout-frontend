@@ -1,7 +1,6 @@
 import * as types from './actionTypes'
 import { logInService } from '../services/index'
 
-// LOGIN
 const logInStart = () => ({
   type: types.LOG_IN_START
 })
@@ -16,9 +15,11 @@ const logInFail = error => ({
   payload: error
 })
 
-export const logInInitiate = (email, password) => dispatch => {
+const logInAction = (email, password) => dispatch => {
   dispatch(logInStart())
   logInService(email, password)
     .then(user => dispatch(logInSuccess(user)))
     .catch(err => dispatch(logInFail(err)))
 }
+
+export default logInAction

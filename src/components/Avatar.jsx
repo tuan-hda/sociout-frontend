@@ -1,15 +1,20 @@
 import React from 'react'
+import { FiChevronDown } from 'react-icons/fi'
 
-const Avatar = ({ Src, props }) => {
-  const { width } = { ...props }
+const Avatar = ({ Src, props, text, marginTop }) => {
   return (
-    <img
-      src={Src}
-      alt='Avatar'
-      width={width}
-      height={width}
-      className='rounded-full'
-    />
+    <div
+      className='items-center flex w-full'
+      style={{
+        marginTop
+      }}
+    >
+      <img src={Src} alt='Avatar' {...props} className='rounded-full' />
+      <div className='flex items-center w-full justify-between'>
+        <span className='font-bold ml-3'>{text}</span>
+        <FiChevronDown className='ml-5 text-[#8B8E95]' />
+      </div>
+    </div>
   )
 }
 

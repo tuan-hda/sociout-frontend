@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField, Button, ErrorMessage } from '../components/index'
 import * as yup from 'yup'
+import { signUpService } from '../services/index'
 
 const schema = yup.object().shape({
   email: yup.string().email().required('email is required'),
@@ -40,7 +41,15 @@ const SignUp = () => {
   })
 
   // Handle submit form
-  const onSubmit = data => console.log(data)
+  const onSubmit = async data => {
+    try {
+      const { email, firstName, lastName, password } = data
+      const result = await signUpService(email, firstName, lastName, password)
+      console.log(result)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <div className='flex items-center justify-center bg-mainBackground overflow-auto h-screen min-h-[732px] px-4'>

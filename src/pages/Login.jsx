@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField, Button, ErrorMessage } from '../components/index'
 import * as yup from 'yup'
 import { useDispatch } from 'react-redux'
-import { logInInitiate } from '../actions'
+import { logInAction } from '../actions/index'
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -30,7 +30,7 @@ const Login = () => {
   const onSubmit = async data => {
     const { email, password } = data
     try {
-      const result = dispatch(logInInitiate(email, password))
+      const result = dispatch(logInAction(email, password))
       console.log(result)
     } catch (err) {
       console.log(err)
