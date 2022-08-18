@@ -12,8 +12,10 @@ const Person = props => {
 
       <div className='flex-1 ml-2 flex items-center justify-between text-base'>
         <div>
-          <p className='font-semibold'>{props.name}</p>
-          <p className='-mt-2 text-textColor'>@{props.id}</p>
+          <p className='font-semibold overflow-hidden text-ellipsis whitespace-nowrap w-48'>
+            {props.name}
+          </p>
+          <p className='-mt-1 text-idColor text-sm'>@{props.id}</p>
         </div>
 
         {/* Add friend button */}

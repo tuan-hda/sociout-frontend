@@ -8,7 +8,7 @@ module.exports = {
       },
       colors: {
         primary: '#1A86F1',
-        textColor: '#333'
+        idColor: '#536471'
       },
       width: {
         authHalf: '560px'
