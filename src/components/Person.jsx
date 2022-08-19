@@ -12,10 +12,10 @@ const Person = props => {
 
       <div className='flex-1 ml-2 flex items-center justify-between text-base'>
         <div>
-          <p className='font-semibold overflow-hidden text-ellipsis whitespace-nowrap w-48'>
+          <p className='font-semibold overflow-hidden text-ellipsis whitespace-nowrap w-48 text-normalText'>
             {props.name}
           </p>
-          <p className='-mt-1 text-idColor text-sm'>@{props.id}</p>
+          <p className='-mt-1 text-idColor text-[13px]'>@{props.id}</p>
         </div>
 
         {/* Add friend button */}

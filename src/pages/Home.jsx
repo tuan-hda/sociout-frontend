@@ -1,7 +1,12 @@
 import React from 'react'
+import { CreatePost } from '../components/index'
 
 const Home = () => {
-  return <div>Home</div>
+  return (
+    <div>
+      <CreatePost />
+    </div>
+  )
 }
 
 export default Home

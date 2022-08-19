@@ -59,7 +59,7 @@ const Navbar = () => {
   }, [location])
 
   return (
-    <div className='bg-white rounded-lg p-6'>
+    <div className='bg-white rounded-xl p-6'>
       {/* MENU */}
       <div>
         <h2 className='font-bold text-lg'>Menu</h2>

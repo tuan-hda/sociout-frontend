@@ -10,10 +10,13 @@ const Avatar = ({ Src, props, text, marginTop }) => {
       }}
     >
       <img src={Src} alt='Avatar' {...props} className='rounded-full' />
-      <div className='flex items-center w-full justify-between'>
-        <span className='font-bold ml-3'>{text}</span>
-        <FiChevronDown className='ml-5 text-[#8B8E95]' />
-      </div>
+
+      {text && (
+        <div className='flex items-center w-full justify-between text-normalText'>
+          <span className='font-bold ml-3'>{text}</span>
+          <FiChevronDown className='ml-5 text-[#8B8E95]' />
+        </div>
+      )}
     </div>
   )
 }

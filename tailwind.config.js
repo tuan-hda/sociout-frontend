@@ -8,7 +8,8 @@ module.exports = {
       },
       colors: {
         primaryColor: '#1A86F1',
-        idColor: '#536471'
+        idColor: '#536471',
+        mainBackground: '#f8f8f8'
       },
       width: {
         authHalf: '560px'
@@ -30,12 +31,11 @@ module.exports = {
         button: '40px'
       },
       backgroundColor: {
-        primaryColor: '#17DAC7',
-        mainBackground: '#f8f8f8',
         blueGray: '#f5f5f7'
       },
       fontSize: {
-        primary: ['1.75rem', '2.125rem']
+        primary: ['1.75rem', '2.125rem'],
+        normalText: ['15px', '20px']
       },
       textColor: {
         darkBlue: '#393D6E',

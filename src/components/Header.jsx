@@ -30,7 +30,7 @@ const Header = () => {
             <div className='rounded-full bg-mainBackground flex items-center px-3 py-[10px] gap-3'>
               <FiSearch className='inline text-2xl' />
               <input
-                className='outline-none bg-transparent flex-1'
+                className='outline-none bg-transparent flex-1 text-normalText'
                 placeholder='Search for people, posts...'
               ></input>
             </div>
