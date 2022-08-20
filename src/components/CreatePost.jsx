@@ -57,19 +57,30 @@ const CreatePost = () => {
     const {
       target: { files }
     } = e
-    setMediaList(files)
+    setMediaList([...files])
 
     switch (files.length) {
       case 1:
-        setMediaStyle('rounded-xl w-full aspect-square')
+        setMediaStyle(['rounded-xl w-full aspect-square'])
         break
       case 2:
+        setMediaStyle(Array(2).fill('rounded-xl w-full aspect-square'))
+        break
       case 3:
+        setMediaStyle(Array(2).fill('rounded-xl w-full aspect-square'))
+        break
       case 4:
       default:
     }
 
     console.log(files)
+  }
+
+  const removeMedia = index => {
+    const temp = [...mediaList]
+    temp.splice(index, 1)
+    setMediaList(temp)
+    fileDialogRef.current.value = ''
   }
 
   const getMediaSrc = file => URL.createObjectURL(file)
@@ -104,6 +115,20 @@ const CreatePost = () => {
     }
   ]
 
+  const getMedia = index => {
+    if (index >= mediaList.length) return ''
+    return (
+      <Media
+        key={index}
+        src={getMediaSrc(mediaList[index])}
+        name={mediaList[index].name}
+        className={mediaStyle[index]}
+        removeMedia={removeMedia}
+        index={index}
+      />
+    )
+  }
+
   return (
     <form className='rounded-xl bg-white p-6' onSubmit={onSubmit}>
       {/* Textarea */}
@@ -117,56 +142,66 @@ const CreatePost = () => {
           />
         </Link>
 
-        {/* Text input */}
-        <div className='flex-1 ml-4 relative outline-2 outline-lightBlue focus-within:outline rounded-2xl'>
-          {/* Markdown text handling. When edit, show textarea and hide Markdown text */}
-          <textarea
-            value={content}
-            name='content'
-            onChange={handleChange}
-            placeholder='Share something...'
-            className={`block w-full border-full text-sm outline-0 pl-4 pr-8 py-3 rounded-2xl bg-mainBackground overflow-hidden resize-none`}
-            onKeyUp={autoResize}
-            style={{
-              height: baseHeight
-            }}
-            ref={ref}
-          />
-
-          {mediaList.length !== 0 && (
-            <div className='mt-4'>
-              {[...mediaList].map((media, index) => (
-                <Media
-                  key={index}
-                  src={getMediaSrc(media)}
-                  alt={media.name}
-                  className={mediaStyle}
-                />
-              ))}
-            </div>
-          )}
-
-          <div className='inline absolute right-3 bottom-3 button-hover'>
-            <HiOutlineEmojiHappy
-              className='hover:text-yellow-600 text-yellow-500 transition cursor-pointer text-[22px]'
-              onClick={() => setShowPicker(true)}
+        {/* Editor and Media list */}
+        <div className='flex-1 ml-4'>
+          <div className='relative outline-2 outline-lightBlue focus-within:outline rounded-2xl'>
+            {/* Markdown text handling. When edit, show textarea and hide Markdown text */}
+            <textarea
+              value={content}
+              name='content'
+              onChange={handleChange}
+              placeholder='Share something...'
+              className={`block w-full border-full text-sm outline-0 pl-4 pr-8 py-3 rounded-2xl bg-mainBackground overflow-hidden resize-none`}
+              onKeyUp={autoResize}
+              style={{
+                height: baseHeight
+              }}
+              ref={ref}
             />
 
-            <ModalWrapper
-              isShowing={showPicker}
-              setShowing={setShowPicker}
-              top='32px'
-              left='50%'
-              transform='translate(-50%)'
-            >
-              <div
-                className='absolute -top-[15px] left-1/2 -translate-x-1/2 border-8 z-10'
-                style={{
-                  borderColor: 'transparent transparent white transparent'
-                }}
+            <div className='inline absolute right-3 bottom-3 button-hover'>
+              <HiOutlineEmojiHappy
+                className='hover:text-yellow-600 text-yellow-500 transition cursor-pointer text-[22px]'
+                onClick={() => setShowPicker(true)}
               />
-              {showPicker && <Picker onEmojiClick={onEmojiClick} />}
-            </ModalWrapper>
+
+              <ModalWrapper
+                isShowing={showPicker}
+                setShowing={setShowPicker}
+                top='32px'
+                left='50%'
+                transform='translate(-50%)'
+              >
+                <div
+                  className='absolute -top-[15px] left-1/2 -translate-x-1/2 border-8 z-10'
+                  style={{
+                    borderColor: 'transparent transparent white transparent'
+                  }}
+                />
+                {showPicker && <Picker onEmojiClick={onEmojiClick} />}
+              </ModalWrapper>
+            </div>
+          </div>
+
+          {/* Media list */}
+          <div className='w-full'>
+            {mediaList.length !== 0 && (
+              <div className='mt-4 flex gap-3'>
+                <div className='flex-1 flex flex-col gap-3'>
+                  {/* Item 1 */}
+                  {getMedia(0)}
+
+                  {mediaList.lenth === 4 && getMedia(2)}
+                </div>
+
+                {mediaList.length > 1 && (
+                  <div className='flex-1 flex flex-col gap-3'>
+                    {getMedia(1)}
+                    {getMedia(3)}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

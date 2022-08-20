@@ -16,7 +16,7 @@ const Header = () => {
   }
 
   return (
-    <div className='bg-white h-20 sticky top-0'>
+    <div className='bg-white h-20 sticky top-0 z-10'>
       <Container>
         <div className='flex items-center h-full gap-6'>
           {/* Left */}
