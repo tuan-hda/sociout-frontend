@@ -7,7 +7,7 @@ const ModalWrapper = props => {
     <div
       className={`${
         isShowing ? 'absolute' : 'opacity-0 pointer-events-none'
-      } top-0 left-0`}
+      } top-0 left-0 w-full z-10`}
     >
       {/* Overlay */}
       <div
@@ -23,10 +23,11 @@ const ModalWrapper = props => {
 
       {/* Body */}
       <div
-        className='absolute bg-white rounded-xl shadow-primary'
+        className='absolute bg-white rounded-xl shadow-primary w-fit'
         style={{
           top: props.top,
-          left: props.left
+          left: props.left,
+          transform: props.transform
         }}
         onClick={e => e.stopPropagation()}
       >
