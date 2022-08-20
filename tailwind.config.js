@@ -44,6 +44,9 @@ module.exports = {
       },
       outlineColor: {
         lightBlue: '#80BEFC'
+      },
+      boxShadow: {
+        primary: '0 0 24px -4px rgba(0, 0, 0, 0.3)'
       }
     }
   },

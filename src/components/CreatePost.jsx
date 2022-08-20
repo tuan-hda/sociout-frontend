@@ -5,9 +5,10 @@ import { HiOutlineEmojiHappy, HiOutlineHashtag } from 'react-icons/hi'
 import { MdOutlineImage } from 'react-icons/md'
 import { TbCamera } from 'react-icons/tb'
 import { VscMention } from 'react-icons/vsc'
-import { FiChevronDown } from 'react-icons/fi'
+import { FiChevronDown, FiCheck } from 'react-icons/fi'
 import { TiAttachment } from 'react-icons/ti'
 import { useState } from 'react'
+import ModalWrapper from './modals/ModalWrapper'
 
 const baseHeight = '44px'
 
@@ -36,9 +37,12 @@ const CreatePost = () => {
   ]
 
   const [content, setContent] = useState('')
+  const [access, setAccess] = useState('Public')
+  const [showAccess, setShowAccess] = useState(false)
 
   let ref = useRef()
 
+  // Auto Resize textarea
   const autoResize = e => {
     ref.current.style.height = baseHeight
     const scHeight = e.target.scrollHeight
@@ -51,6 +55,15 @@ const CreatePost = () => {
 
   const onSubmit = e => {
     e.preventDefault()
+  }
+
+  const showAccessModal = () => {
+    setShowAccess(true)
+  }
+
+  const changeAccess = item => {
+    setAccess(item)
+    setShowAccess(false)
   }
 
   return (
@@ -104,10 +117,41 @@ const CreatePost = () => {
         </div>
 
         {/* Access */}
-        <div className='button-hover rounded-xl p-1'>
+        <div
+          className='button-hover rounded-xl p-1 relative w-20'
+          onClick={showAccessModal}
+        >
           <span className='text-[13px] text-primaryColor'>
-            Public <FiChevronDown className='inline ml-2' />
+            {access} <FiChevronDown className='inline ml-2' />
           </span>
+
+          {/* Access Modal */}
+          <ModalWrapper
+            isShowing={showAccess}
+            setShowing={setShowAccess}
+            top='40px'
+            left='-90px'
+          >
+            <ul className='text-sm w-64 p-5'>
+              <h4 className='font-semibold text-normalText mb-4'>
+                Who can view your post?
+              </h4>
+              {['Public', 'Friend', 'Private'].map((item, index) => (
+                <div
+                  key={index}
+                  className={`p-3 -mx-3 flex justify-between items-center ${
+                    item === access ? 'font-semibold text-primaryColor' : ''
+                  } button-hover rounded-2xl`}
+                  onClick={() => changeAccess(item)}
+                >
+                  {item}
+                  {item === access && (
+                    <FiCheck className='text-primaryColor text-xl' />
+                  )}
+                </div>
+              ))}
+            </ul>
+          </ModalWrapper>
         </div>
       </div>
 
