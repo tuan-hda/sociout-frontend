@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Avatar, Media } from './index'
+import { Avatar, MediaList } from './index'
 import { HiOutlineEmojiHappy, HiOutlineHashtag } from 'react-icons/hi'
 import { MdOutlineImage } from 'react-icons/md'
 import { VscMention } from 'react-icons/vsc'
@@ -9,6 +9,7 @@ import { TiAttachment } from 'react-icons/ti'
 import { useState } from 'react'
 import ModalWrapper from './modals/ModalWrapper'
 import Picker from 'emoji-picker-react'
+import toast from '../utils/toast'
 
 const baseHeight = '44px'
 
@@ -16,7 +17,6 @@ const CreatePost = () => {
   const [content, setContent] = useState('')
   const [access, setAccess] = useState('Public')
   const [mediaList, setMediaList] = useState([])
-  const [mediaStyle, setMediaStyle] = useState('')
 
   // Modal
   const [showAccess, setShowAccess] = useState(false)
@@ -54,36 +54,30 @@ const CreatePost = () => {
   }
 
   const handleFileUpload = e => {
-    const {
+    let {
       target: { files }
     } = e
-    setMediaList([...files])
+    files = [...files]
 
-    switch (files.length) {
-      case 1:
-        setMediaStyle(['rounded-xl w-full aspect-square'])
-        break
-      case 2:
-        setMediaStyle(Array(2).fill('rounded-xl w-full aspect-square'))
-        break
-      case 3:
-        setMediaStyle(Array(2).fill('rounded-xl w-full aspect-square'))
-        break
-      case 4:
-      default:
-    }
-
-    console.log(files)
-  }
-
-  const removeMedia = index => {
-    const temp = [...mediaList]
-    temp.splice(index, 1)
-    setMediaList(temp)
+    // Clear old files
     fileDialogRef.current.value = ''
-  }
 
-  const getMediaSrc = file => URL.createObjectURL(file)
+    const newFiles = [...mediaList, ...files]
+    // If old files length + new files length > 4
+    // or contains both video and image
+    // then discard
+    if (
+      newFiles.length > 4 ||
+      (
+        newFiles.filter(f => String(f.type).includes('image')).length > 0 &&
+        newFiles.filter(f => String(f.type).includes('video')).length > 0
+      ).length > 0
+    ) {
+      toast('', 'Please choose either 1 GIF or up to 4 photos.', 'w-[420px]')
+      return
+    }
+    setMediaList(newFiles)
+  }
 
   const tools = [
     {
@@ -114,20 +108,6 @@ const CreatePost = () => {
       icon: <VscMention className='inline text-gray-600 text-xl' />
     }
   ]
-
-  const getMedia = index => {
-    if (index >= mediaList.length) return ''
-    return (
-      <Media
-        key={index}
-        src={getMediaSrc(mediaList[index])}
-        name={mediaList[index].name}
-        className={mediaStyle[index]}
-        removeMedia={removeMedia}
-        index={index}
-      />
-    )
-  }
 
   return (
     <form className='rounded-xl bg-white p-6' onSubmit={onSubmit}>
@@ -184,25 +164,9 @@ const CreatePost = () => {
           </div>
 
           {/* Media list */}
-          <div className='w-full'>
-            {mediaList.length !== 0 && (
-              <div className='mt-4 flex gap-3'>
-                <div className='flex-1 flex flex-col gap-3'>
-                  {/* Item 1 */}
-                  {getMedia(0)}
-
-                  {mediaList.lenth === 4 && getMedia(2)}
-                </div>
-
-                {mediaList.length > 1 && (
-                  <div className='flex-1 flex flex-col gap-3'>
-                    {getMedia(1)}
-                    {getMedia(3)}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+          {mediaList.length !== 0 && (
+            <MediaList mediaList={mediaList} setMediaList={setMediaList} />
+          )}
         </div>
       </div>
 
@@ -245,8 +209,8 @@ const CreatePost = () => {
             left='50%'
             transform='translate(-50%)'
           >
-            <ul className='text-sm w-64 p-5'>
-              <h4 className='font-semibold text-normalText mb-4'>
+            <ul className='text-sm w-64 px-5 pt-5 pb-2'>
+              <h4 className='font-semibold text-normalText mb-4 text-left'>
                 Who can view your post?
               </h4>
               {['Public', 'Friend', 'Private'].map((item, index) => (

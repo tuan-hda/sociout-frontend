@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLayoutEffect } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import {
   Container,
@@ -49,6 +50,7 @@ const App = () => {
 
   return (
     <div>
+      <Toaster />
       {getHeader(location)}
       <Wrapper>
         <Container
