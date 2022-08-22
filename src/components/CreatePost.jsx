@@ -66,12 +66,14 @@ const CreatePost = () => {
     // If old files length + new files length > 4
     // or contains both video and image
     // then discard
+    const containVideo =
+      newFiles.filter(f => String(f.type).includes('video')).length > 0
+    const containImage =
+      newFiles.filter(f => String(f.type).includes('image')).length > 0
+
     if (
       newFiles.length > 4 ||
-      (
-        newFiles.filter(f => String(f.type).includes('image')).length > 0 &&
-        newFiles.filter(f => String(f.type).includes('video')).length > 0
-      ).length > 0
+      (containVideo && (containImage || newFiles.length > 1))
     ) {
       toast('', 'Please choose either 1 GIF or up to 4 photos.', 'w-[420px]')
       return

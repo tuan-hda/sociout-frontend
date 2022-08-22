@@ -10,7 +10,7 @@ const toast = (heading, body, width, backgroundColor) => {
       <div
         className={classnames([
           width ?? '',
-          'flex items-center w-[400px] px-4 py-6 text-white shadow-2xl hover:shadow-none transform-gpu translate-y-0 hover:-translate-y-1 rounded-xl relative transition-all duration-500 ease-in-out',
+          'flex items-center pl-4 pr-8 py-6 text-gray-200 shadow-2xl hover:shadow-none transform-gpu translate-y-0 hover:-translate-y-1 rounded-xl relative transition-all duration-500 ease-in-out',
           t.visible ? 'bottom-0' : '-bottom-96',
           backgroundColor ?? 'bg-gray-900'
         ])}

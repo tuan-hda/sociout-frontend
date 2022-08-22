@@ -1,5 +1,5 @@
 import React from 'react'
-import { CreatePost } from '../components/index'
+import { CreatePost, Post } from '../components/index'
 import { FiChevronDown, FiCheck } from 'react-icons/fi'
 import { useState } from 'react'
 import ModalWrapper from '../components/modals/ModalWrapper'
@@ -54,6 +54,11 @@ const Home = () => {
             </ul>
           </ModalWrapper>
         </div>
+      </div>
+
+      {/* Posts */}
+      <div className='mt-3'>
+        <Post />
       </div>
     </div>
   )

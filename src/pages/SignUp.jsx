@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField, Button, ErrorMessage } from '../components/index'
 import * as yup from 'yup'
 import { signUpService } from '../services/index'
+import toast from 'react-hot-toast'
 
 const schema = yup.object().shape({
   email: yup.string().email().required('email is required'),
@@ -147,7 +148,18 @@ const SignUp = () => {
             <footer className='mt-8'>
               <hr />
               <div className='flex justify-between mt-5'>
-                <span className='text-darkBlue font-medium'>
+                <span
+                  className='text-darkBlue font-medium'
+                  onClick={() =>
+                    toast.success('Signed up successfully.', {
+                      position: 'bottom-center',
+                      style: {
+                        fontSize: '15px',
+                        padding: '22px 16px'
+                      }
+                    })
+                  }
+                >
                   Already have an account?
                 </span>
                 <Link to='/login' className='font-semibold text-textBlue'>
