@@ -33,9 +33,9 @@ const Home = () => {
           <ModalWrapper
             isShowing={isShowing}
             setShowing={setShowing}
-            top='0px'
-            left='-160px'
-            transform='translate(50%)'
+            top='40px'
+            left='100%'
+            transform='translate(-100%)'
           >
             <ul className='px-5 pt-5 pb-2 text-sm w-52'>
               <h4 className='font-semibold mb-3 text-normalText'>Sort by</h4>

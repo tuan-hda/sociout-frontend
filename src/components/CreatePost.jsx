@@ -186,7 +186,7 @@ const CreatePost = () => {
               onClick={tool.onClick}
             >
               {tool.icon}
-              <span className='text-[13px] ml-1'>
+              <span className='text-[13px] ml-1 md:inline hidden'>
                 {tool.name}
                 {tool.inner}
               </span>
@@ -208,8 +208,8 @@ const CreatePost = () => {
             isShowing={showAccess}
             setShowing={setShowAccess}
             top='40px'
-            left='50%'
-            transform='translate(-50%)'
+            left='100%'
+            transform='translate(-100%)'
           >
             <ul className='text-sm w-64 px-5 pt-5 pb-2'>
               <h4 className='font-semibold text-normalText mb-4 text-left'>

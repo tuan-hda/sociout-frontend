@@ -59,7 +59,7 @@ const Navbar = () => {
   }, [location])
 
   return (
-    <div className='bg-white rounded-xl p-6 flex-1'>
+    <div className='bg-white rounded-xl p-3 md:p-6 flex-1'>
       {/* MENU */}
       <div>
         <h2 className='font-bold text-lg hidden xl:block'>Menu</h2>
@@ -73,7 +73,7 @@ const Navbar = () => {
                   '/' + (item.title === 'Home' ? '' : item.title).toLowerCase()
                 }
                 key={index}
-                className='text-base -mx-3 px-3 py-4 block button-hover rounded-2xl'
+                className='text-base -mx-1 px-1 py-3 md:py-4 md:-mx-3 md:px-3 block button-hover rounded-2xl'
               >
                 {item.title === currentPage ? (
                   <li className='font-semibold flex justify-center xl:justify-start items-center gap-4'>
@@ -96,7 +96,7 @@ const Navbar = () => {
       <div className='mt-10'>
         <h2 className='font-bold text-lg hidden xl:block'>Account</h2>
 
-        <div className='-mx-3 mt-2 px-3 py-4 button-hover rounded-2xl'>
+        <div className='-mx-2 mt-2 px-2 py-3 md:-mx-3 md:px-3 md:py-4 button-hover rounded-2xl'>
           <Avatar
             Src={require('../img/Makima.jpg')}
             props={{ width: '36px' }}
