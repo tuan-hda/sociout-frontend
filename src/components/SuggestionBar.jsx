@@ -52,7 +52,10 @@ const SuggestionBar = () => {
       </ul>
 
       <div className='mt-4 text-primaryColor font-medium text-center w-full'>
-        <Link to='/connect-people' className='hover:font-semibold'>
+        <Link
+          to='/connect-people'
+          className='hover:font-semibold text-normalText'
+        >
           Show more
         </Link>
       </div>

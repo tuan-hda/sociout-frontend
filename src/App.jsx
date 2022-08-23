@@ -29,7 +29,7 @@ const getHeader = location => {
 const SideBar = props => {
   if (!excludePath.includes(props.location?.pathname.substring(1)))
     return (
-      <div className='flex gap-6'>
+      <div className='flex justify-between'>
         <LeftContainer>
           <Navbar />
         </LeftContainer>
@@ -55,7 +55,7 @@ const App = () => {
       <Wrapper>
         <Container
           marginTop={
-            excludePath.includes(location.pathname.substring(1)) ? '' : '20px'
+            excludePath.includes(location.pathname.substring(1)) ? '' : '12px'
           }
         >
           <SideBar location={location}>

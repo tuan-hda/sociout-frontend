@@ -4,7 +4,10 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        authRes: '1120px'
+        small: '738px',
+        medium: '1056px',
+        authRes: '1120px',
+        large: '1280px'
       },
       colors: {
         primaryColor: '#1A86F1',
@@ -12,19 +15,22 @@ module.exports = {
         mainBackground: '#f5f5f5'
       },
       width: {
-        authHalf: '560px'
+        authHalf: '560px',
+        main: '600px'
       },
       height: {
         button: '42px'
       },
       maxWidth: {
         container: '1280px',
-        side: '320px',
-        authRes: '1120px'
+        side: '312px',
+        main: '600px',
+        authRes: '1120px',
+        medium: '1056px',
+        small: '722px'
       },
       minWidth: {
         button: '100px',
-        main: '600px',
         authHalf: '560px'
       },
       minHeight: {

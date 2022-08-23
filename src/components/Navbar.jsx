@@ -59,10 +59,10 @@ const Navbar = () => {
   }, [location])
 
   return (
-    <div className='bg-white rounded-xl p-6'>
+    <div className='bg-white rounded-xl p-6 flex-1'>
       {/* MENU */}
       <div>
-        <h2 className='font-bold text-lg'>Menu</h2>
+        <h2 className='font-bold text-lg hidden xl:block'>Menu</h2>
 
         {/* Navigation list */}
         <ul className='mt-2'>
@@ -76,14 +76,14 @@ const Navbar = () => {
                 className='text-base -mx-3 px-3 py-4 block button-hover rounded-2xl'
               >
                 {item.title === currentPage ? (
-                  <li className='font-semibold flex items-center gap-4'>
+                  <li className='font-semibold flex justify-center xl:justify-start items-center gap-4'>
                     <span className='text-2xl'>{item.selectedIcon}</span>
-                    <span>{item.title}</span>
+                    <span className='hidden xl:inline'>{item.title}</span>
                   </li>
                 ) : (
-                  <li className='text-gray-600 flex items-center gap-4'>
+                  <li className='text-gray-600 flex justify-center xl:justify-start items-center gap-4'>
                     <span className='text-2xl'>{item.icon}</span>
-                    <span>{item.title}</span>
+                    <span className='hidden xl:inline'>{item.title}</span>
                   </li>
                 )}
               </Link>
@@ -94,7 +94,7 @@ const Navbar = () => {
 
       {/* ACCOUNT */}
       <div className='mt-10'>
-        <h2 className='font-bold text-lg'>Account</h2>
+        <h2 className='font-bold text-lg hidden xl:block'>Account</h2>
 
         <div className='-mx-3 mt-2 px-3 py-4 button-hover rounded-2xl'>
           <Avatar

@@ -22,10 +22,11 @@ const Avatar = ({ Src, props, text, marginTop, isPost, time, id }) => {
 
         {text && (
           <div
-            className={classNames(
-              ['flex w-full justify-between text-normalText ml-3'],
+            className={classNames([
+              'justify-between w-full text-normalText ml-3',
+              isPost ? 'flex' : 'xl:flex hidden',
               time ? 'flex-col justify-between h-10' : 'items-center'
-            )}
+            ])}
           >
             {/* If not a post's component, display as a user component, else display as an avatar */}
             {!isPost ? (
@@ -36,8 +37,11 @@ const Avatar = ({ Src, props, text, marginTop, isPost, time, id }) => {
               </Link>
             )}
             {/* If post's component, show time, else show down arrow */}
-            {!isPost && <FiChevronDown className='ml-5 text-[#8B8E95]' />}
-            <span className='text-gray-400 text-xs'>{time}</span>
+            {!isPost ? (
+              <FiChevronDown className='ml-5 text-[#8B8E95]' />
+            ) : (
+              <span className='text-gray-400 text-xs'>{time}</span>
+            )}
           </div>
         )}
       </div>
