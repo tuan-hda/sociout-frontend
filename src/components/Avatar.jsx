@@ -1,10 +1,8 @@
 import classNames from 'classnames'
 import React from 'react'
 import { FiChevronDown } from 'react-icons/fi'
-import { BsThreeDots } from 'react-icons/bs'
-import { Link } from 'react-router-dom'
 
-const Avatar = ({ Src, props, text, marginTop, isPost, time, id }) => {
+const Avatar = ({ Src, props, text, marginTop }) => {
   return (
     <div
       className='items-center flex w-full'
@@ -23,35 +21,17 @@ const Avatar = ({ Src, props, text, marginTop, isPost, time, id }) => {
         {text && (
           <div
             className={classNames([
-              'justify-between w-full text-normalText ml-3',
-              isPost ? 'flex' : 'xl:flex hidden',
-              time ? 'flex-col justify-between h-10' : 'items-center'
+              'justify-between w-full text-normalText ml-3 xl:flex hidden items-center'
             ])}
           >
             {/* If not a post's component, display as a user component, else display as an avatar */}
-            {!isPost ? (
-              <span className='font-bold'>{text}</span>
-            ) : (
-              <Link className='font-bold hover:underline' to={'/@' + id}>
-                {text}
-              </Link>
-            )}
+            <span className='font-bold'>{text}</span>
+
             {/* If post's component, show time, else show down arrow */}
-            {!isPost ? (
-              <FiChevronDown className='ml-5 text-[#8B8E95]' />
-            ) : (
-              <span className='text-gray-400 text-xs'>{time}</span>
-            )}
+            <FiChevronDown className='ml-5 text-[#8B8E95]' />
           </div>
         )}
       </div>
-
-      {/* Menu three dots */}
-      {isPost && (
-        <div className='p-2 button-hover rounded-full'>
-          <BsThreeDots />
-        </div>
-      )}
     </div>
   )
 }

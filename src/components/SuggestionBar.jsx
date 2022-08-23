@@ -43,7 +43,7 @@ const SuggestionBar = () => {
       {/* Suggestion list */}
       <ul className='mt-4'>
         {people.map((person, index) => (
-          <li key={index} className='-mx-3 px-3 py-2 button-hover rounded-2xl'>
+          <li key={index} className='-mx-3 p-3 button-hover rounded-2xl'>
             <Link to={'/@' + person.id}>
               <Person src={person.src} name={person.name} id={person.id} />
             </Link>
