@@ -14,6 +14,7 @@ import { RiUser3Fill, RiUser3Line } from 'react-icons/ri'
 import { BsBookmarkDashFill, BsBookmarkDash } from 'react-icons/bs'
 import { IoMdNotifications, IoMdNotificationsOutline } from 'react-icons/io'
 import Avatar from './Avatar'
+import globalObject from '../utils/globalObject'
 
 const menu = [
   {
@@ -34,7 +35,8 @@ const menu = [
   {
     title: 'Profile',
     icon: <RiUser3Line />,
-    selectedIcon: <RiUser3Fill />
+    selectedIcon: <RiUser3Fill />,
+    path: globalObject.id
   },
   {
     title: 'Bookmarks',
@@ -55,8 +57,14 @@ const Navbar = () => {
 
   useEffect(() => {
     if (location.pathname === '/') setPage('Home')
+    else if (location.pathname === '/' + globalObject.id) setPage('Profile')
     else setPage(capitalize(location.pathname.substring(1)))
   }, [location])
+
+  const getPath = item => {
+    if (item.path) return '/' + item.path
+    return '/' + (item.title === 'Home' ? '' : item.title).toLowerCase()
+  }
 
   return (
     <div className='bg-white rounded-xl p-3 md:p-6 flex-1'>
@@ -69,9 +77,7 @@ const Navbar = () => {
           {menu.map((item, index) => {
             return (
               <Link
-                to={
-                  '/' + (item.title === 'Home' ? '' : item.title).toLowerCase()
-                }
+                to={getPath(item)}
                 key={index}
                 className='text-base -mx-1 px-1 py-3 md:py-4 md:-mx-3 md:px-3 block button-hover rounded-2xl'
               >

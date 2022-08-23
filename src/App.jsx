@@ -9,7 +9,8 @@ import {
   RightContainer
 } from './components/containers'
 import { Header, Navbar, SuggestionBar } from './components/index'
-import { Home, Login, RecoverPassword, SignUp } from './pages/index'
+import { Home, Login, RecoverPassword, SignUp, Profile } from './pages/index'
+import globalObject from './utils/globalObject'
 
 // Scroll to top whenever navigate to other tab
 const Wrapper = ({ children }) => {
@@ -64,6 +65,7 @@ const App = () => {
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<SignUp />} />
               <Route path='/recoverpassword' element={<RecoverPassword />} />
+              <Route path={'/' + globalObject.id} element={<Profile />} />
             </Routes>
           </SideBar>
         </Container>
