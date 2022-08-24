@@ -7,6 +7,7 @@ import { TextField, Button, ErrorMessage } from '../components/index'
 import * as yup from 'yup'
 import { useEffect } from 'react'
 import { useRef } from 'react'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const schema = yup.object().shape({
   email: yup.string().email().required()
@@ -177,10 +178,11 @@ const RecoverPassword = () => {
       <div className='flex items-center justify-center h-[90%] min-h-[700px] max-w-full aspect-[8/5] bg-[white]'>
         {/* Left */}
         <div className='h-full authRes:block hidden'>
-          <img
+          <LazyLoadImage
             src={require('../img/login_bg.png')}
             alt='Login background'
-            className='object-cover h-full'
+            wrapperClassName='object-cover h-full'
+            effect='blur'
           />
         </div>
 

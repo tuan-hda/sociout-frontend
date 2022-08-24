@@ -12,7 +12,9 @@ module.exports = {
       colors: {
         primaryColor: '#1A86F1',
         idColor: '#536471',
-        mainBackground: '#f5f5f5'
+        mainBackground: '#f5f5f5',
+        textColor: '#333',
+        linkColor: '#1d9bf0'
       },
       width: {
         authHalf: '560px',
@@ -41,7 +43,7 @@ module.exports = {
       },
       fontSize: {
         primary: ['1.75rem', '2.125rem'],
-        normalText: ['15px', '20px']
+        normalText: ['14px', '18px']
       },
       textColor: {
         darkBlue: '#393D6E',

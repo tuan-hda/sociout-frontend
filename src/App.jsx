@@ -58,6 +58,7 @@ const App = () => {
           marginTop={
             excludePath.includes(location.pathname.substring(1)) ? '' : '12px'
           }
+          excludePath={excludePath}
         >
           <SideBar location={location}>
             <Routes>
@@ -65,7 +66,7 @@ const App = () => {
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<SignUp />} />
               <Route path='/recoverpassword' element={<RecoverPassword />} />
-              <Route path={'/' + globalObject.id} element={<Profile />} />
+              <Route path={'/@' + globalObject.id} element={<Profile />} />
             </Routes>
           </SideBar>
         </Container>

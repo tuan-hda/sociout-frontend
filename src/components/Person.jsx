@@ -5,29 +5,42 @@ import { BsThreeDots } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 
 const Person = props => {
+  const child = (
+    <p
+      className={classNames([
+        'font-semibold overflow-hidden text-ellipsis whitespace-nowrap text-normalText block',
+        props.time
+          ? 'w-56 lg:w-[120%] md:w-full sm:w-10/12 hover:underline'
+          : 'w-44'
+      ])}
+    >
+      {props.name}
+    </p>
+  )
+
   return (
     <div className='flex items-center'>
-      <Link to={'/@' + props.id}>
-        <img
-          src={props.src}
-          alt="Person's avatar"
-          className='w-10 h-10 rounded-full'
-        />
-      </Link>
+      {props.time ? (
+        <Link to={'/@' + props.id}>
+          <img
+            src={props.src}
+            alt="Person's avatar"
+            className='w-10 h-10 rounded-full'
+          />
+        </Link>
+      ) : (
+        <div>
+          <img
+            src={props.src}
+            alt="Person's avatar"
+            className='w-10 h-10 rounded-full'
+          />
+        </div>
+      )}
 
       <div className='flex-1 ml-2 flex items-center justify-between text-base'>
         <div>
-          <Link
-            to={'/@' + props.id}
-            className={classNames([
-              'font-semibold overflow-hidden text-ellipsis whitespace-nowrap text-normalText block',
-              props.time
-                ? 'w-56 lg:w-[120%] md:w-full sm:w-10/12 hover:underline'
-                : 'w-44'
-            ])}
-          >
-            {props.name}
-          </Link>
+          {props.time ? <Link to={'/@' + props.id}>{child}</Link> : child}
           <p className='mt-1 text-idColor text-[13px] leading-4'>
             {props.time ?? '@' + props.id}
           </p>

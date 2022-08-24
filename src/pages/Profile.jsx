@@ -1,12 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
-import { BsThreeDots } from 'react-icons/bs'
+import { BsThreeDots, BsLink45Deg } from 'react-icons/bs'
+import { IoLocationOutline } from 'react-icons/io5'
 import { FiEdit2 } from 'react-icons/fi'
+import { AiOutlineCalendar } from 'react-icons/ai'
+import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
+import classNames from 'classnames'
+import globalObject from '../utils/globalObject'
 
 const Profile = () => {
+  const [tab, setTab] = useState(0)
+
   const name = 'Hoàng Đình Anh Tuấn'
-  const id = 'hdatdragon'
+  const id = globalObject.id
 
   return (
     <div className='p-6 rounded-xl bg-white'>
@@ -44,10 +52,101 @@ const Profile = () => {
         </button>
       </div>
 
-      {/* Name and bio*/}
-      <div className='mt-[7%]'>
+      {/* Information */}
+      <div className='mt-[7%] text-textColor text-normalText'>
+        {/* Name and Id */}
         <h3 className='font-bold text-xl'>{name}</h3>
-        <p className='text-idColor text-normalText'>@{id}</p>
+        <p className='text-idColor'>@{id}</p>
+
+        {/* Bio */}
+        <div className='mt-4'>
+          The Grim Reaper is a music maker. MAJOR DEBUT ALBUM COMING DECEMBER
+          2022 (UMG) // mama
+        </div>
+
+        {/* Location */}
+        <div className='mt-3 flex items-center'>
+          <IoLocationOutline className='text-idColor text-xl' />
+          <span className='ml-1'>Washington, D.C.</span>
+        </div>
+
+        {/* Link */}
+        <div className='flex items-center'>
+          <BsLink45Deg className='text-idColor text-xl' />
+          <a
+            href='https://www.youtube.com/channel/UCL_qhgtOy0dy1Agp8vkySQg'
+            className='ml-1 text-linkColor overflow-hidden whitespace-nowrap text-ellipsis w-64'
+            target='blank'
+          >
+            www.youtube.com/channel/UCL_qhgtOy0dy1Agp8vkySQg
+          </a>
+        </div>
+
+        {/* Joined date */}
+        <div className='flex items-center'>
+          <AiOutlineCalendar className='text-idColor text-lg' />
+          <span className='ml-1'>Joined July 2020</span>
+        </div>
+
+        {/* Following & Followers */}
+        <div className='text-normalText text-textColor flex items-center gap-6 mt-3'>
+          <Link to={'/@' + id + '/following'} className='hover:underline'>
+            <span className='font-semibold text-black'>476</span> Following
+          </Link>
+          <Link to={'/@' + id + '/followers'} className='hover:underline'>
+            <span className='font-semibold text-black'>1.3M</span> Followers
+          </Link>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <div className='flex items-center mt-5'>
+        {/* Navigation list */}
+        <ul className='flex-1 flex items-center justify-between text-normalText font-medium text-[#B2B1B6]'>
+          {['Posts', 'Media', 'Likes', 'Replies'].map((children, index) => (
+            <li
+              key={index}
+              className={classNames([
+                index === tab && 'text-black font-bold',
+                'rounded-lg flex-1 pt-3'
+              ])}
+            >
+              <button
+                onClick={() => setTab(index)}
+                className='outline-none hover:text-black transition'
+              >
+                {children}
+
+                {/* Underline */}
+                <p
+                  className={classNames([
+                    'w-full border-t-4 rounded-full border-primaryColor mt-2 transition',
+                    tab !== index && 'opacity-0'
+                  ])}
+                />
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        {/* Navigation buttons */}
+        <div className='flex items-center'>
+          <button
+            disabled={tab === 0}
+            className={classNames([tab !== 0 && 'text-black'])}
+            onClick={() => setTab(tab - 1)}
+          >
+            <BiChevronLeft className='text-xl' />
+          </button>
+
+          <button
+            disabled={tab === 3}
+            className={classNames([tab !== 3 && 'text-black'])}
+            onClick={() => setTab(tab + 1)}
+          >
+            <BiChevronRight className='text-xl' />
+          </button>
+        </div>
       </div>
     </div>
   )

@@ -57,12 +57,12 @@ const Navbar = () => {
 
   useEffect(() => {
     if (location.pathname === '/') setPage('Home')
-    else if (location.pathname === '/' + globalObject.id) setPage('Profile')
+    else if (location.pathname === '/@' + globalObject.id) setPage('Profile')
     else setPage(capitalize(location.pathname.substring(1)))
   }, [location])
 
   const getPath = item => {
-    if (item.path) return '/' + item.path
+    if (item.path) return '/@' + item.path
     return '/' + (item.title === 'Home' ? '' : item.title).toLowerCase()
   }
 
