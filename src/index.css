@@ -23,6 +23,16 @@ code {
     monospace;
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #c2c2c2;
+}
+
 /* Hide increase/decrease button in input (type = number) */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

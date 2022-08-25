@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
@@ -10,6 +10,7 @@ import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
 import classNames from 'classnames'
 import globalObject from '../utils/globalObject'
 import ModalWrapper from './../components/modals/ModalWrapper'
+import TextField from './../components/TextField'
 
 const EditButton = ({ className, onClick }) => {
   return (
@@ -29,6 +30,8 @@ const Cover = ({ src, roundedTop, edit }) => {
   const [cover, setCover] = useState()
   const ref = useRef()
 
+  if (!src) return null
+
   const onUploadCover = e => {
     const {
       target: { files }
@@ -37,9 +40,9 @@ const Cover = ({ src, roundedTop, edit }) => {
   }
 
   return (
-    <div className='relative flex items-center justify-center'>
+    <div className='relative flex items-center justify-center aspect-[3] overflow-hidden'>
       <LazyLoadImage
-        src={cover ?? src}
+        src={cover ? cover : src}
         alt='Profile Bg'
         effect='blur'
         wrapperClassName={classNames([
@@ -65,34 +68,64 @@ const Cover = ({ src, roundedTop, edit }) => {
 }
 
 const ProfileAvatar = ({ src, edit }) => {
+  const [avatar, setAvatar] = useState()
+  const ref = useRef()
+
+  if (!src) return null
+
+  const onUploadAvatar = e => {
+    const {
+      target: { files }
+    } = e
+
+    setAvatar(URL.createObjectURL(files[0]))
+  }
+
   return (
     <div className='absolute left-4 w-1/4 flex items-center justify-center'>
       <LazyLoadImage
-        src={src}
+        src={avatar ? avatar : src}
         alt='Profile Ava'
         effect='blur'
         wrapperClassName='border-4 border-white absolute w-full aspect-square rounded-full overflow-hidden bottom-0 translate-y-1/2'
+        style={{
+          objectFit: 'cover',
+          height: '100%'
+        }}
       />
 
       {/* Edit button */}
-      {edit && <EditButton className='mt-[2px]' />}
+      {edit && (
+        <EditButton className='mt-[2px]' onClick={() => ref.current.click()} />
+      )}
+
+      <input
+        type='file'
+        className='hidden'
+        ref={ref}
+        onChange={onUploadAvatar}
+      />
     </div>
   )
 }
 
 const Profile = () => {
-  const [profile, setProfile] = useState({
-    avatar:
-      'https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg',
-    cover:
-      'https://pbs.twimg.com/profile_banners/1283653858510598144/1649185576/1500x500'
-  })
+  const [profile, setProfile] = useState({})
   const [tab, setTab] = useState(0)
   const [showMore, setShowMore] = useState(false)
   const [showEditProfile, setShowEditProfile] = useState(false)
 
   const name = 'Hoàng Đình Anh Tuấn'
   const id = globalObject.id
+
+  useEffect(() => {
+    setProfile({
+      avatar:
+        'https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg',
+      cover:
+        'https://pbs.twimg.com/profile_banners/1283653858510598144/1649185576/1500x500'
+    })
+  }, [])
 
   return (
     <div className='p-6 rounded-xl bg-white'>
@@ -133,7 +166,7 @@ const Profile = () => {
                 <li
                   className={classNames([
                     'p-3 button-hover rounded-xl whitespace-nowrap',
-                    classname ?? ''
+                    classname
                   ])}
                   key={index}
                 >
@@ -154,13 +187,13 @@ const Profile = () => {
             <span>Edit profile</span>
           </button>
 
-          {/* Modal */}
+          {/* Modal Edit Profile */}
           <ModalWrapper
             isShowing={showEditProfile}
             setShowing={setShowEditProfile}
             center
-            overlayBg='#aaa'
-            bodyClassname='w-full max-w-[90%] md:max-w-xl'
+            overlayBg='#676767'
+            bodyClassname='w-full max-w-[90%] md:max-w-xl max-h-[90%] overflow-auto'
           >
             {/* Close button */}
             <button
@@ -184,6 +217,56 @@ const Profile = () => {
                   src='https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg'
                   edit
                 />
+              </div>
+
+              {/* Modal: Information */}
+              <div className='mt-[calc(16px+12.5%)] text-left text-normalText px-1'>
+                {/* Name */}
+                <div className='flex items-center justify-between gap-4'>
+                  {['First name', 'Last name'].map((children, index) => (
+                    <div className='flex-1' key={index}>
+                      <p className='font-semibold'>{children}</p>
+
+                      <TextField
+                        name='name'
+                        kind='normal'
+                        wrapperClassname='h-10 w-full mt-2'
+                        inputClassname='text-textColor bg-white'
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Bio */}
+                <div className='mt-4'>
+                  <p className='font-semibold'>Bio</p>
+
+                  <textarea
+                    name='bio'
+                    className='overflow-auto resize-none w-full bg-blueGray rounded-[10px] mt-2 outline-lightBlue p-[13px] text-textColor font-medium'
+                  />
+                </div>
+
+                {/* Location & Website */}
+                {['Location', 'Website', 'Date of birth'].map(
+                  (children, index) => (
+                    <div className='mt-4' key={index}>
+                      <p className='font-semibold'>{children}</p>
+
+                      <TextField
+                        name='name'
+                        kind='normal'
+                        wrapperClassname='h-10 w-full mt-2'
+                        inputClassname='text-textColor'
+                      />
+                    </div>
+                  )
+                )}
+              </div>
+
+              {/* Save button */}
+              <div className='text-normalText font-semibold rounded-lg bg-primaryColor text-white block mt-6 mx-1 hover:bg-opacity-90 transition h-9 leading-9 cursor-pointer'>
+                Save
               </div>
             </div>
           </ModalWrapper>
