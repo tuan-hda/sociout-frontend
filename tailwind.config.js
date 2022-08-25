@@ -15,7 +15,8 @@ module.exports = {
         mainBackground: '#f5f5f5',
         textColor: '#333',
         linkColor: '#1d9bf0',
-        disabledColor: '#B2B1B6'
+        disabledColor: '#B2B1B6',
+        errorColor: '#f44336'
       },
       width: {
         authHalf: '560px',

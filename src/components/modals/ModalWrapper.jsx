@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React from 'react'
 
 const ModalWrapper = props => {
@@ -5,9 +6,13 @@ const ModalWrapper = props => {
 
   return (
     <div
-      className={`${
-        isShowing ? 'absolute' : 'opacity-0 pointer-events-none'
-      } top-0 left-0 w-full z-10`}
+      className={classNames([
+        'top-0 left-0 w-full z-10 transition',
+        props.center
+          ? 'items-center justify-center flex fixed right-0 bottom-0'
+          : 'absolute',
+        !isShowing && 'opacity-0 pointer-events-none'
+      ])}
     >
       {/* Overlay */}
       <div
@@ -23,7 +28,10 @@ const ModalWrapper = props => {
 
       {/* Body */}
       <div
-        className='absolute bg-white rounded-xl shadow-primary w-fit'
+        className={classNames([
+          'absolute bg-white rounded-xl shadow-primary',
+          props.bodyClassname ?? ''
+        ])}
         style={{
           top: props.top,
           left: props.left,
