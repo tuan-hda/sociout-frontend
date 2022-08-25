@@ -27,6 +27,7 @@ const ModalWrapper = props => {
         style={{
           top: props.top,
           left: props.left,
+          right: props.right,
           transform: props.transform
         }}
         onClick={e => e.stopPropagation()}

@@ -9,9 +9,11 @@ import { AiOutlineCalendar } from 'react-icons/ai'
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
 import classNames from 'classnames'
 import globalObject from '../utils/globalObject'
+import ModalWrapper from './../components/modals/ModalWrapper'
 
 const Profile = () => {
   const [tab, setTab] = useState(0)
+  const [showMore, setShowMore] = useState(false)
 
   const name = 'Hoàng Đình Anh Tuấn'
   const id = globalObject.id
@@ -42,9 +44,38 @@ const Profile = () => {
 
       {/* Edit and Option button */}
       <div className='ml-[calc(25%+12px)] -mr-2 mt-3 flex justify-end gap-4'>
-        <button className='p-2 button-hover rounded-full'>
-          <BsThreeDots />
-        </button>
+        <div className='relative'>
+          <button
+            className='p-2 button-hover rounded-full'
+            onClick={() => setShowMore(true)}
+          >
+            <BsThreeDots />
+          </button>
+
+          {/* More Modal */}
+          <ModalWrapper
+            isShowing={showMore}
+            setShowing={setShowMore}
+            top='24px'
+            right='0'
+          >
+            <ul className='text-normalText p-3'>
+              {[
+                'Copy link to profile',
+                `Unfollow @${id}`,
+                `Block @${id}`,
+                `Report @${id}`
+              ].map((children, index) => (
+                <li
+                  className='p-3 button-hover rounded-xl whitespace-nowrap'
+                  key={index}
+                >
+                  {children}
+                </li>
+              ))}
+            </ul>
+          </ModalWrapper>
+        </div>
 
         <button className='hover:opacity-90 transtion bg-primaryColor rounded-lg text-white font-medium text-sm flex items-center justify-center px-2 gap-2'>
           <FiEdit2 />
@@ -102,7 +133,7 @@ const Profile = () => {
       {/* Navigation */}
       <div className='flex items-center mt-5'>
         {/* Navigation list */}
-        <ul className='flex-1 flex items-center justify-between text-normalText font-medium text-[#B2B1B6]'>
+        <ul className='flex-1 flex items-center justify-between text-normalText font-medium text-disabledColor'>
           {['Posts', 'Media', 'Likes', 'Replies'].map((children, index) => (
             <li
               key={index}
@@ -133,7 +164,9 @@ const Profile = () => {
         <div className='flex items-center'>
           <button
             disabled={tab === 0}
-            className={classNames([tab !== 0 && 'text-black'])}
+            className={classNames([
+              tab !== 0 ? 'text-black' : 'text-disabledColor'
+            ])}
             onClick={() => setTab(tab - 1)}
           >
             <BiChevronLeft className='text-xl' />
@@ -141,7 +174,9 @@ const Profile = () => {
 
           <button
             disabled={tab === 3}
-            className={classNames([tab !== 3 && 'text-black'])}
+            className={classNames([
+              tab !== 3 ? 'text-black' : 'text-disabledColor'
+            ])}
             onClick={() => setTab(tab + 1)}
           >
             <BiChevronRight className='text-xl' />
