@@ -52,3 +52,34 @@ Link {
 .button-hover {
   @apply hover:bg-gray-100 transition cursor-pointer;
 }
+
+.row {
+  width: 100%;
+  border: 1px solid black;
+}
+
+.wrapper {
+  text-align: left;
+}
+
+.label {
+  display: inline-block;
+  margin-top: 10px;
+  margin-right: 4px;
+  padding: 0 1%;
+  border-radius: 4px;
+  color: white;
+  background-color: grey;
+  height: 20px;
+  vertical-align: middle;
+  font-size: 14px;
+  max-width: 98%;
+}
+
+.content {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}

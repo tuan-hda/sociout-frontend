@@ -5,57 +5,69 @@ import 'react-lazy-load-image-component/src/effects/blur.css'
 import { BsThreeDots, BsLink45Deg } from 'react-icons/bs'
 import { IoLocationOutline, IoClose } from 'react-icons/io5'
 import { FiEdit2 } from 'react-icons/fi'
-import { AiOutlineCalendar, AiOutlineCamera } from 'react-icons/ai'
+import {
+  AiOutlineCalendar,
+  AiOutlineCamera,
+  AiOutlineDelete
+} from 'react-icons/ai'
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
 import classNames from 'classnames'
 import globalObject from '../utils/globalObject'
 import ModalWrapper from './../components/modals/ModalWrapper'
 import TextField from './../components/TextField'
+import defaultCover from '../img/default-cover.jpg'
+import ReactTooltip from 'react-tooltip'
 
-const EditButton = ({ className, onClick }) => {
+const EditButton = ({ className, onClick, removed, dataTip }) => {
   return (
     <button
       onClick={onClick}
+      data-tip={dataTip}
       className={classNames([
         'w-10 h-10 flex items-center justify-center bg-gray-700 bg-opacity-80 hover:opacity-70 rounded-full transition absolute z-10',
         className
       ])}
     >
-      <AiOutlineCamera />
+      {!removed ? <AiOutlineCamera /> : <AiOutlineDelete />}
     </button>
   )
 }
 
-const Cover = ({ src, roundedTop, edit }) => {
-  const [cover, setCover] = useState()
+const Cover = ({ src, roundedTop, edit, editInfo, setEditInfo }) => {
   const ref = useRef()
 
-  if (!src) return null
+  if (!editInfo) editInfo = {}
 
   const onUploadCover = e => {
     const {
       target: { files }
     } = e
-    setCover(URL.createObjectURL(files[0]))
+    setEditInfo({ ...editInfo, cover: URL.createObjectURL(files[0]) })
   }
 
   return (
-    <div className='relative flex items-center justify-center aspect-[3] overflow-hidden'>
+    <div
+      className={classNames([
+        'relative flex items-center justify-center aspect-[3] overflow-hidden',
+        roundedTop && 'rounded-tl-xl rounded-tr-xl'
+      ])}
+    >
       <LazyLoadImage
-        src={cover ? cover : src}
+        src={editInfo.cover ? editInfo.cover : src ? src : defaultCover}
         alt='Profile Bg'
         effect='blur'
-        wrapperClassName={classNames([
-          roundedTop && 'rounded-[12px_12px_0_0]',
-          'overflow-hidden'
-        ])}
         style={{
           objectFit: 'cover'
         }}
       />
 
       {/* Edit button */}
-      {edit && <EditButton onClick={() => ref.current.click()} />}
+      {edit && (
+        <EditButton
+          onClick={() => ref.current.click()}
+          dataTip='Change cover'
+        />
+      )}
 
       <input
         type='file'
@@ -67,24 +79,29 @@ const Cover = ({ src, roundedTop, edit }) => {
   )
 }
 
-const ProfileAvatar = ({ src, edit }) => {
-  const [avatar, setAvatar] = useState()
+const ProfileAvatar = ({ src, edit, editInfo, setEditInfo }) => {
   const ref = useRef()
 
-  if (!src) return null
+  if (!editInfo) editInfo = {}
 
   const onUploadAvatar = e => {
     const {
       target: { files }
     } = e
 
-    setAvatar(URL.createObjectURL(files[0]))
+    setEditInfo({ ...editInfo, avatar: URL.createObjectURL(files[0]) })
   }
 
   return (
     <div className='absolute left-4 w-1/4 flex items-center justify-center'>
       <LazyLoadImage
-        src={avatar ? avatar : src}
+        src={
+          editInfo.avatar
+            ? editInfo.avatar
+            : src
+            ? src
+            : 'https://tleliteracy.com/wp-content/uploads/2017/02/default-avatar.png'
+        }
         alt='Profile Ava'
         effect='blur'
         wrapperClassName='border-4 border-white absolute w-full aspect-square rounded-full overflow-hidden bottom-0 translate-y-1/2'
@@ -96,7 +113,11 @@ const ProfileAvatar = ({ src, edit }) => {
 
       {/* Edit button */}
       {edit && (
-        <EditButton className='mt-[2px]' onClick={() => ref.current.click()} />
+        <EditButton
+          className='mt-[2px]'
+          onClick={() => ref.current.click()}
+          dataTip='Change avatar'
+        />
       )}
 
       <input
@@ -114,32 +135,37 @@ const Profile = () => {
   const [tab, setTab] = useState(0)
   const [showMore, setShowMore] = useState(false)
   const [showEditProfile, setShowEditProfile] = useState(false)
+  const [editInfo, setEditInfo] = useState({})
 
   const name = 'Hoàng Đình Anh Tuấn'
   const id = globalObject.id
 
   useEffect(() => {
     setProfile({
-      avatar:
-        'https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg',
-      cover:
-        'https://pbs.twimg.com/profile_banners/1283653858510598144/1649185576/1500x500'
+      avatar: null,
+      cover: null
     })
   }, [])
+
+  const onSave = () => {
+    console.log('Saved')
+    setShowEditProfile(false)
+    setEditInfo({})
+  }
 
   return (
     <div className='p-6 rounded-xl bg-white'>
       {/* Images */}
       <div className='relative -mx-6 -mt-6 max-h-[200px]'>
         {/* Background image */}
-        <Cover src={profile.cover} roundedTop />
+        <Cover roundedTop src={profile.cover} />
 
         {/* Avatar */}
         <ProfileAvatar src={profile.avatar} />
       </div>
 
       {/* Edit and Option button */}
-      <div className='ml-[calc(25%+12px)] -mr-2 mt-3 flex justify-end items-center gap-4'>
+      <div className='-mr-2 mt-3 flex justify-end items-center gap-4'>
         {/* More */}
         <div className='relative'>
           <button
@@ -209,13 +235,17 @@ const Profile = () => {
               {/* Modal: Avatar and Cover */}
               <div className='-mx-[14px] mt-4 relative'>
                 <Cover
-                  src='https://pbs.twimg.com/profile_banners/1283653858510598144/1649185576/1500x500'
+                  src={profile.cover}
                   edit
+                  editInfo={editInfo}
+                  setEditInfo={setEditInfo}
                 />
 
                 <ProfileAvatar
-                  src='https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg'
+                  src={profile.avatar}
                   edit
+                  editInfo={editInfo}
+                  setEditInfo={setEditInfo}
                 />
               </div>
 
@@ -265,7 +295,10 @@ const Profile = () => {
               </div>
 
               {/* Save button */}
-              <div className='text-normalText font-semibold rounded-lg bg-primaryColor text-white block mt-6 mx-1 hover:bg-opacity-90 transition h-9 leading-9 cursor-pointer'>
+              <div
+                className='text-normalText font-semibold rounded-lg bg-primaryColor text-white block mt-6 mx-1 hover:bg-opacity-90 transition h-9 leading-9 cursor-pointer'
+                onClick={onSave}
+              >
                 Save
               </div>
             </div>
@@ -373,6 +406,7 @@ const Profile = () => {
           </button>
         </div>
       </div>
+      <ReactTooltip delayShow={1000} />
     </div>
   )
 }
