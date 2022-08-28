@@ -37,7 +37,7 @@ const people = [
 
 const SuggestionBar = () => {
   return (
-    <div className='bg-white rounded-xl p-6'>
+    <div className='bg-white rounded-xl p-6 top-[100px] sticky'>
       <h3 className='text-lg font-bold'>Suggestions for you</h3>
 
       {/* Suggestion list */}
@@ -51,7 +51,7 @@ const SuggestionBar = () => {
         ))}
       </ul>
 
-      <div className='mt-4 text-primaryColor font-medium text-center w-full'>
+      <div className='text-primaryColor font-medium text-center w-full mt-1'>
         <Link
           to='/connect-people'
           className='hover:font-semibold text-normalText'

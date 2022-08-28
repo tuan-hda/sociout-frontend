@@ -15,6 +15,7 @@ import { BsBookmarkDashFill, BsBookmarkDash } from 'react-icons/bs'
 import { IoMdNotifications, IoMdNotificationsOutline } from 'react-icons/io'
 import Avatar from './Avatar'
 import globalObject from '../utils/globalObject'
+import checkOwnId from '../utils/checkOwnId'
 
 const menu = [
   {
@@ -56,9 +57,14 @@ const Navbar = () => {
   const location = useLocation()
 
   useEffect(() => {
-    if (location.pathname === '/') setPage('Home')
-    else if (location.pathname === '/@' + globalObject.id) setPage('Profile')
-    else setPage(capitalize(location.pathname.substring(1)))
+    const pathname = location.pathname
+    if (pathname === '/') {
+      setPage('Home')
+    } else if (checkOwnId(pathname)) {
+      setPage('Profile')
+    } else {
+      setPage(capitalize(location.pathname.substring(1)))
+    }
   }, [location])
 
   const getPath = item => {
@@ -67,7 +73,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className='bg-white rounded-xl p-3 md:p-6 flex-1'>
+    <div className='bg-white rounded-xl p-3 md:p-6 flex-1 sticky top-[100px]'>
       {/* MENU */}
       <div>
         <h2 className='font-bold text-lg hidden xl:block'>Menu</h2>

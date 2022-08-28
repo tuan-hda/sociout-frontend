@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import { BsThreeDots, BsLink45Deg } from 'react-icons/bs'
@@ -10,13 +10,13 @@ import {
   AiOutlineCamera,
   AiOutlineDelete
 } from 'react-icons/ai'
-import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
 import classNames from 'classnames'
 import globalObject from '../utils/globalObject'
 import ModalWrapper from './../components/modals/ModalWrapper'
-import TextField from './../components/TextField'
 import defaultCover from '../img/default-cover.jpg'
 import ReactTooltip from 'react-tooltip'
+import copyToClipboard from './../utils/copyToClipboard'
+import { Navigation, Person, TextField } from '../components'
 
 const EditButton = ({ className, onClick, removed, dataTip }) => {
   return (
@@ -57,8 +57,10 @@ const Cover = ({ src, roundedTop, edit, editInfo, setEditInfo }) => {
         alt='Profile Bg'
         effect='blur'
         style={{
-          objectFit: 'cover'
+          objectFit: 'cover',
+          width: '100%'
         }}
+        wrapperClassName='w-full'
       />
 
       {/* Edit button */}
@@ -132,19 +134,29 @@ const ProfileAvatar = ({ src, edit, editInfo, setEditInfo }) => {
 
 const Profile = () => {
   const [profile, setProfile] = useState({})
-  const [tab, setTab] = useState(0)
+  const [id, setId] = useState()
   const [showMore, setShowMore] = useState(false)
   const [showEditProfile, setShowEditProfile] = useState(false)
   const [editInfo, setEditInfo] = useState({})
 
+  const pathname = window.location.pathname
   const name = 'Hoàng Đình Anh Tuấn'
-  const id = globalObject.id
 
   useEffect(() => {
     setProfile({
-      avatar: null,
-      cover: null
+      avatar:
+        'https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg',
+      cover:
+        'https://pbs.twimg.com/profile_banners/1283653858510598144/1649185576/1500x500'
     })
+
+    // get profile id
+    const tempPath = window.location.pathname
+    const lastSlash = tempPath.lastIndexOf('/')
+    let res
+    if (lastSlash === 0) res = tempPath.substring(1)
+    else res = tempPath.substring(1, lastSlash)
+    setId(res)
   }, [])
 
   const onSave = () => {
@@ -152,6 +164,36 @@ const Profile = () => {
     setShowEditProfile(false)
     setEditInfo({})
   }
+
+  if (
+    pathname === '/' + id + '/followers' ||
+    pathname === '/' + id + '/following' ||
+    pathname === '/' + id + '/friends'
+  )
+    return (
+      <div>
+        <div className='p-6 bg-white rounded-xl'>
+          <Person
+            name={globalObject.name}
+            id={globalObject.id}
+            src='https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg'
+            hideAddBtn
+            underline
+          />
+
+          {/* Navigation */}
+          <Navigation
+            menuList={[
+              ['Friends', '/' + id + '/friends'],
+              ['Followers', '/' + id + '/followers'],
+              ['Following', '/' + id + '/following']
+            ]}
+            className='text-normalText pt-3'
+          />
+        </div>
+        <Outlet />
+      </div>
+    )
 
   return (
     <div className='p-6 rounded-xl bg-white'>
@@ -184,17 +226,22 @@ const Profile = () => {
           >
             <ul className='text-normalText p-3'>
               {[
-                ['Copy link to profile'],
-                [`Unfollow @${id}`],
-                [`Block @${id}`],
-                [`Report @${id}`, 'text-errorColor']
-              ].map(([children, classname], index) => (
+                [
+                  'Copy link to profile',
+                  '',
+                  () => copyToClipboard(window.location.href)
+                ],
+                [`Unfollow ${id}`],
+                [`Block ${id}`],
+                [`Report ${id}`, 'text-errorColor']
+              ].map(([children, classname, onClick], index) => (
                 <li
                   className={classNames([
                     'p-3 button-hover rounded-xl whitespace-nowrap',
                     classname
                   ])}
                   key={index}
+                  onClick={onClick}
                 >
                   {children}
                 </li>
@@ -310,7 +357,7 @@ const Profile = () => {
       <div className='mt-[7%] text-textColor text-normalText'>
         {/* Name and Id */}
         <h3 className='font-bold text-xl'>{name}</h3>
-        <p className='text-idColor'>@{id}</p>
+        <p className='text-idColor'>{id}</p>
 
         {/* Bio */}
         <div className='mt-4'>
@@ -342,70 +389,35 @@ const Profile = () => {
           <span className='ml-1'>Joined July 2020</span>
         </div>
 
-        {/* Following & Followers */}
+        {/* Friends, Following & Followers */}
         <div className='text-normalText text-textColor flex items-center gap-6 mt-3'>
-          <Link to={'/@' + id + '/following'} className='hover:underline'>
-            <span className='font-semibold text-black'>476</span> Following
-          </Link>
-          <Link to={'/@' + id + '/followers'} className='hover:underline'>
-            <span className='font-semibold text-black'>1.3M</span> Followers
-          </Link>
+          {[
+            ['Friends', 'friends', 300],
+            ['Followers', 'followers', 476],
+            ['Following', 'following', '1.3M']
+          ].map(([title, path, num], index) => (
+            <Link
+              to={'/' + id + '/' + path}
+              className='hover:underline'
+              key={index}
+            >
+              <span className='font-semibold text-black'>{num}</span> {title}
+            </Link>
+          ))}
         </div>
       </div>
 
       {/* Navigation */}
-      <div className='flex items-center mt-5'>
-        {/* Navigation list */}
-        <ul className='flex-1 flex items-center justify-between text-normalText font-medium text-disabledColor'>
-          {['Posts', 'Media', 'Likes', 'Replies'].map((children, index) => (
-            <li
-              key={index}
-              className={classNames([
-                index === tab && 'text-black font-bold',
-                'rounded-lg flex-1 pt-3'
-              ])}
-            >
-              <button
-                onClick={() => setTab(index)}
-                className='outline-none hover:text-black transition'
-              >
-                {children}
+      <Navigation
+        menuList={[
+          ['Posts', '/' + id],
+          ['Medias', '/' + id + '/medias'],
+          ['Likes', '/' + id + '/likes'],
+          ['Replies', '/' + id + '/replies']
+        ]}
+        className='text-normalText pt-3'
+      />
 
-                {/* Underline */}
-                <p
-                  className={classNames([
-                    'w-full border-t-4 rounded-full border-primaryColor mt-2 transition',
-                    tab !== index && 'opacity-0'
-                  ])}
-                />
-              </button>
-            </li>
-          ))}
-        </ul>
-
-        {/* Navigation buttons */}
-        <div className='flex items-center'>
-          <button
-            disabled={tab === 0}
-            className={classNames([
-              tab !== 0 ? 'text-black' : 'text-disabledColor'
-            ])}
-            onClick={() => setTab(tab - 1)}
-          >
-            <BiChevronLeft className='text-xl' />
-          </button>
-
-          <button
-            disabled={tab === 3}
-            className={classNames([
-              tab !== 3 ? 'text-black' : 'text-disabledColor'
-            ])}
-            onClick={() => setTab(tab + 1)}
-          >
-            <BiChevronRight className='text-xl' />
-          </button>
-        </div>
-      </div>
       <ReactTooltip delayShow={1000} />
     </div>
   )

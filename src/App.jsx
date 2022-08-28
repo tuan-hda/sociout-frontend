@@ -9,8 +9,18 @@ import {
   RightContainer
 } from './components/containers'
 import { Header, Navbar, SuggestionBar } from './components/index'
-import { Home, Login, RecoverPassword, SignUp, Profile } from './pages/index'
-import globalObject from './utils/globalObject'
+import {
+  Home,
+  Login,
+  RecoverPassword,
+  SignUp,
+  Profile,
+  Posts,
+  Medias,
+  Likes,
+  Replies,
+  Relationship
+} from './pages/index'
 
 // Scroll to top whenever navigate to other tab
 const Wrapper = ({ children }) => {
@@ -30,8 +40,8 @@ const getHeader = location => {
 const SideBar = props => {
   if (!excludePath.includes(props.location?.pathname.substring(1)))
     return (
-      <div className='flex justify-between gap-2'>
-        <LeftContainer>
+      <div className='flex justify-between gap-2 relative'>
+        <LeftContainer sticky>
           <Navbar />
         </LeftContainer>
 
@@ -54,9 +64,11 @@ const App = () => {
       <Toaster />
       {getHeader(location)}
       <Wrapper>
+        <div className='h-5 sticky top-20 bg-mainBackground z-10' />
+
         <Container
           marginTop={
-            excludePath.includes(location.pathname.substring(1)) ? '' : '12px'
+            excludePath.includes(location.pathname.substring(1)) ? '' : ''
           }
           excludePath={excludePath}
         >
@@ -66,7 +78,15 @@ const App = () => {
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<SignUp />} />
               <Route path='/recoverpassword' element={<RecoverPassword />} />
-              <Route path={'/@' + globalObject.id} element={<Profile />} />
+              <Route path={'/@:id/'} element={<Profile />}>
+                <Route index element={<Posts />} />
+                <Route path='medias' element={<Medias />} />
+                <Route path='likes' element={<Likes />} />
+                <Route path='replies' element={<Replies />} />
+                <Route path='friends' element={<Relationship />} />
+                <Route path='followers' element={<Relationship />} />
+                <Route path='following' element={<Relationship />} />
+              </Route>
             </Routes>
           </SideBar>
         </Container>

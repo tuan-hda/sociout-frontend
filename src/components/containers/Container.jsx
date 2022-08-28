@@ -8,9 +8,9 @@ const Container = props => {
   return (
     <div
       className={classNames([
-        'medium:max-w-medium large:max-w-container max-w-small m-auto h-full',
+        'medium:max-w-medium large:max-w-container max-w-small m-auto h-full relative',
         !props.excludePath?.includes(location.pathname.substring(1)) &&
-          'px-2 md:p-2'
+          'px-2 md:px-2'
       ])}
       style={{
         marginTop: props.marginTop ?? 0
