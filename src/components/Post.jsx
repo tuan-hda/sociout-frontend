@@ -4,6 +4,7 @@ import { RiUserUnfollowLine } from 'react-icons/ri'
 import Person from './Person'
 import { MdBlock, MdReport } from 'react-icons/md'
 import ContentContainer from './ContentContainer'
+import MediaList from './MediaList'
 
 const owner = {
   id: 'houshoumarine',
@@ -13,7 +14,7 @@ const owner = {
 
 const Post = () => {
   const content =
-    'Was great meeting up with Anna Ferguson and Dave Bishop at the breakfast talk! \n@breakfast'
+    'Was great meeting up with Anna Ferguson and Dave Bishop at the breakfast talk! @breakfast'
 
   return (
     <div className='bg-white p-6 rounded-xl'>
@@ -54,7 +55,19 @@ const Post = () => {
 
       {/* Content */}
       <div className='text-normalText text-textColor'>
+        {/* Text */}
         <ContentContainer className='mt-4'>{content}</ContentContainer>
+
+        {/* Media list */}
+        <MediaList
+          mediaList={[
+            {
+              src: 'https://pbs.twimg.com/media/FbE53SEacAEv2Zh?format=jpg&name=large',
+              type: 'image',
+              name: 'Mori Calliope'
+            }
+          ]}
+        />
       </div>
     </div>
   )

@@ -63,7 +63,6 @@ const styleText = text => {
     }
   }
 
-  console.log(res)
   return <p>{res}</p>
 }
 

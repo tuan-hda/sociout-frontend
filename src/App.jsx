@@ -15,7 +15,7 @@ import {
   RecoverPassword,
   SignUp,
   Profile,
-  Posts,
+  PostList,
   Medias,
   Likes,
   Replies,
@@ -41,7 +41,7 @@ const SideBar = props => {
   if (!excludePath.includes(props.location?.pathname.substring(1)))
     return (
       <div>
-        <div className='h-5 sticky top-20 bg-mainBackground z-10' />
+        <div className='h-5 sticky top-16 bg-mainBackground z-10' />
 
         <div className='flex justify-between gap-2 relative'>
           <LeftContainer sticky>
@@ -81,7 +81,7 @@ const App = () => {
               <Route path='/signup' element={<SignUp />} />
               <Route path='/recoverpassword' element={<RecoverPassword />} />
               <Route path={'/@:id/'} element={<Profile />}>
-                <Route index element={<Posts />} />
+                <Route index element={<PostList />} />
                 <Route path='medias' element={<Medias />} />
                 <Route path='likes' element={<Likes />} />
                 <Route path='replies' element={<Replies />} />

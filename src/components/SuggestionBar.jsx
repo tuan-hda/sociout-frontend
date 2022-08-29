@@ -37,7 +37,7 @@ const people = [
 
 const SuggestionBar = () => {
   return (
-    <div className='bg-white rounded-xl p-6 top-[100px] sticky'>
+    <div className='bg-white rounded-xl p-6 top-[84px] sticky'>
       <h3 className='text-lg font-bold'>Suggestions for you</h3>
 
       {/* Suggestion list */}

@@ -15,18 +15,20 @@ const Media = ({ src, name, className, removeMedia, index, type }) => {
           }}
         />
       ) : (
-        <video className='rounded-xl w-full max-h-[650px]' controls>
+        <video className='rounded-xl w-full max-h-[600px]' controls>
           <source src={src} type={type} />
         </video>
       )}
 
       {/* Remove button */}
-      <button
-        className='absolute top-2 right-2 bg-gray-300 button-hover rounded-full w-8 h-8 p-2 flex items-center justify-center bg-opacity-50'
-        onClick={() => removeMedia(index)}
-      >
-        <GrClose />
-      </button>
+      {removeMedia && (
+        <button
+          className='absolute top-2 right-2 bg-gray-300 button-hover rounded-full w-8 h-8 p-2 flex items-center justify-center bg-opacity-50'
+          onClick={() => removeMedia(index)}
+        >
+          <GrClose />
+        </button>
+      )}
     </div>
   )
 }
@@ -37,14 +39,14 @@ const MediaList = ({ mediaList, setMediaList }) => {
   useEffect(() => {
     switch (mediaList.length) {
       case 1:
-        setMediaStyle(['rounded-xl w-full aspect-square'])
+        setMediaStyle(['rounded-xl w-full max-h-[640px]'])
         break
       case 2:
         setMediaStyle(Array(2).fill('rounded-xl w-full aspect-[6/7]'))
         break
       case 3:
         setMediaStyle([
-          'rounded-xl w-full aspect-[6/7]',
+          'rounded-xl w-full aspect-[122/139]',
           ...Array(2).fill('rounded-xl w-full aspect-[16/9]')
         ])
         break
@@ -61,10 +63,16 @@ const MediaList = ({ mediaList, setMediaList }) => {
     return (
       <Media
         key={index}
-        src={getMediaSrc(mediaList[index])}
-        name={mediaList[index].name}
+        src={
+          mediaList[index].src
+            ? mediaList[index].src
+            : getMediaSrc(mediaList[index])
+        }
+        name={
+          mediaList[index].name ? mediaList[index].name : 'Media - No title'
+        }
         className={mediaStyle[index]}
-        removeMedia={removeMedia}
+        removeMedia={setMediaList ? removeMedia : null}
         index={index}
         type={mediaList[index].type}
       />
@@ -72,14 +80,15 @@ const MediaList = ({ mediaList, setMediaList }) => {
   }
 
   const removeMedia = index => {
+    if (!setMediaList) return
     const temp = [...mediaList]
     temp.splice(index, 1)
     setMediaList(temp)
   }
 
   return (
-    <div className='mt-4 w-full flex gap-3'>
-      <div className='flex-1 flex flex-col gap-3'>
+    <div className='mt-4 w-full flex gap-1'>
+      <div className='flex-1 flex flex-col gap-1'>
         {/* Item 1 */}
         {getMedia(0)}
         {/* Item 3 */}
@@ -87,7 +96,7 @@ const MediaList = ({ mediaList, setMediaList }) => {
       </div>
 
       {mediaList.length > 1 && (
-        <div className='flex-1 flex flex-col gap-3'>
+        <div className='flex-1 flex flex-col gap-1'>
           {/* Item 2, 3, 4 */}
           {getMedia(1)}
           {mediaList.length === 3 && getMedia(2)}
