@@ -1,8 +1,10 @@
 import classNames from 'classnames'
 import React from 'react'
+import { useState } from 'react'
 import { BiUserPlus } from 'react-icons/bi'
 import { BsThreeDots } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
+import OptionModal from './modals/OptionModal'
 
 // Props:
 // - name         => Person's name
@@ -11,6 +13,8 @@ import { Link } from 'react-router-dom'
 // - id           => Person's id
 // - hideAddBtn   => Hide add friend button
 const Person = props => {
+  const [showMore, setShowMore] = useState(false)
+
   const child = (
     <p
       className={classNames([
@@ -61,17 +65,31 @@ const Person = props => {
             </p>
           </div>
 
-          {/* Add friend / More button   */}
+          {/* Add friend button   */}
           {!props.hideAddBtn && (
             <button className='w-10 h-10 flex items-center justify-center hover:bg-gray-300 transition rounded-full'>
               <BiUserPlus className='fill-primaryColor text-xl' />
             </button>
           )}
 
-          {/* Time */}
+          {/* More button */}
           {props.time && (
-            <div className='p-2 button-hover rounded-full'>
-              <BsThreeDots />
+            <div className='relative'>
+              <div
+                className='p-2 button-hover rounded-full'
+                onClick={() => setShowMore(true)}
+              >
+                <BsThreeDots />
+              </div>
+
+              {/* More modal */}
+              {props.menuList && (
+                <OptionModal
+                  menuList={props.menuList}
+                  isShowing={showMore}
+                  setShowing={setShowMore}
+                />
+              )}
             </div>
           )}
         </div>

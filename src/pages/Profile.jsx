@@ -10,6 +10,9 @@ import {
   AiOutlineCamera,
   AiOutlineDelete
 } from 'react-icons/ai'
+import { BiLink } from 'react-icons/bi'
+import { RiUserUnfollowLine } from 'react-icons/ri'
+
 import classNames from 'classnames'
 import globalObject from '../utils/globalObject'
 import ModalWrapper from './../components/modals/ModalWrapper'
@@ -17,6 +20,8 @@ import defaultCover from '../img/default-cover.jpg'
 import ReactTooltip from 'react-tooltip'
 import copyToClipboard from './../utils/copyToClipboard'
 import { Navigation, Person, TextField } from '../components'
+import OptionModal from '../components/modals/OptionModal'
+import { MdBlock, MdReport } from 'react-icons/md'
 
 const EditButton = ({ className, onClick, removed, dataTip }) => {
   return (
@@ -217,37 +222,36 @@ const Profile = () => {
             <BsThreeDots />
           </button>
 
-          {/* More Modal */}
-          <ModalWrapper
+          {/* More modal */}
+          <OptionModal
             isShowing={showMore}
             setShowing={setShowMore}
-            top='24px'
-            right='0'
-          >
-            <ul className='text-normalText p-3'>
-              {[
-                [
-                  'Copy link to profile',
-                  '',
-                  () => copyToClipboard(window.location.href)
-                ],
-                [`Unfollow ${id}`],
-                [`Block ${id}`],
-                [`Report ${id}`, 'text-errorColor']
-              ].map(([children, classname, onClick], index) => (
-                <li
-                  className={classNames([
-                    'p-3 button-hover rounded-xl whitespace-nowrap',
-                    classname
-                  ])}
-                  key={index}
-                  onClick={onClick}
-                >
-                  {children}
-                </li>
-              ))}
-            </ul>
-          </ModalWrapper>
+            menuList={[
+              [
+                <p className='flex items-center'>
+                  <BiLink className='text-lg mr-3' /> Copy link to profile
+                </p>,
+                '',
+                () => copyToClipboard(window.location.href)
+              ],
+              [
+                <p className='flex items-center'>
+                  <RiUserUnfollowLine className='text-lg mr-3' /> Unfollow {id}
+                </p>
+              ],
+              [
+                <p className='flex items-center'>
+                  <MdBlock className='text-lg mr-3' /> Block {id}
+                </p>
+              ],
+              [
+                <p className='flex items-center'>
+                  <MdReport className='text-lg mr-3' /> Report {id}
+                </p>,
+                'text-errorColor'
+              ]
+            ]}
+          />
         </div>
 
         {/* Edit profile */}

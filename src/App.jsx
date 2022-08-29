@@ -40,17 +40,21 @@ const getHeader = location => {
 const SideBar = props => {
   if (!excludePath.includes(props.location?.pathname.substring(1)))
     return (
-      <div className='flex justify-between gap-2 relative'>
-        <LeftContainer sticky>
-          <Navbar />
-        </LeftContainer>
+      <div>
+        <div className='h-5 sticky top-20 bg-mainBackground z-10' />
 
-        {/* Routes */}
-        <MiddleContainer>{props.children}</MiddleContainer>
+        <div className='flex justify-between gap-2 relative'>
+          <LeftContainer sticky>
+            <Navbar />
+          </LeftContainer>
 
-        <RightContainer>
-          <SuggestionBar />
-        </RightContainer>
+          {/* Routes */}
+          <MiddleContainer>{props.children}</MiddleContainer>
+
+          <RightContainer>
+            <SuggestionBar />
+          </RightContainer>
+        </div>
       </div>
     )
   else return props.children
@@ -64,8 +68,6 @@ const App = () => {
       <Toaster />
       {getHeader(location)}
       <Wrapper>
-        <div className='h-5 sticky top-20 bg-mainBackground z-10' />
-
         <Container
           marginTop={
             excludePath.includes(location.pathname.substring(1)) ? '' : ''
