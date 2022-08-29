@@ -5,6 +5,7 @@ import Person from './Person'
 import { MdBlock, MdReport } from 'react-icons/md'
 import ContentContainer from './ContentContainer'
 import MediaList from './MediaList'
+import { useNavigate } from 'react-router-dom'
 
 const owner = {
   id: 'houshoumarine',
@@ -13,11 +14,24 @@ const owner = {
 }
 
 const Post = () => {
+  const navigate = useNavigate()
+
+  let isMoved
+
   const content =
     'Was great meeting up with Anna Ferguson and Dave Bishop at the breakfast talk! @breakfast'
 
   return (
-    <div className='bg-white p-6 rounded-xl'>
+    <div
+      className='bg-white p-6 rounded-xl hover:bg-lightBackground transition cursor-pointer'
+      onMouseDown={() => (isMoved = false)}
+      onMouseMove={() => (isMoved = true)}
+      onMouseUp={e => {
+        if (e.button === 0) {
+          if (!isMoved) navigate('/@moricalliope/status/12345')
+        }
+      }}
+    >
       {/* Head */}
       <Person
         src={require('../img/Marine.jpg')}
@@ -26,6 +40,7 @@ const Post = () => {
         id={owner.id}
         hideAddBtn
         underline
+        buttonClassname='hover:bg-white'
         menuList={[
           [
             <p className='flex items-center'>

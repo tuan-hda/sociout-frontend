@@ -6,6 +6,7 @@ const ModalWrapper = props => {
 
   return (
     <div
+      onMouseUp={e => e.stopPropagation()}
       className={classNames([
         'top-0 left-0 w-full z-10 transition',
         props.center

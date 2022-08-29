@@ -13,6 +13,7 @@ module.exports = {
         primaryColor: '#1A86F1',
         idColor: '#536471',
         mainBackground: '#f5f5f5',
+        lightBackground: '#d1e5f5',
         textColor: '#333',
         linkColor: '#1d9bf0',
         disabledColor: '#B2B1B6',

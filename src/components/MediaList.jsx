@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React, { useEffect, useState } from 'react'
 import { GrClose } from 'react-icons/gr'
 
@@ -8,7 +9,7 @@ const Media = ({ src, name, className, removeMedia, index, type }) => {
         <img
           src={src}
           alt={name}
-          className={className}
+          className={classNames([className, 'border-[4px] rounded-xl'])}
           style={{
             borderRadius: '12px',
             objectFit: 'cover'
