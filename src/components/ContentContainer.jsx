@@ -63,12 +63,13 @@ const styleText = text => {
     }
   }
 
+  console.log(res)
   return <p>{res}</p>
 }
 
 const ContentContainer = props => {
   return (
-    <div className={classNames([props.className])}>
+    <div className={classNames([props.className, 'whitespace-pre-wrap'])}>
       {styleText(props.children)}
     </div>
   )

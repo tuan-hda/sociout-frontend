@@ -12,6 +12,9 @@ const owner = {
 }
 
 const Post = () => {
+  const content =
+    'Was great meeting up with Anna Ferguson and Dave Bishop at the breakfast talk! \n@breakfast'
+
   return (
     <div className='bg-white p-6 rounded-xl'>
       {/* Head */}
@@ -51,10 +54,7 @@ const Post = () => {
 
       {/* Content */}
       <div className='text-normalText text-textColor'>
-        <ContentContainer className='mt-4'>
-          Was great meeting up with Anna Ferguson and Dave Bishop at the
-          breakfast talk! 🍕 abc@abc
-        </ContentContainer>
+        <ContentContainer className='mt-4'>{content}</ContentContainer>
       </div>
     </div>
   )
