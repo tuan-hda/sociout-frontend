@@ -17,7 +17,6 @@ import classNames from 'classnames'
 import globalObject from '../utils/globalObject'
 import ModalWrapper from './../components/modals/ModalWrapper'
 import defaultCover from '../img/default-cover.jpg'
-import ReactTooltip from 'react-tooltip'
 import copyToClipboard from './../utils/copyToClipboard'
 import { Navigation, Person, TextField } from '../components'
 import OptionModal from '../components/modals/OptionModal'
@@ -421,8 +420,6 @@ const Profile = () => {
         ]}
         className='text-normalText pt-3'
       />
-
-      <ReactTooltip delayShow={1000} />
     </div>
   )
 }

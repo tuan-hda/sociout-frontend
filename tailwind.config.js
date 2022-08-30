@@ -18,7 +18,10 @@ module.exports = {
         linkColor: '#1d9bf0',
         disabledColor: '#B2B1B6',
         errorColor: '#f44336',
-        borderColor: '#ababab'
+        borderColor: '#ababab',
+        loveColor: '#ef5350',
+        greenColor: '#05be70',
+        likeColor: '#555'
       },
       width: {
         authHalf: '560px',

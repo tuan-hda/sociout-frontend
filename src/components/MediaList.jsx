@@ -16,7 +16,7 @@ const Media = ({ src, name, className, removeMedia, index, type }) => {
           }}
         />
       ) : (
-        <video className='rounded-xl w-full max-h-[600px]' controls>
+        <video className='rounded-xl w-full max-h-[90vh]' controls>
           <source src={src} type={type} />
         </video>
       )}
@@ -40,7 +40,7 @@ const MediaList = ({ mediaList, setMediaList }) => {
   useEffect(() => {
     switch (mediaList.length) {
       case 1:
-        setMediaStyle(['rounded-xl w-full max-h-[640px]'])
+        setMediaStyle(['rounded-xl w-full max-h-[90vh]'])
         break
       case 2:
         setMediaStyle(Array(2).fill('rounded-xl w-full aspect-[6/7]'))

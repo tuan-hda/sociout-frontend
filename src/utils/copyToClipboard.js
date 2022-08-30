@@ -1,6 +1,6 @@
 const copyToClipboard = text => {
   navigator.clipboard.writeText(text).then(
-    () => console.log('Copied link to profile successfully!'),
+    () => console.log('Copied successfully!'),
     err => console.log('Copied failed: ' + err)
   )
 }

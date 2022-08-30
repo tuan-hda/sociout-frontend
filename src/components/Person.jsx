@@ -76,11 +76,9 @@ const Person = props => {
           {props.time && (
             <div className='relative'>
               <div
-                className={classNames([
-                  'p-2 button-hover rounded-full',
-                  props.buttonClassname
-                ])}
+                className={classNames(['p-2 button-hover rounded-full'])}
                 onClick={() => setShowMore(true)}
+                onMouseUp={e => e.stopPropagation()}
               >
                 <BsThreeDots />
               </div>

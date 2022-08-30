@@ -11,7 +11,6 @@ import {
   AiOutlineSetting
 } from 'react-icons/ai'
 import { RiUser3Fill, RiUser3Line } from 'react-icons/ri'
-import { BsBookmarkDashFill, BsBookmarkDash } from 'react-icons/bs'
 import { IoMdNotifications, IoMdNotificationsOutline } from 'react-icons/io'
 import Avatar from './Avatar'
 import globalObject from '../utils/globalObject'
@@ -38,11 +37,6 @@ const menu = [
     icon: <RiUser3Line />,
     selectedIcon: <RiUser3Fill />,
     path: globalObject.id
-  },
-  {
-    title: 'Bookmarks',
-    icon: <BsBookmarkDash />,
-    selectedIcon: <BsBookmarkDashFill />
   },
   {
     title: 'Settings',

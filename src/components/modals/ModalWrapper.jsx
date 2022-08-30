@@ -1,12 +1,25 @@
 import classNames from 'classnames'
 import React from 'react'
+import { useEffect } from 'react'
 
 const ModalWrapper = props => {
   const { isShowing, setShowing } = props
 
+  useEffect(() => {
+    const close = e => {
+      if (e.keyCode === 27) {
+        setShowing(false)
+      }
+    }
+
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
+  }, [setShowing])
+
   return (
     <div
       onMouseUp={e => e.stopPropagation()}
+      onKeyDown={e => console.log(e)}
       className={classNames([
         'top-0 left-0 w-full z-10 transition',
         props.center

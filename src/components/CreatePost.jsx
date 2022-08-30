@@ -1,17 +1,13 @@
 import React, { useRef } from 'react'
-import { Link } from 'react-router-dom'
-import { Avatar, MediaList } from './index'
-import { HiOutlineEmojiHappy, HiOutlineHashtag } from 'react-icons/hi'
+import { HiOutlineHashtag } from 'react-icons/hi'
 import { MdOutlineImage } from 'react-icons/md'
 import { VscMention } from 'react-icons/vsc'
 import { FiChevronDown, FiCheck } from 'react-icons/fi'
 import { TiAttachment } from 'react-icons/ti'
 import { useState } from 'react'
 import ModalWrapper from './modals/ModalWrapper'
-import Picker from 'emoji-picker-react'
 import toast from '../utils/toast'
-
-const baseHeight = '44px'
+import TextEditor from './TextEditor'
 
 const CreatePost = () => {
   const [content, setContent] = useState('')
@@ -20,21 +16,8 @@ const CreatePost = () => {
 
   // Modal
   const [showAccess, setShowAccess] = useState(false)
-  const [showPicker, setShowPicker] = useState(false)
 
-  const ref = useRef()
   const fileDialogRef = useRef()
-
-  // Auto Resize textarea
-  const autoResize = e => {
-    ref.current.style.height = baseHeight
-    const scHeight = e.target.scrollHeight + 'px'
-    ref.current.style.height = scHeight
-  }
-
-  const handleChange = e => {
-    setContent(e.target.value)
-  }
 
   const onSubmit = e => {
     e.preventDefault()
@@ -47,10 +30,6 @@ const CreatePost = () => {
   const changeAccess = item => {
     setAccess(item)
     setShowAccess(false)
-  }
-
-  const onEmojiClick = (_, emojiObject) => {
-    setContent(content + emojiObject.emoji)
   }
 
   const handleFileUpload = e => {
@@ -114,63 +93,12 @@ const CreatePost = () => {
   return (
     <form className='rounded-xl bg-white p-6' onSubmit={onSubmit}>
       {/* Textarea */}
-      <div className='flex'>
-        <Link to='/profile' className='inline-block rounded-full'>
-          <Avatar
-            Src={require('../img/Makima.jpg')}
-            props={{
-              width: baseHeight
-            }}
-          />
-        </Link>
-
-        {/* Editor and Media list */}
-        <div className='flex-1 ml-4'>
-          <div className='relative outline-2 outline-lightBlue focus-within:outline rounded-2xl'>
-            {/* Markdown text handling. When edit, show textarea and hide Markdown text */}
-            <textarea
-              value={content}
-              name='content'
-              onChange={handleChange}
-              placeholder='Share something...'
-              className={`block w-full border-full text-sm outline-0 pl-4 pr-8 py-3 rounded-2xl bg-mainBackground overflow-hidden resize-none`}
-              onKeyUp={autoResize}
-              style={{
-                height: baseHeight
-              }}
-              ref={ref}
-            />
-
-            <div className='inline absolute right-3 bottom-3 button-hover'>
-              <HiOutlineEmojiHappy
-                className='hover:text-yellow-600 text-yellow-500 transition cursor-pointer text-[22px]'
-                onClick={() => setShowPicker(true)}
-              />
-
-              <ModalWrapper
-                isShowing={showPicker}
-                setShowing={setShowPicker}
-                top='32px'
-                left='50%'
-                transform='translate(-50%)'
-              >
-                <div
-                  className='absolute -top-[15px] left-1/2 -translate-x-1/2 border-8 z-10'
-                  style={{
-                    borderColor: 'transparent transparent white transparent'
-                  }}
-                />
-                {showPicker && <Picker onEmojiClick={onEmojiClick} />}
-              </ModalWrapper>
-            </div>
-          </div>
-
-          {/* Media list */}
-          {mediaList.length !== 0 && (
-            <MediaList mediaList={mediaList} setMediaList={setMediaList} />
-          )}
-        </div>
-      </div>
+      <TextEditor
+        content={content}
+        setContent={setContent}
+        mediaList={mediaList}
+        setMediaList={setMediaList}
+      />
 
       {/* Divider */}
       <p className='w-full border-t-2 border-gray-100 mt-6'></p>

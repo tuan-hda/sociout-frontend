@@ -1,9 +1,10 @@
 import React from 'react'
-import { CreatePost, Post } from '../components/index'
+import { CreatePost } from '../components/index'
 import { FiChevronDown, FiCheck } from 'react-icons/fi'
 import { useState } from 'react'
 import ModalWrapper from '../components/modals/ModalWrapper'
 import classNames from 'classnames'
+import PostList from './PostList'
 
 const Home = () => {
   const [order, changeOrder] = useState('Top')
@@ -58,7 +59,7 @@ const Home = () => {
 
       {/* Posts */}
       <div className='mt-3'>
-        <Post />
+        <PostList />
       </div>
     </div>
   )

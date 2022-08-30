@@ -21,6 +21,7 @@ import {
   Replies,
   Relationship
 } from './pages/index'
+import ReactTooltip from 'react-tooltip'
 
 // Scroll to top whenever navigate to other tab
 const Wrapper = ({ children }) => {
@@ -93,6 +94,8 @@ const App = () => {
           </SideBar>
         </Container>
       </Wrapper>
+
+      <ReactTooltip delayShow={1000} />
     </div>
   )
 }

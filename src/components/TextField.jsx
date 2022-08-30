@@ -5,7 +5,7 @@ const TextField = ({
   placeholderText,
   type,
   icon,
-  name,
+  name = ' ',
   marginTop,
   register,
   width,

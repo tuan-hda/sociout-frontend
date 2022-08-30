@@ -4,20 +4,24 @@ import { default as myToast } from 'react-hot-toast'
 import { MdOutlineClose } from 'react-icons/md'
 import { HiLightningBolt } from 'react-icons/hi'
 
-const toast = (heading, body, width, backgroundColor) => {
+const toast = (
+  heading,
+  body,
+  width,
+  backgroundColor,
+  icon = <HiLightningBolt />
+) => {
   return myToast.custom(
     t => (
       <div
         className={classnames([
           width ?? '',
-          'flex items-center pl-4 pr-8 py-6 text-gray-200 shadow-2xl hover:shadow-none transform-gpu translate-y-0 hover:-translate-y-1 rounded-xl relative transition-all duration-500 ease-in-out',
+          'flex items-center pl-4 pr-8 py-5 text-gray-200 shadow-2xl hover:shadow-none transform-gpu translate-y-0 hover:-translate-y-1 rounded-xl relative transition-all duration-500 ease-in-out',
           t.visible ? 'bottom-0' : '-bottom-96',
-          backgroundColor ?? 'bg-gray-900'
+          backgroundColor ?? 'bg-primaryColor'
         ])}
       >
-        <div className='text-xl'>
-          <HiLightningBolt />
-        </div>
+        <div className='text-xl'>{icon}</div>
 
         {/* Content */}
         <div className='flex flex-col items-start justify-center ml-4'>
