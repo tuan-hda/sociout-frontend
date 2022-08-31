@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import { BsThreeDots, BsLink45Deg } from 'react-icons/bs'
-import { IoLocationOutline, IoClose } from 'react-icons/io5'
+import { IoLocationOutline, IoClose, IoArrowBack } from 'react-icons/io5'
 import { FiEdit2 } from 'react-icons/fi'
 import {
   AiOutlineCalendar,
@@ -21,6 +21,7 @@ import copyToClipboard from './../utils/copyToClipboard'
 import { Navigation, Person, TextField } from '../components'
 import OptionModal from '../components/modals/OptionModal'
 import { MdBlock, MdReport } from 'react-icons/md'
+import ReactTooltip from 'react-tooltip'
 
 const EditButton = ({ className, onClick, removed, dataTip }) => {
   return (
@@ -143,6 +144,8 @@ const Profile = () => {
   const [showEditProfile, setShowEditProfile] = useState(false)
   const [editInfo, setEditInfo] = useState({})
 
+  const navigate = useNavigate()
+
   const pathname = window.location.pathname
   const name = 'Hoàng Đình Anh Tuấn'
 
@@ -177,13 +180,24 @@ const Profile = () => {
     return (
       <div>
         <div className='p-6 bg-white rounded-xl'>
-          <Person
-            name={globalObject.name}
-            id={globalObject.id}
-            src='https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg'
-            hideAddBtn
-            underline
-          />
+          <div className='flex items-center justify-between gap-4'>
+            <div className='flex-1'>
+              <Person
+                name={globalObject.name}
+                id={globalObject.id}
+                src='https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg'
+                hideAddBtn
+                underline
+              />
+            </div>
+            <div
+              className='button-hover rounded-full p-2 text-xl'
+              data-tip='Go back'
+              onClick={() => navigate('/@' + globalObject.id)}
+            >
+              <IoArrowBack />
+            </div>
+          </div>
 
           {/* Navigation */}
           <Navigation
@@ -420,6 +434,8 @@ const Profile = () => {
         ]}
         className='text-normalText pt-3'
       />
+
+      <ReactTooltip delayShow={1000} />
     </div>
   )
 }

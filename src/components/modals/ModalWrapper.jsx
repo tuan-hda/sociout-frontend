@@ -2,6 +2,12 @@ import classNames from 'classnames'
 import React from 'react'
 import { useEffect } from 'react'
 
+// props
+// - isShowing, setShowing: state to manage display of modal
+// - center: center this modal
+// - overlayBg: overlay background color
+// - bodyClassname,
+// - top, left, right, transform
 const ModalWrapper = props => {
   const { isShowing, setShowing } = props
 
@@ -21,7 +27,7 @@ const ModalWrapper = props => {
       onMouseUp={e => e.stopPropagation()}
       onKeyDown={e => console.log(e)}
       className={classNames([
-        'top-0 left-0 w-full z-10 transition',
+        'top-0 left-0 w-full z-20 transition',
         props.center
           ? 'items-center justify-center flex fixed right-0 bottom-0'
           : 'absolute',

@@ -1,13 +1,14 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { IoIosArrowForward } from 'react-icons/io'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { TextField, Button, ErrorMessage } from '../components/index'
+import { TextField, Button, ErrorMessage, Loader } from '../components/index'
 import * as yup from 'yup'
 import { signUpService } from '../services/index'
-import toast from 'react-hot-toast'
+import toast from '../utils/toast'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { useSelector } from 'react-redux'
 
 const schema = yup.object().shape({
   email: yup.string().email().required('email is required'),
@@ -33,6 +34,7 @@ const schema = yup.object().shape({
 })
 
 const SignUp = () => {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -41,20 +43,36 @@ const SignUp = () => {
   } = useForm({
     resolver: yupResolver(schema)
   })
+  const [error, setError] = useState()
+  const [loading, setLoading] = useState(false)
+  const { loading: authLoading } = useSelector(state => state.auth)
 
   // Handle submit form
   const onSubmit = async data => {
+    setLoading(true)
     try {
       const { email, firstName, lastName, password } = data
-      const result = await signUpService(email, firstName, lastName, password)
-      console.log(result)
+      await signUpService(email, firstName, lastName, password)
+      toast('', 'Signed up successfully.')
+      setTimeout(() => navigate('/login'), 2000)
     } catch (err) {
-      console.log(err)
+      if (err.response) {
+        console.log(err.response.header)
+        console.log(err.response.status)
+        console.log(err.response.data)
+      } else {
+        console.log(err.response)
+      }
+      setError({ error: { message: 'Some errors have occured.' } })
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <div className='flex items-center justify-center bg-mainBackground overflow-auto h-screen min-h-[732px] px-4'>
+      {(loading || authLoading) && <Loader />}
+
       {/* Wrapper */}
       <div className='flex items-center justify-center h-[90%] min-h-[700px] max-w-full aspect-[8/5] bg-[white]'>
         {/* Left */}
@@ -81,6 +99,10 @@ const SignUp = () => {
             {/* Error messages */}
             {Object.keys(errors).length > 0 && (
               <ErrorMessage clearErrors={clearErrors} errors={errors} />
+            )}
+
+            {error && (
+              <ErrorMessage errors={error} clearErrors={() => setError()} />
             )}
 
             {/* Form wrapper */}

@@ -14,8 +14,8 @@ const OptionModal = ({ isShowing, setShowing, menuList }) => {
         {menuList.map(([children, classname, onClick], index) => (
           <li
             className={classNames([
-              'p-3 button-hover rounded-xl whitespace-nowrap text-textColor mr-1',
-              classname
+              'p-3 button-hover rounded-xl whitespace-nowrap mr-1',
+              classname ? classname : 'text-textColor'
             ])}
             key={index}
             onClick={onClick}

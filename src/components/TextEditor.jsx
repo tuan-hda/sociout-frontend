@@ -19,7 +19,8 @@ const TextEditor = ({
   mediaList,
   setMediaList,
   showMedia,
-  showPostBtn
+  showPostBtn,
+  placeholder
 }) => {
   const [showPicker, setShowPicker] = useState(false)
   const ref = useRef()
@@ -104,7 +105,7 @@ const TextEditor = ({
               value={content}
               name='content'
               onChange={handleChange}
-              placeholder='Share something...'
+              placeholder={placeholder ? placeholder : 'Share something...'}
               className={classNames([
                 'block w-full border-full text-sm outline-0 pl-4 py-3 rounded-2xl bg-mainBackground overflow-hidden resize-none',
                 showMedia && showPostBtn ? 'pr-24' : 'pr-8'
@@ -125,7 +126,7 @@ const TextEditor = ({
                   onClick={() => fileDialogRef.current.click()}
                 >
                   <MdOutlineImage
-                    className='inline text-greenColor hover:text-[#049a4f] transition  outline-none'
+                    className='inline text-greenColor hover:text-[#049a4f] transition outline-none'
                     data-tip='Media'
                   />
 
@@ -175,8 +176,10 @@ const TextEditor = ({
               {showPostBtn && (
                 <AiOutlineSend
                   className={classNames([
-                    'text-primaryColor hover:text-[#0864F1] transition outline-none text-lg',
-                    isContentEmpty() && 'cursor-default'
+                    'transition outline-none',
+                    isContentEmpty()
+                      ? 'cursor-default text-disabledColor'
+                      : 'text-primaryColor hover:text-[#0864F1]'
                   ])}
                   data-tip='Post'
                   onClick={handlePostComment}

@@ -3,7 +3,7 @@ import { Post } from '../components'
 
 const PostList = () => {
   return (
-    <div className='space-y-3 mb-4'>
+    <div className='space-y-4 mb-4'>
       <Post />
       <Post />
       <Post />

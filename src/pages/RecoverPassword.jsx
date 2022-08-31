@@ -3,11 +3,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { IoIosArrowForward } from 'react-icons/io'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { TextField, Button, ErrorMessage } from '../components/index'
+import { TextField, Button, ErrorMessage, Loader } from '../components/index'
 import * as yup from 'yup'
 import { useEffect } from 'react'
 import { useRef } from 'react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { useSelector } from 'react-redux'
 
 const schema = yup.object().shape({
   email: yup.string().email().required()
@@ -34,6 +35,9 @@ const lastStepSchema = yup.object().shape({
 })
 
 const RecoverPassword = () => {
+  const [loading] = useState(false)
+  const { loading: authLoading } = useSelector(state => state.auth)
+
   // First step schema
   const {
     register,
@@ -174,6 +178,8 @@ const RecoverPassword = () => {
 
   return (
     <div className='flex items-center justify-center bg-mainBackground overflow-auto h-screen min-h-[732px] px-4'>
+      {(loading || authLoading) && <Loader />}
+
       {/* Wrapper */}
       <div className='flex items-center justify-center h-[90%] min-h-[700px] max-w-full aspect-[8/5] bg-[white]'>
         {/* Left */}

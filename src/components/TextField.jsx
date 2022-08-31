@@ -41,7 +41,7 @@ const TextField = ({
       <input
         className={classNames([
           inputClassname,
-          'flex-1 w-full placeholder-[#8B8FA8] text-darkInput outline-none bg-transparent font-medium leading-7 rounded-md'
+          'flex-1 w-full placeholder-[#8B8FA8] text-darkInput outline-none bg-transparent font-medium leading-7'
         ])}
         placeholder={placeholderText}
         name={name}

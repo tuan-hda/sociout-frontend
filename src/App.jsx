@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLayoutEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import {
   Container,
   LeftContainer,
@@ -9,6 +9,7 @@ import {
   RightContainer
 } from './components/containers'
 import { Header, Navbar, SuggestionBar } from './components/index'
+import jwt from 'jwt-decode'
 import {
   Home,
   Login,
@@ -19,9 +20,16 @@ import {
   Medias,
   Likes,
   Replies,
-  Relationship
+  Relationship,
+  Messages,
+  Notifications,
+  Settings
 } from './pages/index'
 import ReactTooltip from 'react-tooltip'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUserAction } from './actions'
+import { getMeService } from './services'
 
 // Scroll to top whenever navigate to other tab
 const Wrapper = ({ children }) => {
@@ -58,11 +66,49 @@ const SideBar = props => {
         </div>
       </div>
     )
-  else return props.children
+
+  return props.children
 }
 
 const App = () => {
   const location = useLocation()
+  const dispatch = useDispatch()
+  const auth = useSelector(state => state.auth)
+  const navigate = useNavigate()
+
+  const token = localStorage.getItem('token')
+
+  useEffect(() => {
+    // If still in section
+    if (token && !auth.user) {
+      const decodedObj = jwt(token)
+      getMeService(decodedObj.id)
+        .then(response =>
+          dispatch(setUserAction({ ...decodedObj, ...response.data }))
+        )
+        .catch(error => {
+          if (error.response) {
+            console.log(error.response.status)
+            console.log(error.response.headers)
+            console.log(error.response.data)
+          } else {
+            console.log(error.response)
+          }
+        })
+    } else {
+      navigate('/login')
+    }
+  }, [])
+
+  useEffect(() => {
+    if (
+      auth &&
+      auth.user &&
+      excludePath.includes(location.pathname.substring(1))
+    ) {
+      navigate('/')
+    }
+  }, [auth, navigate, location])
 
   return (
     <div>
@@ -90,6 +136,9 @@ const App = () => {
                 <Route path='followers' element={<Relationship />} />
                 <Route path='following' element={<Relationship />} />
               </Route>
+              <Route path='/messages' element={<Messages />} />
+              <Route path='/notifications' element={<Notifications />} />
+              <Route path='/settings' element={<Settings />} />
             </Routes>
           </SideBar>
         </Container>

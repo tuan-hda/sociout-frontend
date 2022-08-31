@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BiCopy, BiSad } from 'react-icons/bi'
+import { BiSad } from 'react-icons/bi'
 import { RiUserUnfollowLine } from 'react-icons/ri'
 import Person from './Person'
 import { MdBlock, MdReport } from 'react-icons/md'
@@ -15,6 +15,8 @@ import {
 import classNames from 'classnames'
 import copyToClipboard from '../utils/copyToClipboard'
 import TextEditor from './TextEditor'
+import { FiShare } from 'react-icons/fi'
+import ReactTooltip from 'react-tooltip'
 
 const owner = {
   id: 'houshoumarine',
@@ -57,18 +59,18 @@ const Post = () => {
             ],
             [
               <p className='flex items-center'>
-                <RiUserUnfollowLine className='text-lg mr-3' /> Unfollow{' '}
+                <RiUserUnfollowLine className='text-lg mr-3' /> Unfollow @
                 {owner.id}
               </p>
             ],
             [
               <p className='flex items-center'>
-                <MdBlock className='text-lg mr-3' /> Block {owner.id}
+                <MdBlock className='text-lg mr-3' /> Block @{owner.id}
               </p>
             ],
             [
               <p className='flex items-center'>
-                <MdReport className='text-lg mr-3' /> Report {owner.id}
+                <MdReport className='text-lg mr-3' /> Report @{owner.id}
               </p>,
               'text-errorColor'
             ]
@@ -104,7 +106,7 @@ const Post = () => {
 
       {/* Buttons */}
       <div
-        className='mt-3 text-[22px] text-textColor flex items-center justify-between -mx-1'
+        className='mt-3 text-2xl text-textColor flex items-center justify-between -mx-1'
         onMouseUp={e => e.stopPropagation()}
       >
         <div className='flex items-center gap-2'>
@@ -124,7 +126,7 @@ const Post = () => {
             </button>
 
             {/* Number */}
-            <div className='text-xs h-4 overflow-hidden'>
+            <div className='text-xs h-4 overflow-hidden cursor-pointer'>
               {likes !== 0 && (
                 <p
                   className={classNames([
@@ -164,7 +166,10 @@ const Post = () => {
             ]
           ].map(
             ([icon, className, dataTip, numberClassName, amount], index) => (
-              <div className='flex items-center group w-20' key={index}>
+              <div
+                className='flex items-center group w-20 cursor-pointer'
+                key={index}
+              >
                 <button
                   className={classNames([
                     className,
@@ -193,13 +198,13 @@ const Post = () => {
 
         {/* Button copy link */}
         <button
-          className='transition-all rounded-full p-2 hover:bg-opacity-[15%] hover:bg-linkColor hover:text-linkColor text-[22px]'
+          className='transition-all rounded-full p-[9px] hover:bg-opacity-[15%] hover:bg-linkColor hover:text-linkColor'
           data-tip='Copy link to this post'
           onClick={() =>
             copyToClipboard(window.location.href + '@moricalliope/status/12345')
           }
         >
-          <BiCopy />
+          <FiShare className='text-[22px]' />
         </button>
       </div>
 
@@ -215,8 +220,11 @@ const Post = () => {
           setMediaList={setMediaList}
           showMedia
           showPostBtn
+          placeholder='Add a comment'
         />
       </div>
+
+      <ReactTooltip delayShow={1000} />
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import ReactTooltip from 'react-tooltip'
 import { Person } from '../components'
 import checkOwnId from '../utils/checkOwnId'
 
@@ -42,7 +43,7 @@ const people = [
   }
 ]
 
-const Follow = () => {
+const Relationship = () => {
   return (
     <div className='p-6 bg-white rounded-xl mt-4'>
       <ul className='-my-4'>
@@ -60,8 +61,10 @@ const Follow = () => {
           </li>
         ))}
       </ul>
+
+      <ReactTooltip delayShow={1000} />
     </div>
   )
 }
 
-export default Follow
+export default Relationship

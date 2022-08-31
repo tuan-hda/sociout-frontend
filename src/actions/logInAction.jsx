@@ -5,9 +5,8 @@ const logInStart = () => ({
   type: types.LOG_IN_START
 })
 
-const logInSuccess = user => ({
-  type: types.LOG_IN_SUCCESS,
-  payload: user
+const logInSuccess = () => ({
+  type: types.LOG_IN_SUCCESS
 })
 
 const logInFail = error => ({
@@ -18,7 +17,11 @@ const logInFail = error => ({
 const logInAction = (email, password) => dispatch => {
   dispatch(logInStart())
   logInService(email, password)
-    .then(user => dispatch(logInSuccess(user)))
+    .then(data => {
+      const token = data.data.token
+      localStorage.setItem('token', token)
+      dispatch(logInSuccess())
+    })
     .catch(err => dispatch(logInFail(err)))
 }
 

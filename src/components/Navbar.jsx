@@ -15,6 +15,10 @@ import { IoMdNotifications, IoMdNotificationsOutline } from 'react-icons/io'
 import Avatar from './Avatar'
 import globalObject from '../utils/globalObject'
 import checkOwnId from '../utils/checkOwnId'
+import ModalWrapper from './modals/ModalWrapper'
+import { FiUser, FiLogOut } from 'react-icons/fi'
+import { logOutAction } from '../actions'
+import { useDispatch } from 'react-redux'
 
 const menu = [
   {
@@ -47,6 +51,8 @@ const menu = [
 
 const Navbar = () => {
   const [currentPage, setPage] = useState('Home')
+  const [showMenu, setShowMenu] = useState(false)
+  const dispatch = useDispatch()
 
   const location = useLocation()
 
@@ -99,16 +105,51 @@ const Navbar = () => {
       </div>
 
       {/* ACCOUNT */}
-      <div className='mt-10'>
+      <div className='mt-10 relative'>
         <h2 className='font-bold text-lg hidden xl:block'>Account</h2>
 
-        <div className='-mx-2 mt-2 px-2 py-3 md:-mx-3 md:px-3 md:py-4 button-hover rounded-2xl'>
+        <div
+          className='-mx-2 mt-2 px-2 py-3 md:-mx-3 md:px-3 md:py-4 button-hover rounded-2xl'
+          onClick={() => setShowMenu(true)}
+        >
           <Avatar
             Src={require('../img/Makima.jpg')}
             props={{ width: '36px' }}
             text='Tuấn'
           />
         </div>
+
+        <ModalWrapper
+          isShowing={showMenu}
+          setShowing={setShowMenu}
+          top='100px'
+          right='0'
+          bodyClassname='text-left w-full'
+        >
+          <div className='py-3 px-3 bg-white rounded-xl'>
+            <ul className='text-normalText'>
+              <Link
+                to={'/@' + globalObject.id}
+                onClick={() => setShowMenu(false)}
+                className='py-3 px-3 button-hover rounded-xl flex items-center gap-3'
+              >
+                <FiUser className='text-lg' />
+                Profile
+              </Link>
+              <Link
+                to='/login'
+                onClick={() => {
+                  dispatch(logOutAction())
+                  setShowMenu(false)
+                }}
+                className='py-3 px-3 button-hover rounded-xl text-errorColor flex items-center gap-3'
+              >
+                <FiLogOut className='text-lg' />
+                Log out
+              </Link>
+            </ul>
+          </div>
+        </ModalWrapper>
       </div>
     </div>
   )
