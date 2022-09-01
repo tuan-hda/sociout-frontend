@@ -80,22 +80,22 @@ const App = () => {
   const token = localStorage.getItem('token')
 
   useEffect(() => {
-    // If still in section
+    // If still in login session
     if (token && !auth.user) {
-      const decodedObj = jwt(token)
-      getMeService(decodedObj.id)
-        .then(response =>
-          dispatch(setUserAction({ ...decodedObj, ...response.data }))
-        )
-        .catch(error => {
-          if (error.response) {
-            console.log(error.response.status)
-            console.log(error.response.headers)
-            console.log(error.response.data)
-          } else {
-            console.log(error.response)
-          }
-        })
+      // const decodedObj = jwt(token)
+      // getMeService(decodedObj.id)
+      //   .then(response =>
+      //     dispatch(setUserAction({ ...decodedObj, ...response.data }))
+      //   )
+      //   .catch(error => {
+      //     if (error.response) {
+      //       console.log(error.response.status)
+      //       console.log(error.response.headers)
+      //       console.log(error.response.data)
+      //     } else {
+      //       console.log(error.response)
+      //     }
+      //   })
     } else {
       navigate('/login')
     }
@@ -143,6 +143,8 @@ const App = () => {
               <Route path='/@:id/status/:id' element={<Detail />} />
             </Routes>
           </SideBar>
+
+          <div className='h-4' />
         </Container>
       </Wrapper>
 

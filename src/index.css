@@ -83,3 +83,44 @@ Link {
   white-space: nowrap;
   max-width: 100%;
 }
+
+/* Animation */
+@keyframes scaleUp {
+  from {
+  }
+  to {
+    scale: 150%;
+  }
+}
+
+@keyframes scaleDown {
+  from {
+    scale: 150%;
+  }
+  to {
+    scale: 100%;
+  }
+}
+
+@keyframes scaleUp-phase2 {
+  from {
+    scale: 100%;
+  }
+  to {
+    scale: 130%;
+  }
+}
+
+@keyframes scaleDown-phase2 {
+  from {
+    scale: 130%;
+  }
+  to {
+    scale: 100%;
+  }
+}
+
+.bounce-animation {
+  animation: scaleUp 0.2s ease-in, scaleDown 0.2s ease-in-out 0.2s,
+    scaleUp-phase2 0.2s ease-in-out 0.4s, scaleDown-phase2 0.2s ease-in-out 0.6s;
+}

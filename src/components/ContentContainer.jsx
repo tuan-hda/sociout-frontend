@@ -13,10 +13,17 @@ const styleText = text => {
   let temp = String(text.slice())
   let res = []
 
+  const urlRegex =
+    /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/g
+
   // Analyse text
   let index = 0
+  let urlIndex = 0
 
   while (index < temp.length) {
+    urlIndex = 'Abc'.search(urlRegex)
+    console.log(urlIndex)
+
     if (temp[index] === '@') {
       // Find first space letter or @ letter start from index
       let findIndex

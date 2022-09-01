@@ -17,6 +17,7 @@ import copyToClipboard from '../utils/copyToClipboard'
 import TextEditor from './TextEditor'
 import { FiShare } from 'react-icons/fi'
 import ReactTooltip from 'react-tooltip'
+import { useEffect } from 'react'
 
 const owner = {
   id: 'houshoumarine',
@@ -28,6 +29,7 @@ const Post = ({ type }) => {
   const [like, setLike] = useState(false)
   const [content, setContent] = useState('')
   const [mediaList, setMediaList] = useState([])
+  const [bounceClassName, setBounce] = useState('')
 
   const navigate = useNavigate()
   const likes = 300,
@@ -38,6 +40,14 @@ const Post = ({ type }) => {
 
   const contentSample =
     'Was great meeting up with Anna Ferguson and Dave Bishop at the breakfast talk! @breakfast'
+
+  useEffect(() => {
+    if (like) {
+      setBounce('bounce-animation')
+    } else {
+      setBounce('')
+    }
+  }, [like])
 
   return (
     <div
@@ -117,15 +127,13 @@ const Post = ({ type }) => {
 
       {/* Buttons */}
       {type !== 'detail' && (
-        <div
-          className='mt-3 text-2xl text-textColor flex items-center justify-between -mx-1'
-          onMouseUp={e => e.stopPropagation()}
-        >
+        <div className='mt-3 text-2xl text-textColor flex items-center justify-between -mx-1'>
           <div className='flex items-center gap-2'>
             {/* Like button */}
             <div
               className='flex items-center group w-20'
               onClick={() => setLike(!like)}
+              onMouseUp={e => e.stopPropagation()}
             >
               <button
                 className={classNames([
@@ -134,7 +142,9 @@ const Post = ({ type }) => {
                 ])}
                 data-tip={like ? 'Unlike' : 'Like'}
               >
-                {like ? <AiFillHeart /> : <AiOutlineHeart />}
+                <div className={classNames([bounceClassName])}>
+                  {like ? <AiFillHeart /> : <AiOutlineHeart />}
+                </div>
               </button>
 
               {/* Number */}
@@ -167,20 +177,26 @@ const Post = ({ type }) => {
                 'group-hover:bg-linkColor group-hover:text-linkColor',
                 'Comment',
                 'group-hover:text-linkColor',
-                comments
+                comments,
+                e => e.stopPropagation()
               ],
               [
                 <AiOutlineRetweet />,
                 'group-hover:bg-greenColor group-hover:text-greenColor',
                 'Share',
                 'group-hover:text-greenColor',
-                shares
+                shares,
+                e => e.stopPropagation()
               ]
             ].map(
-              ([icon, className, dataTip, numberClassName, amount], index) => (
+              (
+                [icon, className, dataTip, numberClassName, amount, onMouseUp],
+                index
+              ) => (
                 <div
                   className='flex items-center group w-20 cursor-pointer'
                   key={index}
+                  onMouseUp={onMouseUp}
                 >
                   <button
                     className={classNames([
@@ -212,6 +228,7 @@ const Post = ({ type }) => {
           <button
             className='transition-all rounded-full p-[9px] hover:bg-opacity-[15%] hover:bg-orangeColor hover:text-orangeColor'
             data-tip='Copy link to this post'
+            onMouseUp={e => e.stopPropagation()}
             onClick={() =>
               copyToClipboard(
                 window.location.href + '@moricalliope/status/12345'
@@ -253,13 +270,16 @@ const Post = ({ type }) => {
           {/* Buttons */}
           <div className='mt-2 flex justify-around'>
             <button
+              onClick={() => setLike(!like)}
               className={classNames([
                 'transition-all rounded-lg p-2 hover:bg-opacity-[15%] hover:bg-loveColor hover:text-loveColor text-2xl text-gray-600 flex-1 flex justify-center',
                 like && 'text-loveColor'
               ])}
               data-tip={like ? 'Unlike' : 'Like'}
             >
-              {like ? <AiFillHeart /> : <AiOutlineHeart />}
+              <div className={classNames([bounceClassName])}>
+                {like ? <AiFillHeart /> : <AiOutlineHeart />}
+              </div>
             </button>
 
             {[

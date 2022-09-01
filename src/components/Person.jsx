@@ -12,6 +12,8 @@ import OptionModal from './modals/OptionModal'
 // - src          => Avatar source
 // - id           => Person's id
 // - hideAddBtn   => Hide add friend button
+// - bio          => Person's bio
+// - leftAlignBio    => Left align the bio
 const Person = props => {
   const [showMore, setShowMore] = useState(false)
 
@@ -99,7 +101,12 @@ const Person = props => {
 
       {/* Bio */}
       {props.bio && (
-        <div className='text-normalText text-textColor ml-12 mt-1'>
+        <div
+          className={classNames([
+            'text-normalText text-textColor',
+            props.leftAlignBio ? 'mt-2' : 'ml-12 mt-1'
+          ])}
+        >
           {props.bio}
         </div>
       )}
