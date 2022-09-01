@@ -21,7 +21,8 @@ module.exports = {
         borderColor: '#ababab',
         loveColor: '#ef5350',
         greenColor: '#05be70',
-        likeColor: '#555'
+        likeColor: '#555',
+        orangeColor: '#ed765e'
       },
       width: {
         authHalf: '560px',

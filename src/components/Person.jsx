@@ -33,6 +33,7 @@ const Person = props => {
           <Link
             to={'/@' + props.id}
             className='max-w-[40px] block w-10 float-left'
+            onMouseUp={e => e.stopPropagation()}
           >
             <img
               src={props.src}
@@ -60,7 +61,7 @@ const Person = props => {
             ) : (
               child
             )}
-            <p className='mt-1 text-idColor text-[13px] leading-4'>
+            <p className='mt-1 text-idColor text-[13px] leading-4 hover:underline'>
               {props.time ? props.time : '@' + props.id}
             </p>
           </div>

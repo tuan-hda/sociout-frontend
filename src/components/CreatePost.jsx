@@ -63,7 +63,7 @@ const CreatePost = () => {
   const tools = [
     {
       name: 'Media',
-      icon: <MdOutlineImage className='inline text-primaryColor text-xl' />,
+      icon: <MdOutlineImage className='inline text-greenColor text-xl' />,
       inner: (
         <input
           type='file'

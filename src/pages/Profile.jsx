@@ -180,7 +180,7 @@ const Profile = () => {
     return (
       <div>
         <div className='p-6 bg-white rounded-xl'>
-          <div className='flex items-center justify-between gap-4'>
+          <div className='flex flex-row-reverse items-center justify-between gap-4 mb-4 mt-1'>
             <div className='flex-1'>
               <Person
                 name={globalObject.name}

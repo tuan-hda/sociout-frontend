@@ -23,7 +23,8 @@ import {
   Relationship,
   Messages,
   Notifications,
-  Settings
+  Settings,
+  Detail
 } from './pages/index'
 import ReactTooltip from 'react-tooltip'
 import { useEffect } from 'react'
@@ -139,6 +140,7 @@ const App = () => {
               <Route path='/messages' element={<Messages />} />
               <Route path='/notifications' element={<Notifications />} />
               <Route path='/settings' element={<Settings />} />
+              <Route path='/@:id/status/:id' element={<Detail />} />
             </Routes>
           </SideBar>
         </Container>
