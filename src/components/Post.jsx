@@ -39,7 +39,7 @@ const Post = ({ type }) => {
   let isMoved
 
   const contentSample =
-    'Was great meeting up with Anna Ferguson and Dave Bishop at the breakfast talk! @breakfast'
+    'Was great meeting up with Anna Ferguson and Dave Bishop at the breakfast talk! https://www.youtube.com/watch?v=SfMtIUga4u0 @mori https://www.facebook.com'
 
   useEffect(() => {
     if (like) {
@@ -77,6 +77,7 @@ const Post = ({ type }) => {
           id={owner.id}
           hideAddBtn
           underline
+          underlineId
           menuList={[
             [
               <p className='flex items-center'>

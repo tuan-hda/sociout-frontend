@@ -60,6 +60,9 @@ const SuggestionBar = () => {
             bio='ホロライブファンタジー所属/【ファンネーム】宝鐘の一味/【生放送タグ】#マリン航海記/【切り抜き動画タグ】#わかるマリン/【ファンアート】#マリンのお宝/おかあさん💘 @AkasaAi /【描いた絵】http://pixiv.net/users/43505343'
             hideAddBtn
             leftAlignBio
+            underlineId
+            underline
+            clickableId
           />
         </div>
       )}
@@ -72,7 +75,12 @@ const SuggestionBar = () => {
           {people.map((person, index) => (
             <li key={index} className='-mx-3 p-3 button-hover rounded-2xl'>
               <Link to={'/@' + person.id}>
-                <Person src={person.src} name={person.name} id={person.id} />
+                <Person
+                  src={person.src}
+                  name={person.name}
+                  id={person.id}
+                  underlineId
+                />
               </Link>
             </li>
           ))}

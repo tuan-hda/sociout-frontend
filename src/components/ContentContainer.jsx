@@ -18,12 +18,9 @@ const styleText = text => {
 
   // Analyse text
   let index = 0
-  let urlIndex = 0
+  let urlIndex = temp.search(urlRegex)
 
   while (index < temp.length) {
-    urlIndex = 'Abc'.search(urlRegex)
-    console.log(urlIndex)
-
     if (temp[index] === '@') {
       // Find first space letter or @ letter start from index
       let findIndex
@@ -61,9 +58,36 @@ const styleText = text => {
       index = findIndex
     } else {
       // Find first @ letter start from index
-      let findIndex = temp.indexOf('@', index + 1)
-      // If there's no @ letter => That means there's no more mention in string
+      let findIndex = temp.indexOf('@', index)
+
+      // If there's no @ character => That means there's no more mention in string
       findIndex = findIndex === -1 ? temp.length : findIndex
+
+      // Compare the result to urlIndex, so we can determine which one is pushed to the array first
+      if (urlIndex !== -1 && urlIndex < findIndex) {
+        res.push(temp.substring(index, urlIndex))
+        let spaceIndex = temp.indexOf(' ', urlIndex)
+
+        // if there's no space => it means the URL in at the end of string
+        if (spaceIndex === -1) {
+          spaceIndex = temp.length
+        }
+
+        const urlStr = temp.substring(urlIndex, spaceIndex)
+        res.push(
+          <a
+            href={urlStr}
+            className='text-linkColor hover:underline'
+            key={urlIndex}
+          >
+            {urlStr}
+          </a>
+        )
+        index = spaceIndex
+
+        urlIndex = temp.substring(index).search(urlRegex) + index
+        continue
+      }
 
       res.push(temp.substring(index, findIndex))
       index = findIndex

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IoArrowBack } from 'react-icons/io5'
-import { Post } from '../components'
+import { Comment, Post } from '../components'
 
 const Detail = () => {
   const navigate = useNavigate()
@@ -23,6 +23,17 @@ const Detail = () => {
 
       {/* Detail */}
       <Post type='detail' />
+
+      <Comment
+        text="Sweet! I'm getting sick of all the pointless hate! Sumerubis freaking amazing! ✨😎✨"
+        mediaList={[]}
+        time='39 minutes ago'
+        author={{
+          src: require('../img/Gura.jpg'),
+          name: 'Gawr Gura',
+          id: 'gawrgura'
+        }}
+      />
     </div>
   )
 }

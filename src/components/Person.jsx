@@ -3,7 +3,7 @@ import React from 'react'
 import { useState } from 'react'
 import { BiUserPlus } from 'react-icons/bi'
 import { BsThreeDots } from 'react-icons/bs'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import OptionModal from './modals/OptionModal'
 
 // Props:
@@ -11,11 +11,14 @@ import OptionModal from './modals/OptionModal'
 // - time         => createdAt
 // - src          => Avatar source
 // - id           => Person's id
+// - underline    => underline when hover
+// - underlineId  => underlineId when hover
 // - hideAddBtn   => Hide add friend button
 // - bio          => Person's bio
 // - leftAlignBio    => Left align the bio
 const Person = props => {
   const [showMore, setShowMore] = useState(false)
+  const navigate = useNavigate()
 
   const child = (
     <p
@@ -53,7 +56,7 @@ const Person = props => {
           </div>
         )}
 
-        {/* Time / id */}
+        {/* Name + Time / id */}
         <div className='ml-2 flex-1 min-w-0 flex items-center justify-between gap-2'>
           <div className='flex-1 min-w-0'>
             {props.underline ? (
@@ -63,7 +66,16 @@ const Person = props => {
             ) : (
               child
             )}
-            <p className='mt-1 text-idColor text-[13px] leading-4 hover:underline'>
+            <p
+              className={classNames([
+                'mt-1 text-idColor text-[13px] leading-4 inline-block',
+                props.underlineId && 'hover:underline',
+                props.clickableId && 'cursor-pointer'
+              ])}
+              onClick={() => {
+                if (props.clickableId) navigate('/@' + props.id)
+              }}
+            >
               {props.time ? props.time : '@' + props.id}
             </p>
           </div>

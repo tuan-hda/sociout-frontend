@@ -11,7 +11,7 @@ import { AiOutlineSend } from 'react-icons/ai'
 import { BiMessageSquareError } from 'react-icons/bi'
 import classNames from 'classnames'
 
-const baseHeight = '44px'
+const baseHeight = '40px'
 
 const TextEditor = ({
   content,
@@ -107,7 +107,7 @@ const TextEditor = ({
               onChange={handleChange}
               placeholder={placeholder ? placeholder : 'Share something...'}
               className={classNames([
-                'block w-full border-full text-sm outline-0 pl-4 py-3 rounded-2xl bg-mainBackground overflow-hidden resize-none',
+                'block w-full border-full outline-0 pl-4 py-[11px] text-normalText rounded-2xl bg-mainBackground overflow-hidden resize-none',
                 showMedia && showPostBtn ? 'pr-24' : 'pr-8'
               ])}
               onKeyUp={autoResize}
