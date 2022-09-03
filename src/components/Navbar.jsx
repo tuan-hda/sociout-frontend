@@ -76,10 +76,10 @@ const Navbar = () => {
     <div className='bg-white rounded-xl p-3 md:p-6 flex-1 sticky top-[100px]'>
       {/* MENU */}
       <div>
-        <h2 className='font-bold text-lg hidden xl:block'>Menu</h2>
+        <h2 className='font-bold text-lg hidden xl:block mb-2'>Menu</h2>
 
         {/* Navigation list */}
-        <ul className='mt-2'>
+        <ul className='xl:mt-0 -mt-4'>
           {menu.map((item, index) => {
             return (
               <Link
@@ -105,51 +105,53 @@ const Navbar = () => {
       </div>
 
       {/* ACCOUNT */}
-      <div className='mt-10 relative'>
+      <div className='mt-10'>
         <h2 className='font-bold text-lg hidden xl:block'>Account</h2>
 
-        <div
-          className='-mx-2 mt-2 px-2 py-3 md:-mx-3 md:px-3 md:py-4 button-hover rounded-2xl'
-          onClick={() => setShowMenu(true)}
-        >
-          <Avatar
-            Src={require('../img/Makima.jpg')}
-            props={{ width: '36px' }}
-            text='Tuấn'
-          />
-        </div>
-
-        <ModalWrapper
-          isShowing={showMenu}
-          setShowing={setShowMenu}
-          top='100px'
-          right='0'
-          bodyClassname='text-left w-full'
-        >
-          <div className='py-3 px-3 bg-white rounded-xl'>
-            <ul className='text-normalText'>
-              <Link
-                to={'/@' + globalObject.id}
-                onClick={() => setShowMenu(false)}
-                className='py-3 px-3 button-hover rounded-xl flex items-center gap-3'
-              >
-                <FiUser className='text-lg' />
-                Profile
-              </Link>
-              <Link
-                to='/login'
-                onClick={() => {
-                  dispatch(logOutAction())
-                  setShowMenu(false)
-                }}
-                className='py-3 px-3 button-hover rounded-xl text-errorColor flex items-center gap-3'
-              >
-                <FiLogOut className='text-lg' />
-                Log out
-              </Link>
-            </ul>
+        <div className='relative'>
+          <div
+            className='-mx-2 mt-2 px-2 py-3 md:-mx-3 md:px-3 md:py-4 button-hover rounded-2xl'
+            onClick={() => setShowMenu(true)}
+          >
+            <Avatar
+              Src={require('../img/Makima.jpg')}
+              props={{ width: '36px' }}
+              text='Tuấn'
+            />
           </div>
-        </ModalWrapper>
+
+          <ModalWrapper
+            isShowing={showMenu}
+            setShowing={setShowMenu}
+            top='50px'
+            left='0'
+            bodyClassname='text-left w-full min-w-[150px]'
+          >
+            <div className='py-3 px-3 bg-white rounded-xl'>
+              <ul className='text-normalText'>
+                <Link
+                  to={'/@' + globalObject.id}
+                  onClick={() => setShowMenu(false)}
+                  className='py-3 px-3 button-hover rounded-xl flex items-center gap-3'
+                >
+                  <FiUser className='text-lg' />
+                  Profile
+                </Link>
+                <Link
+                  to='/login'
+                  onClick={() => {
+                    dispatch(logOutAction())
+                    setShowMenu(false)
+                  }}
+                  className='py-3 px-3 button-hover rounded-xl text-errorColor flex items-center gap-3'
+                >
+                  <FiLogOut className='text-lg' />
+                  Log out
+                </Link>
+              </ul>
+            </div>
+          </ModalWrapper>
+        </div>
       </div>
     </div>
   )

@@ -19,7 +19,7 @@ const logInAction = (email, password) => dispatch => {
   logInService(email, password)
     .then(data => {
       const token = data.data.token
-      localStorage.setItem('token', token)
+      window.localStorage.setItem('token', token)
       dispatch(logInSuccess())
     })
     .catch(err => dispatch(logInFail(err)))

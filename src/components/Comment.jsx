@@ -12,7 +12,7 @@ const Comment = ({ text, mediaList, author }) => {
     <div className='px-6 pb-6'>
       {/* Person */}
       <div className='flex items-start min-w-0'>
-        <Link to={'/@' + author.id} className='flex items-center w-10'>
+        <Link to={'/@' + author.id} className='flex items-center min-w-[40px]'>
           <img
             className='w-10 rounded-full'
             src={author.src}

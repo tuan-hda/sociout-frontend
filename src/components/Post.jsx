@@ -52,7 +52,7 @@ const Post = ({ type }) => {
   return (
     <div
       className={classNames([
-        'bg-white p-6 rounded-xl transition text-normalText',
+        'bg-white p-6 rounded-xl transition text-normalText -z-10',
         type !== 'detail' &&
           'cursor-pointer hover:bg-lightBackground hover:bg-opacity-40'
       ])}

@@ -144,7 +144,9 @@ const App = () => {
             </Routes>
           </SideBar>
 
-          <div className='h-4' />
+          {!excludePath.includes(location.pathname.substring(1)) && (
+            <div className='h-4' />
+          )}
         </Container>
       </Wrapper>
 
