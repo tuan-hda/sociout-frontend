@@ -23,7 +23,7 @@ const Person = props => {
   const child = (
     <p
       className={classNames([
-        'font-semibold overflow-hidden text-ellipsis whitespace-nowrap text-normalText w-full hover:underline'
+        'font-semibold overflow-hidden text-ellipsis whitespace-nowrap text-normalText w-full hover:underline leading-4'
       ])}
     >
       {props.name}
@@ -68,7 +68,7 @@ const Person = props => {
             )}
             <p
               className={classNames([
-                'mt-1 text-idColor text-[13px] leading-4 inline-block',
+                'text-idColor text-[13px] inline-block',
                 props.underlineId && 'hover:underline',
                 props.clickableId && 'cursor-pointer'
               ])}

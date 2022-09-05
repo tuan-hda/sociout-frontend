@@ -5,7 +5,7 @@ import Person from './Person'
 import { MdBlock, MdReport } from 'react-icons/md'
 import ContentContainer from './ContentContainer'
 import MediaList from './MediaList'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   AiOutlineComment,
   AiOutlineHeart,
@@ -148,7 +148,7 @@ const Post = ({ type }) => {
                 </div>
               </button>
 
-              {/* Number */}
+              {/* Count */}
               <div className='text-xs h-4 overflow-hidden cursor-pointer'>
                 {likes !== 0 && (
                   <p
@@ -247,21 +247,21 @@ const Post = ({ type }) => {
           {/* Count */}
           <div className='flex items-center gap-4'>
             {likes !== 0 && (
-              <Link to='#' className='hover:underline'>
-                {likes} Likes
-              </Link>
+              <button to='#' className='hover:underline'>
+                <span className='font-semibold'>{likes}</span> Likes
+              </button>
             )}
 
             {comments !== 0 && (
-              <Link to='#' className='hover:underline'>
-                {comments} Comments
-              </Link>
+              <button to='#' className='hover:underline'>
+                <span className='font-semibold'>{comments}</span> Comments
+              </button>
             )}
 
             {shares !== 0 && (
-              <Link to='#' className='hover:underline'>
-                {shares} Shares
-              </Link>
+              <button to='#' className='hover:underline'>
+                <span className='font-semibold'>{shares}</span> Shares
+              </button>
             )}
           </div>
 
@@ -320,7 +320,7 @@ const Post = ({ type }) => {
       )}
 
       {/* Comment section */}
-      <div onMouseDown={e => e.stopPropagation()} className='mt-3'>
+      <div onMouseDown={e => e.stopPropagation()} className='mt-2'>
         <TextEditor
           content={content}
           setContent={setContent}

@@ -98,7 +98,7 @@ const TextEditor = ({
         </Link>
 
         {/* Editor and Media list */}
-        <div className='flex-1 ml-4'>
+        <div className='flex-1 ml-2'>
           <div className='relative outline-2 outline-lightBlue focus-within:outline rounded-2xl flex items-center'>
             {/* Markdown text handling. When edit, show textarea and hide Markdown text */}
             <textarea
