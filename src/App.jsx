@@ -71,31 +71,31 @@ const SideBar = props => {
   return props.children
 }
 
+const token = localStorage.getItem('token')
+
 const App = () => {
   const location = useLocation()
   const dispatch = useDispatch()
   const auth = useSelector(state => state.auth)
   const navigate = useNavigate()
 
-  const token = localStorage.getItem('token')
-
   useEffect(() => {
     // If still in login session
     if (token && !auth.user) {
-      // const decodedObj = jwt(token)
-      // getMeService(decodedObj.id)
-      //   .then(response =>
-      //     dispatch(setUserAction({ ...decodedObj, ...response.data }))
-      //   )
-      //   .catch(error => {
-      //     if (error.response) {
-      //       console.log(error.response.status)
-      //       console.log(error.response.headers)
-      //       console.log(error.response.data)
-      //     } else {
-      //       console.log(error.response)
-      //     }
-      //   })
+      const decodedObj = jwt(token)
+      getMeService(decodedObj.id)
+        .then(response =>
+          dispatch(setUserAction({ ...decodedObj, ...response.data }))
+        )
+        .catch(error => {
+          if (error.response) {
+            console.log(error.response.status)
+            console.log(error.response.headers)
+            console.log(error.response.data)
+          } else {
+            console.log(error.response)
+          }
+        })
     } else {
       navigate('/login')
     }

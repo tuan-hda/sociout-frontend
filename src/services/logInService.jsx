@@ -1,6 +1,6 @@
 import base from './base'
 
-const logInService = async (email, password) => {
+const logInService = (email, password) => {
   return new Promise((resolve, reject) => {
     base
       .post('login', { email, password })

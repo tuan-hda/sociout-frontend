@@ -17,12 +17,12 @@ const logInFail = error => ({
 const logInAction = (email, password) => dispatch => {
   dispatch(logInStart())
   logInService(email, password)
-    .then(data => {
-      const token = data.data.token
+    .then(response => {
+      const token = response.data.token
       window.localStorage.setItem('token', token)
       dispatch(logInSuccess())
     })
-    .catch(err => dispatch(logInFail(err)))
+    .catch(error => dispatch(logInFail(error)))
 }
 
 export default logInAction

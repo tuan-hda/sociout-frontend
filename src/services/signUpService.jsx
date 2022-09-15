@@ -4,17 +4,12 @@ const signUpService = (email, firstName, lastName, password) =>
   new Promise((resolve, reject) => {
     base
       .post(
-        'user',
+        'users',
         {
           email,
           firstName,
           lastName,
           password
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
         }
       )
       .then(response => resolve(response))

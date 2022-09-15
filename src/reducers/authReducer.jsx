@@ -27,7 +27,7 @@ const authReducer = (state = initialState, action) => {
               }
             : {
                 error: {
-                  message: 'Some errors have occured'
+                  message: 'Some errors have occurred'
                 }
               }
       }

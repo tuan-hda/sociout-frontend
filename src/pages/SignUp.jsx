@@ -63,7 +63,7 @@ const SignUp = () => {
       } else {
         console.log(err.response)
       }
-      setError({ error: { message: 'Some errors have occured.' } })
+      setError({ error: { message: 'Some errors have occurred' } })
     } finally {
       setLoading(false)
     }
