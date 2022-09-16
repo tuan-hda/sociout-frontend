@@ -1,56 +1,56 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import capitalize from '../utils/capitalize'
+import React, { useState } from "react"
+import { useEffect } from "react"
+import { Link, useLocation } from "react-router-dom"
+import capitalize from "../utils/capitalize"
 import {
   AiFillHome,
   AiOutlineHome,
   AiFillMessage,
   AiOutlineMessage,
   AiFillSetting,
-  AiOutlineSetting
-} from 'react-icons/ai'
-import { RiUser3Fill, RiUser3Line } from 'react-icons/ri'
-import { IoMdNotifications, IoMdNotificationsOutline } from 'react-icons/io'
-import Avatar from './Avatar'
-import globalObject from '../utils/globalObject'
-import checkOwnId from '../utils/checkOwnId'
-import ModalWrapper from './modals/ModalWrapper'
-import { FiUser, FiLogOut } from 'react-icons/fi'
-import { logOutAction } from '../actions'
-import { useDispatch } from 'react-redux'
+  AiOutlineSetting,
+} from "react-icons/ai"
+import { RiUser3Fill, RiUser3Line } from "react-icons/ri"
+import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io"
+import Avatar from "./Avatar"
+import globalObject from "../utils/globalObject"
+import checkOwnId from "../utils/checkOwnId"
+import ModalWrapper from "./modals/ModalWrapper"
+import { FiUser, FiLogOut } from "react-icons/fi"
+import { logOutAction } from "../actions"
+import { useDispatch } from "react-redux"
 
 const menu = [
   {
-    title: 'Home',
+    title: "Home",
     icon: <AiOutlineHome />,
-    selectedIcon: <AiFillHome />
+    selectedIcon: <AiFillHome />,
   },
   {
-    title: 'Messages',
+    title: "Messages",
     icon: <AiOutlineMessage />,
-    selectedIcon: <AiFillMessage />
+    selectedIcon: <AiFillMessage />,
   },
   {
-    title: 'Notifications',
+    title: "Notifications",
     icon: <IoMdNotificationsOutline />,
-    selectedIcon: <IoMdNotifications />
+    selectedIcon: <IoMdNotifications />,
   },
   {
-    title: 'Profile',
+    title: "Profile",
     icon: <RiUser3Line />,
     selectedIcon: <RiUser3Fill />,
-    path: globalObject.id
+    path: globalObject.id,
   },
   {
-    title: 'Settings',
+    title: "Settings",
     icon: <AiOutlineSetting />,
-    selectedIcon: <AiFillSetting />
-  }
+    selectedIcon: <AiFillSetting />,
+  },
 ]
 
 const Navbar = () => {
-  const [currentPage, setPage] = useState('Home')
+  const [currentPage, setPage] = useState("Home")
   const [showMenu, setShowMenu] = useState(false)
   const dispatch = useDispatch()
 
@@ -58,22 +58,22 @@ const Navbar = () => {
 
   useEffect(() => {
     const pathname = location.pathname
-    if (pathname === '/') {
-      setPage('Home')
+    if (pathname === "/") {
+      setPage("Home")
     } else if (checkOwnId(pathname)) {
-      setPage('Profile')
+      setPage("Profile")
     } else {
       setPage(capitalize(location.pathname.substring(1)))
     }
   }, [location])
 
-  const getPath = item => {
-    if (item.path) return '/@' + item.path
-    return '/' + (item.title === 'Home' ? '' : item.title).toLowerCase()
+  const getPath = (item) => {
+    if (item.path) return "/@" + item.path
+    return "/" + (item.title === "Home" ? "" : item.title).toLowerCase()
   }
 
   return (
-    <div className='bg-white rounded-xl p-3 md:p-6 flex-1 sticky top-[100px]'>
+    <div className='bg-white rounded-xl p-3 pt-6 md:p-6 flex-1 sticky top-[100px]'>
       {/* MENU */}
       <div>
         <h2 className='font-bold text-lg hidden xl:block mb-2'>Menu</h2>
@@ -85,7 +85,7 @@ const Navbar = () => {
               <Link
                 to={getPath(item)}
                 key={index}
-                className='text-base -mx-1 px-1 py-3 md:py-4 md:-mx-3 md:px-3 block button-hover rounded-2xl'
+                className='text-base -mx-1 px-1 py-3 md:py-4 md:-mx-3 md:px-4 block button-hover rounded-2xl'
               >
                 {item.title === currentPage ? (
                   <li className='font-semibold flex justify-center xl:justify-start items-center gap-4'>
@@ -114,8 +114,8 @@ const Navbar = () => {
             onClick={() => setShowMenu(true)}
           >
             <Avatar
-              Src={require('../img/Makima.jpg')}
-              props={{ width: '36px' }}
+              Src={require("../img/Makima.jpg")}
+              props={{ width: "36px" }}
               text='Tuấn'
             />
           </div>
@@ -130,7 +130,7 @@ const Navbar = () => {
             <div className='py-3 px-3 bg-white rounded-xl'>
               <ul className='text-normalText'>
                 <Link
-                  to={'/@' + globalObject.id}
+                  to={"/@" + globalObject.id}
                   onClick={() => setShowMenu(false)}
                   className='py-3 px-3 button-hover rounded-xl flex items-center gap-3'
                 >

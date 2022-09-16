@@ -78,10 +78,10 @@ const Post = ({ type }) => {
       }}
     >
       {/* Header */}
-      <header className="block">
+      <header className='block'>
         <Person
           src={require("../img/Marine.jpg")}
-          to="/@moricalliope/status/12345"
+          to='/@moricalliope/status/12345'
           name={owner.name}
           time={owner.time}
           id={owner.id}
@@ -90,25 +90,25 @@ const Post = ({ type }) => {
           underlineId
           menuList={[
             [
-              <p className="flex items-center">
-                <BiSad className="text-lg mr-3" /> Not interested
+              <p className='flex items-center'>
+                <BiSad className='text-lg mr-3' /> Not interested
               </p>,
               "",
             ],
             [
-              <p className="flex items-center">
-                <RiUserUnfollowLine className="text-lg mr-3" /> Unfollow @
+              <p className='flex items-center'>
+                <RiUserUnfollowLine className='text-lg mr-3' /> Unfollow @
                 {owner.id}
               </p>,
             ],
             [
-              <p className="flex items-center">
-                <MdBlock className="text-lg mr-3" /> Block @{owner.id}
+              <p className='flex items-center'>
+                <MdBlock className='text-lg mr-3' /> Block @{owner.id}
               </p>,
             ],
             [
-              <p className="flex items-center">
-                <MdReport className="text-lg mr-3" /> Report @{owner.id}
+              <p className='flex items-center'>
+                <MdReport className='text-lg mr-3' /> Report @{owner.id}
               </p>,
               "text-errorColor",
             ],
@@ -117,9 +117,9 @@ const Post = ({ type }) => {
       </header>
 
       {/* Content */}
-      <div className="text-textColor">
+      <div className='text-textColor'>
         {/* Text */}
-        <ContentContainer className="mt-4">{contentSample}</ContentContainer>
+        <ContentContainer className='mt-4'>{contentSample}</ContentContainer>
 
         {/* Media list */}
         <div onMouseUp={(e) => e.stopPropagation()}>
@@ -138,11 +138,11 @@ const Post = ({ type }) => {
 
       {/* Buttons */}
       {type !== "detail" && (
-        <div className="mt-3 text-2xl text-textColor flex items-center justify-between -mx-1">
-          <div className="flex items-center gap-2">
+        <div className='mt-3 text-2xl text-textColor flex items-center justify-between -mx-1'>
+          <div className='flex items-center gap-2'>
             {/* Like button */}
             <div
-              className="flex items-center group w-20"
+              className='flex items-center group w-20'
               onClick={() => onLikeClick()}
               onMouseUp={(e) => e.stopPropagation()}
             >
@@ -159,7 +159,7 @@ const Post = ({ type }) => {
               </button>
 
               {/* Count */}
-              <div className="text-xs h-4 overflow-hidden cursor-pointer">
+              <div className='text-xs h-4 overflow-hidden cursor-pointer'>
                 {likes !== 0 && (
                   <p
                     className={classNames([
@@ -205,7 +205,7 @@ const Post = ({ type }) => {
                 index
               ) => (
                 <div
-                  className="flex items-center group w-20 cursor-pointer"
+                  className='flex items-center group w-20 cursor-pointer'
                   key={index}
                   onMouseUp={onMouseUp}
                 >
@@ -237,8 +237,8 @@ const Post = ({ type }) => {
 
           {/* Button copy link */}
           <button
-            className="transition-all rounded-full p-[9px] hover:bg-opacity-[15%] hover:bg-orangeColor hover:text-orangeColor"
-            data-tip="Copy link to this post"
+            className='transition-all rounded-full p-[9px] hover:bg-opacity-[15%] hover:bg-orangeColor hover:text-orangeColor'
+            data-tip='Copy link to this post'
             onMouseUp={(e) => e.stopPropagation()}
             onClick={() =>
               copyToClipboard(
@@ -246,40 +246,40 @@ const Post = ({ type }) => {
               )
             }
           >
-            <FiShare className="text-[22px]" />
+            <FiShare className='text-[22px]' />
           </button>
         </div>
       )}
 
       {/* Buttons, Count - detail */}
       {type === "detail" && (
-        <div className="mt-5">
+        <div className='mt-5'>
           {/* Count */}
-          <div className="flex items-center gap-4">
+          <div className='flex items-center gap-4'>
             {likes !== 0 && (
-              <button to="#" className="hover:underline">
-                <span className="font-semibold">{likes}</span> Likes
+              <button to='#' className='hover:underline'>
+                <span className='font-semibold'>{likes}</span> Likes
               </button>
             )}
 
             {comments !== 0 && (
-              <button to="#" className="hover:underline">
-                <span className="font-semibold">{comments}</span> Comments
+              <button to='#' className='hover:underline'>
+                <span className='font-semibold'>{comments}</span> Comments
               </button>
             )}
 
             {shares !== 0 && (
-              <button to="#" className="hover:underline">
-                <span className="font-semibold">{shares}</span> Shares
+              <button to='#' className='hover:underline'>
+                <span className='font-semibold'>{shares}</span> Shares
               </button>
             )}
           </div>
 
           {/* Divider */}
-          <div className="border-t-[1px] border-[#f1f1f1] mt-4" />
+          <div className='border-t-[1px] border-[#f1f1f1] mt-4' />
 
           {/* Buttons */}
-          <div className="mt-2 flex justify-around">
+          <div className='mt-2 flex justify-around'>
             <button
               onClick={() => onLikeClick()}
               className={classNames([
@@ -325,12 +325,12 @@ const Post = ({ type }) => {
           </div>
 
           {/* Divider */}
-          <div className="border-t-[1px] border-[#f1f1f1] mt-2 mb-5" />
+          <div className='border-t-[1px] border-[#f1f1f1] mt-2 mb-5' />
         </div>
       )}
 
       {/* Comment section */}
-      <div onMouseDown={(e) => e.stopPropagation()} className="mt-2">
+      <div onMouseDown={(e) => e.stopPropagation()} className='mt-2'>
         <TextEditor
           content={content}
           setContent={setContent}
@@ -338,7 +338,7 @@ const Post = ({ type }) => {
           setMediaList={setMediaList}
           showMedia
           showPostBtn
-          placeholder="Add a comment"
+          placeholder='Add a comment'
         />
       </div>
 

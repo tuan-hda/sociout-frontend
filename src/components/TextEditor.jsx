@@ -1,17 +1,15 @@
-import EmojiPicker from 'emoji-picker-react'
-import React, { useRef, useState } from 'react'
-import { HiOutlineEmojiHappy } from 'react-icons/hi'
-import { Link } from 'react-router-dom'
-import Avatar from './Avatar'
-import MediaList from './MediaList'
-import ModalWrapper from './modals/ModalWrapper'
-import { MdOutlineImage } from 'react-icons/md'
-import toast from '../utils/toast'
-import { AiOutlineSend } from 'react-icons/ai'
-import { BiMessageSquareError } from 'react-icons/bi'
-import classNames from 'classnames'
-
-const baseHeight = '40px'
+import EmojiPicker from "emoji-picker-react"
+import React, { useRef, useState } from "react"
+import { HiOutlineEmojiHappy } from "react-icons/hi"
+import { Link } from "react-router-dom"
+import Avatar from "./Avatar"
+import MediaList from "./MediaList"
+import ModalWrapper from "./modals/ModalWrapper"
+import { MdOutlineImage } from "react-icons/md"
+import toast from "../utils/toast"
+import { AiOutlineSend } from "react-icons/ai"
+import { BiMessageSquareError } from "react-icons/bi"
+import classNames from "classnames"
 
 const TextEditor = ({
   content,
@@ -20,20 +18,27 @@ const TextEditor = ({
   setMediaList,
   showMedia,
   showPostBtn,
-  placeholder
+  placeholder,
+  smallAvatar,
 }) => {
   const [showPicker, setShowPicker] = useState(false)
   const ref = useRef()
   const fileDialogRef = useRef()
 
+  let baseHeight = "40px"
+
+  if (smallAvatar) {
+    baseHeight = "32px"
+  }
+
   // Auto Resize textarea
-  const autoResize = e => {
+  const autoResize = (e) => {
     ref.current.style.height = baseHeight
-    const scHeight = e.target.scrollHeight + 'px'
+    const scHeight = e.target.scrollHeight + "px"
     ref.current.style.height = scHeight
   }
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setContent(e.target.value)
   }
 
@@ -41,41 +46,41 @@ const TextEditor = ({
     setContent(content + emojiObject.emoji)
   }
 
-  const isContentEmpty = () => content === '' && mediaList.length === 0
+  const isContentEmpty = () => content === "" && mediaList.length === 0
 
   const handlePostComment = () => {
     if (isContentEmpty()) {
       return
     }
-    toast('', 'Your comment was sent.')
+    toast("", "Your comment was sent.")
   }
 
-  const handleFileUpload = e => {
+  const handleFileUpload = (e) => {
     let {
-      target: { files }
+      target: { files },
     } = e
     files = [...files]
 
     // Clear old files
-    fileDialogRef.current.value = ''
+    fileDialogRef.current.value = ""
 
     const newFiles = [...mediaList, ...files]
     // If old files length + new files length > 4
     // or contains both video and image
     // then discard
     const containVideo =
-      newFiles.filter(f => String(f.type).includes('video')).length > 0
+      newFiles.filter((f) => String(f.type).includes("video")).length > 0
     const containImage =
-      newFiles.filter(f => String(f.type).includes('image')).length > 0
+      newFiles.filter((f) => String(f.type).includes("image")).length > 0
 
     if (
       newFiles.length > 4 ||
       (containVideo && (containImage || newFiles.length > 1))
     ) {
       toast(
-        '',
-        'Please choose either 1 GIF or up to 4 photos.',
-        'w-[420px]',
+        "",
+        "Please choose either 1 GIF or up to 4 photos.",
+        "w-[420px]",
         null,
         <BiMessageSquareError />
       )
@@ -90,29 +95,35 @@ const TextEditor = ({
       <div className='flex'>
         <Link to='/profile' className='inline-block rounded-full'>
           <Avatar
-            Src={require('../img/Makima.jpg')}
+            Src={require("../img/Makima.jpg")}
             props={{
-              width: baseHeight
+              width: baseHeight,
             }}
           />
         </Link>
 
         {/* Editor and Media list */}
         <div className='flex-1 ml-2'>
-          <div className='relative outline-2 outline-lightBlue focus-within:outline rounded-2xl flex items-center'>
+          <div
+            className={classNames([
+              "relative outline-2 outline-lightBlue focus-within:outline flex items-center",
+              !smallAvatar ? "rounded-2xl" : "rounded-xl",
+            ])}
+          >
             {/* Markdown text handling. When edit, show textarea and hide Markdown text */}
             <textarea
               value={content}
               name='content'
               onChange={handleChange}
-              placeholder={placeholder ? placeholder : 'Share something...'}
+              placeholder={placeholder ? placeholder : "Share something..."}
               className={classNames([
-                'block w-full border-full outline-0 pl-4 py-[11px] text-normalText rounded-2xl bg-mainBackground overflow-hidden resize-none',
-                showMedia && showPostBtn ? 'pr-24' : 'pr-8'
+                "block w-full border-full outline-0 text-normalText rounded-2xl bg-mainBackground overflow-hidden resize-none pl-3",
+                showMedia && showPostBtn ? "pr-24" : "pr-8",
+                !smallAvatar ? "py-[11px] rounded-2xl" : "py-[7px] rounded-xl",
               ])}
               onKeyUp={autoResize}
               style={{
-                height: baseHeight
+                height: baseHeight,
               }}
               ref={ref}
             />
@@ -158,15 +169,15 @@ const TextEditor = ({
                 <div
                   className='absolute -top-[15px] left-1/2 -translate-x-1/2 border-8 z-10'
                   style={{
-                    borderColor: 'transparent transparent white transparent'
+                    borderColor: "transparent transparent white transparent",
                   }}
                 />
                 {showPicker && (
                   <EmojiPicker
                     onEmojiClick={onEmojiClick}
                     pickerStyle={{
-                      position: 'absolute',
-                      right: '-20px'
+                      position: "absolute",
+                      right: "-20px",
                     }}
                   />
                 )}
@@ -176,10 +187,10 @@ const TextEditor = ({
               {showPostBtn && (
                 <AiOutlineSend
                   className={classNames([
-                    'transition outline-none',
+                    "transition outline-none",
                     isContentEmpty()
-                      ? 'cursor-default text-disabledColor'
-                      : 'text-primaryColor hover:text-[#0864F1]'
+                      ? "cursor-default text-disabledColor"
+                      : "text-primaryColor hover:text-[#0864F1]",
                   ])}
                   data-tip='Post'
                   onClick={handlePostComment}

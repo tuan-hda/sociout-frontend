@@ -76,7 +76,7 @@ const Detail = () => {
       <Post type='detail' />
 
       {/* Comment list */}
-      <div className='-mt-1 mx-6 pb-6 space-y-2'>
+      <div className='-mt-2 mx-6 pb-6 space-y-2'>
         {comments.map((comment, index) => (
           <div key={index}>
             <Comment
@@ -87,20 +87,20 @@ const Detail = () => {
               replies={comment.replies}
               triggerShowReplies={() => triggerShowReplies(index)}
               showReplies={comment.showReplies}
-            />
-
-            {comment.showReplies &&
-              comment.replyList.map((reply, index) => (
-                <div key={index} className='ml-[56px] mb-1'>
-                  <Comment
-                    smallAvatar
-                    text={reply.text}
-                    mediaList={reply.mediaList}
-                    time={reply.time}
-                    author={reply.author}
-                  />
-                </div>
-              ))}
+            >
+              {comment.showReplies &&
+                comment.replyList.map((reply, index) => (
+                  <div key={index}>
+                    <Comment
+                      smallAvatar
+                      text={reply.text}
+                      mediaList={reply.mediaList}
+                      time={reply.time}
+                      author={reply.author}
+                    />
+                  </div>
+                ))}
+            </Comment>
           </div>
         ))}
       </div>

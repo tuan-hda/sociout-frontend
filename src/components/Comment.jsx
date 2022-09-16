@@ -1,24 +1,46 @@
 import classNames from "classnames"
 import React from "react"
 import { useState } from "react"
+import { AiFillHeart } from "react-icons/ai"
 import { BiHide } from "react-icons/bi"
 import { BsReply, BsThreeDots } from "react-icons/bs"
+import { FiChevronUp } from "react-icons/fi"
 import { Link } from "react-router-dom"
 import OptionModal from "./modals/OptionModal"
+import TextEditor from "./TextEditor"
 
-const Comment = ({
-  text,
-  mediaList,
-  author,
-  replies,
-  showReplies,
-  triggerShowReplies,
-  smallAvatar,
-}) => {
+const Comment = (props) => {
+  const {
+    text,
+    mediaList,
+    author,
+    replies,
+    showReplies,
+    triggerShowReplies,
+    smallAvatar,
+    children,
+  } = props
   const [showMore, setShowMore] = useState(false)
+  const [like, setLike] = useState(false)
+  const [likes, setLikes] = useState(5)
+
+  // States use for reply function
+  const [content, setContent] = useState()
+  const [replyMediaList, setReplyMediaList] = useState([])
+
+  // Like/Unlike handle
+  const triggerLike = () => {
+    if (like) {
+      setLike(false)
+      setLikes(likes - 1)
+    } else {
+      setLike(true)
+      setLikes(likes + 1)
+    }
+  }
 
   return (
-    <div className='relative'>
+    <div className='relative my-1'>
       {/* Person */}
       <div className='flex items-start min-w-0 gap-2'>
         {/* Avatar */}
@@ -39,7 +61,7 @@ const Comment = ({
         </div>
 
         {/* Comment, Name, Time */}
-        <div className='px-3 pb-2 pt-1 rounded-2xl bg-mainBackground'>
+        <div className='px-3 pb-2 pt-0.5 rounded-2xl bg-mainBackground relative min-w-[224px]'>
           <div className='flex items-center justify-between'>
             <Link
               to={"/@" + author.id}
@@ -70,12 +92,17 @@ const Comment = ({
             </div>
           </div>
 
-          <p className='text-normalText text-textColor relative'>
+          <div className='text-normalText text-textColor relative -mt-1'>
             {text}
-            <div>
-              <p className='hover:underline cursor-pointer'>153 likes</p>
+          </div>
+
+          {/* Likes count */}
+          {likes !== 0 && (
+            <div className='absolute h-4 bg-[#f3f3f3] rounded-xl right-1 -bottom-4 flex items-center gap-2 px-1 py-3 shadow-soft'>
+              <AiFillHeart className='text-loveColor' />{" "}
+              <span className='text-xs'>{likes}</span>
             </div>
-          </p>
+          )}
         </div>
       </div>
 
@@ -89,7 +116,15 @@ const Comment = ({
         <div className='flex items-center text-[13px] mt-1'>
           <div className='flex items-center font-medium'>
             <div className='w-10 text-left'>
-              <button className='hover:underline'>Like</button>
+              <button
+                className={classNames([
+                  "hover:underline",
+                  like && "text-loveColor",
+                ])}
+                onClick={triggerLike}
+              >
+                Like
+              </button>
             </div>
             <div className='w-10 text-left'>
               <button className='hover:underline'>Reply</button>
@@ -101,8 +136,16 @@ const Comment = ({
         {/* Replies */}
         {replies !== 0 && replies != null && (
           <div>
+            {/* Line */}
+            <div
+              className={classNames([
+                "border-l-2 border-b-2 rounded-bl-lg absolute top-12 left-5 w-7",
+                !showReplies ? "bottom-[10px]" : "bottom-[14px]",
+              ])}
+            />
+
             {/* Replies Count / Hide Replies */}
-            {!showReplies ? (
+            {!showReplies && (
               <div>
                 <button
                   className='text-[13px] font-medium hover:underline'
@@ -111,18 +154,31 @@ const Comment = ({
                   <BsReply className='inline-block mr-2 -mt-1' />
                   {replies} replies
                 </button>
-
-                {/* Line */}
-                <div className='border-l-2 border-b-2 rounded-bl-lg absolute top-12 bottom-[10px] left-5 w-7'></div>
               </div>
-            ) : (
-              <div>
+            )}
+
+            {children}
+
+            {showReplies && (
+              <div className='mb-3'>
                 <button
-                  className='text-[13px] font-medium hover:underline mb-1'
+                  className='text-[13px] font-medium hover:underline my-1 ml-[52px] flex items-center gap-1'
                   onClick={triggerShowReplies}
                 >
+                  <FiChevronUp />
                   Hide all replies
                 </button>
+
+                <TextEditor
+                  content={content}
+                  setContent={setContent}
+                  mediaList={replyMediaList}
+                  setMediaList={setReplyMediaList}
+                  showMedia
+                  showPostBtn
+                  smallAvatar
+                  placeholder='Add a reply'
+                />
               </div>
             )}
           </div>

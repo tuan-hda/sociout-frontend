@@ -63,7 +63,8 @@ module.exports = {
         lightBlue: '#80BEFC'
       },
       boxShadow: {
-        primary: '0 0 24px -4px rgba(0, 0, 0, 0.3)'
+        primary: '0 0 24px -4px rgba(0, 0, 0, 0.3)',
+        soft: '0 0 5px rgba(0, 0, 0, 0.2)'
       }
     }
   },
