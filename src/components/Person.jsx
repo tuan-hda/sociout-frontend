@@ -1,10 +1,10 @@
-import classNames from 'classnames'
-import React from 'react'
-import { useState } from 'react'
-import { BiUserPlus } from 'react-icons/bi'
-import { BsThreeDots } from 'react-icons/bs'
-import { Link, useNavigate } from 'react-router-dom'
-import OptionModal from './modals/OptionModal'
+import classNames from "classnames"
+import React from "react"
+import { useState } from "react"
+import { BiUserPlus } from "react-icons/bi"
+import { BsThreeDots } from "react-icons/bs"
+import { Link, useNavigate } from "react-router-dom"
+import OptionModal from "./modals/OptionModal"
 
 // Props:
 // - name         => Person's name
@@ -15,18 +15,44 @@ import OptionModal from './modals/OptionModal'
 // - underlineId  => underlineId when hover
 // - hideAddBtn   => Hide add friend button
 // - bio          => Person's bio
-// - leftAlignBio    => Left align the bio
-const Person = props => {
+// - leftAlignBio => Left align the bio
+// - clickableId  => Whether if id is clickable
+// - menuList
+// - isChatRoom   => Whether if this is a Chat room
+// - latestMsg    => Latest message of this chat room
+// - createdAt    => Latest message sent time
+// - read         => Whether if latest message is read
+const Person = (props) => {
+  const {
+    name,
+    time,
+    src,
+    id,
+    underline,
+    underlineId,
+    hideAddBtn,
+    bio,
+    leftAlignBio,
+    bigAvatar,
+    clickableId,
+    menuList,
+    isChatRoom,
+    latestMsg,
+    createdAt,
+    read,
+  } = props
+
   const [showMore, setShowMore] = useState(false)
   const navigate = useNavigate()
 
   const child = (
     <p
       className={classNames([
-        'font-semibold overflow-hidden text-ellipsis whitespace-nowrap text-normalText w-full hover:underline leading-4'
+        "font-semibold overflow-hidden text-ellipsis whitespace-nowrap text-normalText w-full leading-4",
+        underline && "hover:underline",
       ])}
     >
-      {props.name}
+      {name}
     </p>
   )
 
@@ -34,92 +60,130 @@ const Person = props => {
     <div>
       <div className='flex items-center'>
         {/* Avatar */}
-        {props.time ? (
+        {time ? (
           <Link
-            to={'/@' + props.id}
-            className='max-w-[40px] block w-10 float-left'
-            onMouseUp={e => e.stopPropagation()}
+            to={"/@" + id}
+            className='max-w-[40px] block float-left w-10 h-10'
+            onMouseUp={(e) => e.stopPropagation()}
           >
-            <img
-              src={props.src}
-              alt="Person's avatar"
-              className='w-10 h-10 rounded-full'
-            />
+            <img src={src} alt="Person's avatar" className='rounded-full' />
           </Link>
         ) : (
           <div>
             <img
-              src={props.src}
+              src={src}
               alt="Person's avatar"
-              className='w-10 h-10 rounded-full'
+              className={classNames([
+                "rounded-full",
+                !bigAvatar ? "w-10 h-10" : "w-11 h-11",
+              ])}
             />
           </div>
         )}
 
         {/* Name + Time / id */}
-        <div className='ml-2 flex-1 min-w-0 flex items-center justify-between gap-2'>
-          <div className='flex-1 min-w-0'>
-            {props.underline ? (
-              <Link className='w-full' to={'/@' + props.id}>
-                {child}
-              </Link>
-            ) : (
-              child
+        {!isChatRoom && (
+          <div className='ml-2 flex-1 min-w-0 flex items-center justify-between gap-2'>
+            <div className='flex-1 min-w-0'>
+              {/* Name */}
+              {underline ? (
+                <Link className='w-full' to={"/@" + id}>
+                  {child}
+                </Link>
+              ) : (
+                child
+              )}
+
+              {/* Time / ID / Latest message */}
+              <p
+                className={classNames([
+                  "text-idColor text-[13px] inline-block",
+                  underlineId && "hover:underline",
+                  clickableId && "cursor-pointer",
+                ])}
+                onClick={() => {
+                  if (clickableId) navigate("/@" + id)
+                }}
+              >
+                {time ? time : "@" + id}
+              </p>
+            </div>
+
+            {/* Add friend button   */}
+            {!hideAddBtn && (
+              <button className='w-10 h-10 flex items-center justify-center hover:bg-gray-300 transition rounded-full'>
+                <BiUserPlus className='fill-primaryColor text-xl' />
+              </button>
             )}
-            <p
-              className={classNames([
-                'text-idColor text-[13px] inline-block',
-                props.underlineId && 'hover:underline',
-                props.clickableId && 'cursor-pointer'
-              ])}
+
+            {/* More button */}
+            {time && (
+              <div className='relative'>
+                <div
+                  className={classNames(["p-2 button-hover rounded-full"])}
+                  onClick={() => setShowMore(true)}
+                  onMouseUp={(e) => e.stopPropagation()}
+                >
+                  <BsThreeDots />
+                </div>
+
+                {/* More modal */}
+                {menuList && (
+                  <OptionModal
+                    menuList={menuList}
+                    isShowing={showMore}
+                    setShowing={setShowMore}
+                  />
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Chat room */}
+        {isChatRoom && (
+          <div className='ml-2 flex-1 min-w-0 flex justify-between flex-col'>
+            {/* Name */}
+            {child}
+
+            {/* Latest message and Time */}
+            <div
+              className='text-[13px] flex gap-1'
               onClick={() => {
-                if (props.clickableId) navigate('/@' + props.id)
+                if (clickableId) navigate("/@" + id)
               }}
             >
-              {props.time ? props.time : '@' + props.id}
-            </p>
-          </div>
-
-          {/* Add friend button   */}
-          {!props.hideAddBtn && (
-            <button className='w-10 h-10 flex items-center justify-center hover:bg-gray-300 transition rounded-full'>
-              <BiUserPlus className='fill-primaryColor text-xl' />
-            </button>
-          )}
-
-          {/* More button */}
-          {props.time && (
-            <div className='relative'>
-              <div
-                className={classNames(['p-2 button-hover rounded-full'])}
-                onClick={() => setShowMore(true)}
-                onMouseUp={e => e.stopPropagation()}
+              <p
+                className={classNames([
+                  "overflow-hidden whitespace-nowrap text-ellipsis",
+                  read ? "text-idColor" : "font-medium",
+                ])}
               >
-                <BsThreeDots />
-              </div>
-
-              {/* More modal */}
-              {props.menuList && (
-                <OptionModal
-                  menuList={props.menuList}
-                  isShowing={showMore}
-                  setShowing={setShowMore}
-                />
-              )}
+                {latestMsg}
+              </p>
+              {"•"}
+              <span className='whitespace-nowrap text-idColor'>
+                {createdAt}
+              </span>
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
+        {/* Unread Message Notification */}
+        {isChatRoom && !read && (
+          <p className='w-2 h-2 rounded-full bg-primaryColor' />
+        )}
       </div>
 
       {/* Bio */}
-      {props.bio && (
+      {bio && (
         <div
           className={classNames([
-            'text-normalText text-textColor',
-            props.leftAlignBio ? 'mt-2' : 'ml-12 mt-1'
+            "text-normalText text-textColor",
+            leftAlignBio ? "mt-2" : "ml-12 mt-1",
           ])}
         >
-          {props.bio}
+          {bio}
         </div>
       )}
     </div>

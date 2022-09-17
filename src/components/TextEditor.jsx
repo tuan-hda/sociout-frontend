@@ -110,7 +110,7 @@ const TextEditor = ({
               !smallAvatar ? "rounded-2xl" : "rounded-xl",
             ])}
           >
-            {/* Markdown text handling. When edit, show textarea and hide Markdown text */}
+            {/* Content editable */}
             <textarea
               value={content}
               name='content'

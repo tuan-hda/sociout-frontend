@@ -1,32 +1,32 @@
-import React from 'react'
+import React from "react"
 import {
   Container,
   LeftContainer,
   RightContainer,
-  MiddleContainer
-} from './containers/index'
-import Logo from './Logo'
-import { FiSearch, FiLogOut, FiUser } from 'react-icons/fi'
-import Avatar from './Avatar'
-import ModalWrapper from './modals/ModalWrapper'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { logOutAction } from '../actions'
-import { useDispatch } from 'react-redux'
-import globalObject from './../utils/globalObject'
+  MiddleContainer,
+} from "./containers/index"
+import Logo from "./Logo"
+import { FiSearch, FiLogOut, FiUser } from "react-icons/fi"
+import Avatar from "./Avatar"
+import ModalWrapper from "./modals/ModalWrapper"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { logOutAction } from "../actions"
+import { useDispatch } from "react-redux"
+import globalObject from "./../utils/globalObject"
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false)
 
   const dispatch = useDispatch()
   const avatarProps = {
-    width: '36px'
+    width: "36px",
   }
 
   return (
     <div className='bg-white h-16 sticky top-0 z-20'>
       <Container>
-        <div className='flex items-center h-full justify-between'>
+        <div className='flex items-center h-full justify-between sm:gap-5 gap-2'>
           {/* Left */}
           <LeftContainer>
             <Logo />
@@ -49,7 +49,7 @@ const Header = () => {
             <div className='flex justify-end'>
               <button onClick={() => setShowMenu(true)}>
                 <Avatar
-                  Src={require('../img/Makima.jpg')}
+                  Src={require("../img/Makima.jpg")}
                   props={avatarProps}
                   text='Tuấn'
                 />
@@ -63,7 +63,7 @@ const Header = () => {
                   <div className='py-3 px-3 bg-white rounded-xl'>
                     <ul className='text-normalText'>
                       <Link
-                        to={'/@' + globalObject.id}
+                        to={"/@" + globalObject.id}
                         onClick={() => setShowMenu(false)}
                         className='py-3 px-3 button-hover rounded-xl flex items-center gap-3'
                       >

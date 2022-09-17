@@ -1,5 +1,7 @@
 import classNames from "classnames"
 import React from "react"
+import { useEffect } from "react"
+import { useRef } from "react"
 import { useState } from "react"
 import { AiFillHeart } from "react-icons/ai"
 import { BiHide } from "react-icons/bi"
@@ -27,6 +29,14 @@ const Comment = (props) => {
   // States use for reply function
   const [content, setContent] = useState()
   const [replyMediaList, setReplyMediaList] = useState([])
+
+  // Observe width of comment
+  const [width, setWidth] = useState(0)
+  const commentRef = useRef(null)
+  useEffect(() => {
+    setWidth(commentRef.current.clientWidth)
+    console.log(width)
+  })
 
   // Like/Unlike handle
   const triggerLike = () => {
@@ -61,7 +71,10 @@ const Comment = (props) => {
         </div>
 
         {/* Comment, Name, Time */}
-        <div className='px-3 pb-2 pt-0.5 rounded-2xl bg-mainBackground relative min-w-[224px]'>
+        <div
+          className='px-3 pb-2 pt-0.5 rounded-2xl bg-mainBackground relative'
+          ref={commentRef}
+        >
           <div className='flex items-center justify-between'>
             <Link
               to={"/@" + author.id}
@@ -96,10 +109,15 @@ const Comment = (props) => {
             {text}
           </div>
 
-          {/* Likes count */}
+          {/* Comment's like count */}
           {likes !== 0 && (
-            <div className='absolute h-4 bg-[#f3f3f3] rounded-xl right-1 -bottom-4 flex items-center gap-2 px-1 py-3 shadow-soft'>
-              <AiFillHeart className='text-loveColor' />{" "}
+            <div
+              className={classNames([
+                "absolute h-4 bg-[#f3f3f3] rounded-xl flex items-center gap-2 px-1 py-3 shadow-soft",
+                width > 224 ? "right-1 -bottom-4" : "-bottom-1 -right-6",
+              ])}
+            >
+              <AiFillHeart className='text-loveColor' />
               <span className='text-xs'>{likes}</span>
             </div>
           )}

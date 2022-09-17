@@ -1,15 +1,15 @@
-import React from 'react'
-import { useLayoutEffect } from 'react'
-import { Toaster } from 'react-hot-toast'
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import React from "react"
+import { useLayoutEffect } from "react"
+import { Toaster } from "react-hot-toast"
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import {
   Container,
   LeftContainer,
   MiddleContainer,
-  RightContainer
-} from './components/containers'
-import { Header, Navbar, SuggestionBar } from './components/index'
-import jwt from 'jwt-decode'
+  RightContainer,
+} from "./components/containers"
+import { Header, Navbar, SuggestionBar } from "./components/index"
+import jwt from "jwt-decode"
 import {
   Home,
   Login,
@@ -24,13 +24,13 @@ import {
   Messages,
   Notifications,
   Settings,
-  Detail
-} from './pages/index'
-import ReactTooltip from 'react-tooltip'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setUserAction } from './actions'
-import { getMeService } from './services'
+  Detail,
+} from "./pages/index"
+import ReactTooltip from "react-tooltip"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { setUserAction } from "./actions"
+import { getMeService } from "./services"
 
 // Scroll to top whenever navigate to other tab
 const Wrapper = ({ children }) => {
@@ -41,19 +41,20 @@ const Wrapper = ({ children }) => {
   return children
 }
 
-const excludePath = ['login', 'signup', 'recoverpassword']
+const excludePath = ["login", "signup", "recoverpassword"]
+const focusPath = ["messages"]
 
-const getHeader = location => {
+const getHeader = (location) => {
   if (!excludePath.includes(location.pathname.substring(1))) return <Header />
 }
 
-const SideBar = props => {
+const SideBar = (props) => {
   if (!excludePath.includes(props.location?.pathname.substring(1)))
     return (
       <div>
         <div className='h-5 sticky top-16 bg-mainBackground z-10' />
 
-        <div className='flex justify-between gap-2 relative'>
+        <div className='flex justify-between sm:gap-5 gap-2 relative'>
           <LeftContainer sticky>
             <Navbar />
           </LeftContainer>
@@ -61,9 +62,11 @@ const SideBar = props => {
           {/* Routes */}
           <MiddleContainer>{props.children}</MiddleContainer>
 
-          <RightContainer>
-            <SuggestionBar />
-          </RightContainer>
+          {!focusPath.includes(props.location?.pathname.substring(1)) && (
+            <RightContainer>
+              <SuggestionBar />
+            </RightContainer>
+          )}
         </div>
       </div>
     )
@@ -71,12 +74,12 @@ const SideBar = props => {
   return props.children
 }
 
-const token = localStorage.getItem('token')
+const token = localStorage.getItem("token")
 
 const App = () => {
   const location = useLocation()
   const dispatch = useDispatch()
-  const auth = useSelector(state => state.auth)
+  const auth = useSelector((state) => state.auth)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -84,10 +87,10 @@ const App = () => {
     if (token && !auth.user) {
       const decodedObj = jwt(token)
       getMeService(decodedObj.id)
-        .then(response =>
+        .then((response) =>
           dispatch(setUserAction({ ...decodedObj, ...response.data }))
         )
-        .catch(error => {
+        .catch((error) => {
           if (error.response) {
             console.log(error.response.status)
             console.log(error.response.headers)
@@ -97,7 +100,7 @@ const App = () => {
           }
         })
     } else {
-      navigate('/login')
+      navigate("/login")
     }
   }, [])
 
@@ -107,7 +110,7 @@ const App = () => {
       auth.user &&
       excludePath.includes(location.pathname.substring(1))
     ) {
-      navigate('/')
+      navigate("/")
     }
   }, [auth, navigate, location])
 
@@ -118,7 +121,7 @@ const App = () => {
       <Wrapper>
         <Container
           marginTop={
-            excludePath.includes(location.pathname.substring(1)) ? '' : ''
+            excludePath.includes(location.pathname.substring(1)) ? "" : ""
           }
           excludePath={excludePath}
         >
@@ -128,7 +131,7 @@ const App = () => {
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<SignUp />} />
               <Route path='/recoverpassword' element={<RecoverPassword />} />
-              <Route path={'/@:id/'} element={<Profile />}>
+              <Route path={"/@:id/"} element={<Profile />}>
                 <Route index element={<PostList />} />
                 <Route path='medias' element={<Medias />} />
                 <Route path='likes' element={<Likes />} />

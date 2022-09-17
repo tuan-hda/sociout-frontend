@@ -79,13 +79,13 @@ const Navbar = () => {
         <h2 className='font-bold text-lg hidden xl:block mb-2'>Menu</h2>
 
         {/* Navigation list */}
-        <ul className='xl:mt-0 -mt-4'>
+        <ul className='xl:mt-0 -mt-3'>
           {menu.map((item, index) => {
             return (
               <Link
                 to={getPath(item)}
                 key={index}
-                className='text-base -mx-1 px-1 py-3 md:py-4 md:-mx-3 md:px-4 block button-hover rounded-2xl'
+                className='text-base -mx-1 sm:mx-0 px-3 py-3 sm:py-4 md:py-4 md:px-4 md:-mx-3 block button-hover rounded-2xl'
               >
                 {item.title === currentPage ? (
                   <li className='font-semibold flex justify-center xl:justify-start items-center gap-4'>
@@ -110,14 +110,16 @@ const Navbar = () => {
 
         <div className='relative'>
           <div
-            className='-mx-2 mt-2 px-2 py-3 md:-mx-3 md:px-3 md:py-4 button-hover rounded-2xl'
+            className='-mx-2 sm:mx-0 mt-2 px-2 py-3 md:-mx-3 md:px-3 md:py-4 button-hover rounded-2xl md:block flex justify-center'
             onClick={() => setShowMenu(true)}
           >
-            <Avatar
-              Src={require("../img/Makima.jpg")}
-              props={{ width: "36px" }}
-              text='Tuấn'
-            />
+            <div className='w-9 md:w-auto'>
+              <Avatar
+                Src={require("../img/Makima.jpg")}
+                props={{ width: "36px" }}
+                text='Tuấn'
+              />
+            </div>
           </div>
 
           <ModalWrapper

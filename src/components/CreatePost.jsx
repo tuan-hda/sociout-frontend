@@ -1,17 +1,17 @@
-import React, { useRef } from 'react'
-import { HiOutlineHashtag } from 'react-icons/hi'
-import { MdOutlineImage } from 'react-icons/md'
-import { VscMention } from 'react-icons/vsc'
-import { FiChevronDown, FiCheck } from 'react-icons/fi'
-import { TiAttachment } from 'react-icons/ti'
-import { useState } from 'react'
-import ModalWrapper from './modals/ModalWrapper'
-import toast from '../utils/toast'
-import TextEditor from './TextEditor'
+import React, { useRef } from "react"
+import { HiOutlineHashtag } from "react-icons/hi"
+import { MdOutlineImage } from "react-icons/md"
+import { VscMention } from "react-icons/vsc"
+import { FiChevronDown, FiCheck } from "react-icons/fi"
+import { TiAttachment } from "react-icons/ti"
+import { useState } from "react"
+import ModalWrapper from "./modals/ModalWrapper"
+import toast from "../utils/toast"
+import TextEditor from "./TextEditor"
 
 const CreatePost = () => {
-  const [content, setContent] = useState('')
-  const [access, setAccess] = useState('Public')
+  const [content, setContent] = useState("")
+  const [access, setAccess] = useState("Public")
   const [mediaList, setMediaList] = useState([])
 
   // Modal
@@ -19,7 +19,7 @@ const CreatePost = () => {
 
   const fileDialogRef = useRef()
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault()
   }
 
@@ -27,34 +27,34 @@ const CreatePost = () => {
     setShowAccess(true)
   }
 
-  const changeAccess = item => {
+  const changeAccess = (item) => {
     setAccess(item)
     setShowAccess(false)
   }
 
-  const handleFileUpload = e => {
+  const handleFileUpload = (e) => {
     let {
-      target: { files }
+      target: { files },
     } = e
     files = [...files]
 
     // Clear old files
-    fileDialogRef.current.value = ''
+    fileDialogRef.current.value = ""
 
     const newFiles = [...mediaList, ...files]
     // If old files length + new files length > 4
     // or contains both video and image
     // then discard
     const containVideo =
-      newFiles.filter(f => String(f.type).includes('video')).length > 0
+      newFiles.filter((f) => String(f.type).includes("video")).length > 0
     const containImage =
-      newFiles.filter(f => String(f.type).includes('image')).length > 0
+      newFiles.filter((f) => String(f.type).includes("image")).length > 0
 
     if (
       newFiles.length > 4 ||
       (containVideo && (containImage || newFiles.length > 1))
     ) {
-      toast('', 'Please choose either 1 GIF or up to 4 photos.', 'w-[420px]')
+      toast("", "Please choose either 1 GIF or up to 4 photos.", "w-[420px]")
       return
     }
     setMediaList(newFiles)
@@ -62,7 +62,7 @@ const CreatePost = () => {
 
   const tools = [
     {
-      name: 'Media',
+      name: "Media",
       icon: <MdOutlineImage className='inline text-greenColor text-xl' />,
       inner: (
         <input
@@ -74,20 +74,24 @@ const CreatePost = () => {
           multiple
         />
       ),
-      onClick: () => fileDialogRef.current.click()
+      onClick: () => fileDialogRef.current.click(),
     },
     {
-      name: 'Attachment',
-      icon: <TiAttachment className='inline text-yellow-600 text-xl' />
+      name: "Attachment",
+      icon: <TiAttachment className='inline text-yellow-600 text-xl' />,
     },
     {
-      name: 'Hashtag',
-      icon: <HiOutlineHashtag className='inline text-red-600 text-xl' />
+      name: "Hashtag",
+      icon: <HiOutlineHashtag className='inline text-red-600 text-xl' />,
+      inner: null,
+      onClick: () => setContent(content + "#"),
     },
     {
-      name: 'Mention',
-      icon: <VscMention className='inline text-gray-600 text-xl' />
-    }
+      name: "Mention",
+      icon: <VscMention className='inline text-gray-600 text-xl' />,
+      inner: null,
+      onClick: () => setContent(content + "@"),
+    },
   ]
 
   return (
@@ -143,11 +147,11 @@ const CreatePost = () => {
               <h4 className='font-semibold text-normalText mb-4 text-left'>
                 Who can view your post?
               </h4>
-              {['Public', 'Friend', 'Private'].map((item, index) => (
+              {["Public", "Friend", "Private"].map((item, index) => (
                 <div
                   key={index}
                   className={`p-3 -mx-3 flex justify-between items-center ${
-                    item === access ? 'font-semibold text-primaryColor' : ''
+                    item === access ? "font-semibold text-primaryColor" : ""
                   } button-hover rounded-2xl`}
                   onClick={() => changeAccess(item)}
                 >
@@ -165,11 +169,11 @@ const CreatePost = () => {
       {/* Post button */}
       <button
         type='submit'
-        disabled={content === ''}
+        disabled={content === ""}
         className={`flex items-center justify-center h-9 mt-5 text-center text-[15px] rounded-lg ${
-          content !== ''
-            ? 'bg-primaryColor text-white font-medium hover:opacity-90 '
-            : 'bg-gray-300 text-gray-400 cursor-default'
+          content !== ""
+            ? "bg-primaryColor text-white font-medium hover:opacity-90 "
+            : "bg-gray-300 text-gray-400 cursor-default"
         } transition w-full`}
       >
         Post
