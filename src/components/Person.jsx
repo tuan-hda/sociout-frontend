@@ -69,13 +69,13 @@ const Person = (props) => {
             <img src={src} alt="Person's avatar" className='rounded-full' />
           </Link>
         ) : (
-          <div>
+          <div className='border-[#eee] border-[1px] rounded-full'>
             <img
               src={src}
               alt="Person's avatar"
               className={classNames([
                 "rounded-full",
-                !bigAvatar ? "w-10 h-10" : "w-11 h-11",
+                !bigAvatar ? "w-10 h-10" : "w-12 h-12",
               ])}
             />
           </div>

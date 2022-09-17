@@ -2,6 +2,10 @@ import classNames from "classnames"
 import React from "react"
 import { useState } from "react"
 import { FiSearch } from "react-icons/fi"
+import {
+  IoMdInformationCircle,
+  IoMdInformationCircleOutline,
+} from "react-icons/io"
 import { IoClose } from "react-icons/io5"
 import { Person } from "../components"
 
@@ -94,16 +98,18 @@ const data = [
 
 const Messages = () => {
   const [showSearch, setShowSearch] = useState(false)
+  const [currChatRoom, setCurrChatRoom] = useState(0)
+  const [showInformation, setShowInformation] = useState(false)
 
   return (
     <div
-      className={classNames(["flex justify-between gap-2"])}
+      className='flex justify-between gap-2'
       style={{
         height: window.innerHeight - 100,
       }}
     >
       {/* Chat room list */}
-      <div className='bg-white p-6 rounded-xl w-80'>
+      <div className='bg-white px-6 py-4 rounded-xl w-80'>
         {!showSearch ? (
           <div className='flex items-center justify-between -my-2'>
             <h2 className='font-bold text-lg sticky top-0 bg-white py-2'>
@@ -136,8 +142,14 @@ const Messages = () => {
         <div className='-mx-6 px-6 mt-4 overflow-auto h-[calc(100%-20px)]'>
           {data.map((chatRoom, index) => (
             <div
-              className='button-hover px-4 py-3 rounded-2xl -mx-4'
+              className={classNames([
+                "px-4 py-3 rounded-2xl -mx-4 cursor-pointer transition",
+                index === currChatRoom
+                  ? "bg-lightBackground bg-opacity-70 hover:bg-lightBackground"
+                  : "hover:bg-mainBackground",
+              ])}
               key={index}
+              onClick={() => setCurrChatRoom(index)}
             >
               <Person
                 hideAddBtn
@@ -156,7 +168,32 @@ const Messages = () => {
       </div>
 
       {/* Messages */}
-      <div className='bg-white p-6 rounded-xl flex-1'>a</div>
+      <div className='bg-white py-4 px-4 rounded-xl flex-1'>
+        {/* Chat room header (Name, Avatar) */}
+        <header className='flex items-center justify-between'>
+          <div className='flex items-center'>
+            <div className='border-[#eee] border-[1px] rounded-full'>
+              <img
+                src={require("../img/Amelia.jpg")}
+                alt='Amelia Avatar'
+                className='rounded-full w-9 h-9'
+              />
+            </div>
+            <h3 className='font-bold text-lg ml-2'>Amelia Waston</h3>
+          </div>
+
+          <button
+            className='button-hover p-1 -mr-1 rounded-full'
+            onClick={() => setShowInformation(!showInformation)}
+          >
+            {!showInformation ? (
+              <IoMdInformationCircleOutline className='text-2xl' />
+            ) : (
+              <IoMdInformationCircle className='text-2xl text-primaryColor' />
+            )}
+          </button>
+        </header>
+      </div>
     </div>
   )
 }
