@@ -10,7 +10,7 @@ import {
 import { IoClose } from "react-icons/io5"
 import { MdOutlineImage } from "react-icons/md"
 import { Person } from "../components"
-import ModalWrapper from "../components/modals/ModalWrapper"
+import ConfirmModal from "../components/modals/ConfirmModal"
 
 const data = [
   {
@@ -442,7 +442,7 @@ const Messages = () => {
       {/* Messages */}
       <div className='bg-white p-4 rounded-xl flex flex-col flex-1 relative'>
         {/* Chat room header (Name, Avatar) */}
-        <header className='flex items-center justify-between w-full -mx-4 px-4 top-0 h-16 bg-white absolute backdrop-blur bg-opacity-0'>
+        <header className='flex items-center justify-between w-full -mx-4 px-4 top-0 h-16 bg-white absolute backdrop-blur-lg bg-opacity-0 shadow-sm'>
           <div className='flex items-center'>
             <div className='border-[#eee] border-[1px] rounded-full'>
               <img
@@ -470,7 +470,7 @@ const Messages = () => {
         {/* Message list */}
         <div className='flex-1 flex flex-col gap-2 overflow-auto -mx-4 px-4'>
           {/* Holder */}
-          <div className='min-h-[40px]' />
+          <div className='min-h-[44px]' />
 
           {messageList.map(
             (
@@ -519,9 +519,9 @@ const Messages = () => {
                     <button
                       className='p-[9px] rounded-full button-hover group-hover:opacity-100 group-hover:pointer-events-auto opacity-0 pointer-events-none'
                       data-tip='Undo message'
-                      onClick={() => setShowModal(false)}
+                      onClick={() => setShowModal(true)}
                     >
-                      <AiFillDelete className='text-black' />
+                      <AiFillDelete className='text-gray-700' />
                     </button>
                   </div>
                 </div>
@@ -550,6 +550,13 @@ const Messages = () => {
           </button>
         </div>
       </div>
+
+      {/* Confirm Modal */}
+      <ConfirmModal
+        isShowing={showModal}
+        setShowing={setShowModal}
+        text='Are you sure you want to undo this message?'
+      />
     </div>
   )
 }

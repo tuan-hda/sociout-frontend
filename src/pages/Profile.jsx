@@ -1,27 +1,27 @@
-import React, { useRef, useState, useEffect } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
-import 'react-lazy-load-image-component/src/effects/blur.css'
-import { BsThreeDots, BsLink45Deg } from 'react-icons/bs'
-import { IoLocationOutline, IoClose, IoArrowBack } from 'react-icons/io5'
-import { FiEdit2 } from 'react-icons/fi'
+import React, { useRef, useState, useEffect } from "react"
+import { Link, Outlet, useNavigate } from "react-router-dom"
+import { LazyLoadImage } from "react-lazy-load-image-component"
+import "react-lazy-load-image-component/src/effects/blur.css"
+import { BsThreeDots, BsLink45Deg } from "react-icons/bs"
+import { IoLocationOutline, IoClose, IoArrowBack } from "react-icons/io5"
+import { FiEdit2 } from "react-icons/fi"
 import {
   AiOutlineCalendar,
   AiOutlineCamera,
-  AiOutlineDelete
-} from 'react-icons/ai'
-import { BiLink } from 'react-icons/bi'
-import { RiUserUnfollowLine } from 'react-icons/ri'
+  AiOutlineDelete,
+} from "react-icons/ai"
+import { BiLink } from "react-icons/bi"
+import { RiUserUnfollowLine } from "react-icons/ri"
 
-import classNames from 'classnames'
-import globalObject from '../utils/globalObject'
-import ModalWrapper from './../components/modals/ModalWrapper'
-import defaultCover from '../img/default-cover.jpg'
-import copyToClipboard from './../utils/copyToClipboard'
-import { Navigation, Person, TextField } from '../components'
-import OptionModal from '../components/modals/OptionModal'
-import { MdBlock, MdReport } from 'react-icons/md'
-import ReactTooltip from 'react-tooltip'
+import classNames from "classnames"
+import globalObject from "../utils/globalObject"
+import ModalWrapper from "./../components/modals/ModalWrapper"
+import defaultCover from "../img/default-cover.jpg"
+import copyToClipboard from "./../utils/copyToClipboard"
+import { Navigation, Person, TextField } from "../components"
+import OptionModal from "../components/modals/OptionModal"
+import { MdBlock, MdReport } from "react-icons/md"
+import ReactTooltip from "react-tooltip"
 
 const EditButton = ({ className, onClick, removed, dataTip }) => {
   return (
@@ -29,8 +29,8 @@ const EditButton = ({ className, onClick, removed, dataTip }) => {
       onClick={onClick}
       data-tip={dataTip}
       className={classNames([
-        'w-10 h-10 flex items-center justify-center bg-gray-700 bg-opacity-80 hover:opacity-70 rounded-full transition absolute z-10',
-        className
+        "w-10 h-10 flex items-center justify-center bg-gray-700 bg-opacity-80 hover:opacity-70 rounded-full transition absolute z-10",
+        className,
       ])}
     >
       {!removed ? <AiOutlineCamera /> : <AiOutlineDelete />}
@@ -43,9 +43,9 @@ const Cover = ({ src, roundedTop, edit, editInfo, setEditInfo }) => {
 
   if (!editInfo) editInfo = {}
 
-  const onUploadCover = e => {
+  const onUploadCover = (e) => {
     const {
-      target: { files }
+      target: { files },
     } = e
     setEditInfo({ ...editInfo, cover: URL.createObjectURL(files[0]) })
   }
@@ -53,8 +53,8 @@ const Cover = ({ src, roundedTop, edit, editInfo, setEditInfo }) => {
   return (
     <div
       className={classNames([
-        'relative flex items-center justify-center aspect-[3] overflow-hidden',
-        roundedTop && 'rounded-tl-xl rounded-tr-xl'
+        "relative flex items-center justify-center aspect-[3] overflow-hidden",
+        roundedTop && "rounded-tl-xl rounded-tr-xl",
       ])}
     >
       <LazyLoadImage
@@ -62,8 +62,8 @@ const Cover = ({ src, roundedTop, edit, editInfo, setEditInfo }) => {
         alt='Profile Bg'
         effect='blur'
         style={{
-          objectFit: 'cover',
-          width: '100%'
+          objectFit: "cover",
+          width: "100%",
         }}
         wrapperClassName='w-full'
       />
@@ -91,9 +91,9 @@ const ProfileAvatar = ({ src, edit, editInfo, setEditInfo }) => {
 
   if (!editInfo) editInfo = {}
 
-  const onUploadAvatar = e => {
+  const onUploadAvatar = (e) => {
     const {
-      target: { files }
+      target: { files },
     } = e
 
     setEditInfo({ ...editInfo, avatar: URL.createObjectURL(files[0]) })
@@ -107,14 +107,14 @@ const ProfileAvatar = ({ src, edit, editInfo, setEditInfo }) => {
             ? editInfo.avatar
             : src
             ? src
-            : 'https://tleliteracy.com/wp-content/uploads/2017/02/default-avatar.png'
+            : "https://tleliteracy.com/wp-content/uploads/2017/02/default-avatar.png"
         }
         alt='Profile Ava'
         effect='blur'
         wrapperClassName='border-4 border-white absolute w-full aspect-square rounded-full overflow-hidden bottom-0 translate-y-1/2'
         style={{
-          objectFit: 'cover',
-          height: '100%'
+          objectFit: "cover",
+          height: "100%",
         }}
       />
 
@@ -147,19 +147,19 @@ const Profile = () => {
   const navigate = useNavigate()
 
   const pathname = window.location.pathname
-  const name = 'Hoàng Đình Anh Tuấn'
+  const name = "Hoàng Đình Anh Tuấn"
 
   useEffect(() => {
     setProfile({
       avatar:
-        'https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg',
+        "https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg",
       cover:
-        'https://pbs.twimg.com/profile_banners/1283653858510598144/1649185576/1500x500'
+        "https://pbs.twimg.com/profile_banners/1283653858510598144/1649185576/1500x500",
     })
 
     // get profile id
     const tempPath = window.location.pathname
-    const lastSlash = tempPath.lastIndexOf('/')
+    const lastSlash = tempPath.lastIndexOf("/")
     let res
     if (lastSlash === 0) res = tempPath.substring(1)
     else res = tempPath.substring(1, lastSlash)
@@ -167,15 +167,15 @@ const Profile = () => {
   }, [])
 
   const onSave = () => {
-    console.log('Saved')
+    console.log("Saved")
     setShowEditProfile(false)
     setEditInfo({})
   }
 
   if (
-    pathname === '/' + id + '/followers' ||
-    pathname === '/' + id + '/following' ||
-    pathname === '/' + id + '/friends'
+    pathname === "/" + id + "/followers" ||
+    pathname === "/" + id + "/following" ||
+    pathname === "/" + id + "/friends"
   )
     return (
       <div>
@@ -193,7 +193,7 @@ const Profile = () => {
             <div
               className='button-hover rounded-full p-2 text-xl'
               data-tip='Go back'
-              onClick={() => navigate('/@' + globalObject.id)}
+              onClick={() => navigate("/@" + globalObject.id)}
             >
               <IoArrowBack />
             </div>
@@ -202,9 +202,9 @@ const Profile = () => {
           {/* Navigation */}
           <Navigation
             menuList={[
-              ['Friends', '/' + id + '/friends'],
-              ['Followers', '/' + id + '/followers'],
-              ['Following', '/' + id + '/following']
+              ["Friends", "/" + id + "/friends"],
+              ["Followers", "/" + id + "/followers"],
+              ["Following", "/" + id + "/following"],
             ]}
             className='text-normalText pt-3'
           />
@@ -244,25 +244,25 @@ const Profile = () => {
                 <p className='flex items-center'>
                   <BiLink className='text-lg mr-3' /> Copy link to profile
                 </p>,
-                '',
-                () => copyToClipboard(window.location.href)
+                "",
+                () => copyToClipboard(window.location.href),
               ],
               [
                 <p className='flex items-center'>
                   <RiUserUnfollowLine className='text-lg mr-3' /> Unfollow {id}
-                </p>
+                </p>,
               ],
               [
                 <p className='flex items-center'>
                   <MdBlock className='text-lg mr-3' /> Block {id}
-                </p>
+                </p>,
               ],
               [
                 <p className='flex items-center'>
                   <MdReport className='text-lg mr-3' /> Report {id}
                 </p>,
-                'text-errorColor'
-              ]
+                "text-errorColor",
+              ],
             ]}
           />
         </div>
@@ -317,7 +317,7 @@ const Profile = () => {
               <div className='mt-[calc(16px+12.5%)] text-left text-normalText px-1'>
                 {/* Name */}
                 <div className='flex items-center justify-between gap-4'>
-                  {['First name', 'Last name'].map((children, index) => (
+                  {["First name", "Last name"].map((children, index) => (
                     <div className='flex-1' key={index}>
                       <p className='font-semibold'>{children}</p>
 
@@ -342,7 +342,7 @@ const Profile = () => {
                 </div>
 
                 {/* Location & Website */}
-                {['Location', 'Website', 'Date of birth'].map(
+                {["Location", "Website", "Date of birth"].map(
                   (children, index) => (
                     <div className='mt-4' key={index}>
                       <p className='font-semibold'>{children}</p>
@@ -409,12 +409,12 @@ const Profile = () => {
         {/* Friends, Following & Followers */}
         <div className='text-normalText text-textColor flex items-center gap-6 mt-3'>
           {[
-            ['Friends', 'friends', 300],
-            ['Followers', 'followers', 476],
-            ['Following', 'following', '1.3M']
+            ["Friends", "friends", 300],
+            ["Followers", "followers", 476],
+            ["Following", "following", "1.3M"],
           ].map(([title, path, num], index) => (
             <Link
-              to={'/' + id + '/' + path}
+              to={"/" + id + "/" + path}
               className='hover:underline'
               key={index}
             >
@@ -427,10 +427,10 @@ const Profile = () => {
       {/* Navigation */}
       <Navigation
         menuList={[
-          ['Posts', '/' + id],
-          ['Medias', '/' + id + '/medias'],
-          ['Likes', '/' + id + '/likes'],
-          ['Replies', '/' + id + '/replies']
+          ["Posts", "/" + id],
+          ["Medias", "/" + id + "/medias"],
+          ["Likes", "/" + id + "/likes"],
+          ["Replies", "/" + id + "/replies"],
         ]}
         className='text-normalText pt-3'
       />

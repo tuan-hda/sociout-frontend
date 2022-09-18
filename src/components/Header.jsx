@@ -24,7 +24,7 @@ const Header = () => {
   }
 
   return (
-    <div className='bg-white h-16 sticky top-0'>
+    <div className='bg-white h-16 sticky top-0 z-10'>
       <Container>
         <div className='flex items-center h-full justify-between sm:gap-5 gap-2'>
           {/* Left */}

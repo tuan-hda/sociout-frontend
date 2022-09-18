@@ -3,7 +3,7 @@ import { Post } from "../components"
 
 const PostList = () => {
   return (
-    <div className='space-y-4 relative -z-10'>
+    <div className='space-y-4 relative'>
       <Post />
       <Post />
       <Post />

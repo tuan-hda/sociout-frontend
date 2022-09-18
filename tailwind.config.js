@@ -13,6 +13,8 @@ module.exports = {
         primaryColor: '#1A86F1',
         idColor: '#536471',
         mainBackground: '#f5f5f5',
+        hoverBackground2: '#e4e4e4',
+        hoverBackground1: '#0975e0',
         lightBackground: '#d1e5f5',
         textColor: '#333',
         linkColor: '#1d9bf0',
