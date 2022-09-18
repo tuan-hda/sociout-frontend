@@ -1,6 +1,6 @@
-import classNames from 'classnames'
-import React from 'react'
-import ModalWrapper from './ModalWrapper'
+import classNames from "classnames"
+import React from "react"
+import ModalWrapper from "./ModalWrapper"
 
 const OptionModal = ({ isShowing, setShowing, menuList }) => {
   return (
@@ -11,11 +11,11 @@ const OptionModal = ({ isShowing, setShowing, menuList }) => {
       right='0'
     >
       <ul className='text-normalText p-3'>
-        {menuList.map(([children, classname, onClick], index) => (
+        {menuList.map(([children, className, onClick], index) => (
           <li
             className={classNames([
-              'p-3 button-hover rounded-xl whitespace-nowrap mr-1',
-              classname ? classname : 'text-textColor'
+              "p-3 button-hover rounded-xl whitespace-nowrap mr-1",
+              className ? className : "text-textColor",
             ])}
             key={index}
             onClick={onClick}

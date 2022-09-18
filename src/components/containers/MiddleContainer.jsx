@@ -14,7 +14,7 @@ const MiddleContainer = ({ children }) => {
   return (
     <div
       className={classNames([
-        "flex-1 min-w-[100px] z-0",
+        "flex-1 min-w-[100px]",
         !/^\/messages/.test(pathname) ? "max-w-main" : "max-w-full",
       ])}
     >

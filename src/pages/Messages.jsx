@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import React from "react"
 import { useState } from "react"
-import { AiOutlineSend } from "react-icons/ai"
+import { AiFillDelete, AiOutlineSend } from "react-icons/ai"
 import { FiSearch } from "react-icons/fi"
 import {
   IoMdInformationCircle,
@@ -10,6 +10,7 @@ import {
 import { IoClose } from "react-icons/io5"
 import { MdOutlineImage } from "react-icons/md"
 import { Person } from "../components"
+import ModalWrapper from "../components/modals/ModalWrapper"
 
 const data = [
   {
@@ -106,23 +107,277 @@ const data = [
 const messageList = [
   {
     id: "1",
-    message: "ABC",
-    authorId: "12",
+    message: "Hello",
+    authorId: "1",
     authorName: "Amelia",
-    updatedAt: "12:23 PM",
+    createdAt: "12:23 PM",
+    mediaList: [],
+  },
+  {
+    id: "2",
+    message: "Glad to meet you",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:24 PM",
+    mediaList: [],
+  },
+  {
+    id: "3",
+    message: "ABC",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:25 PM",
+    mediaList: [],
+  },
+  {
+    id: "4",
+    message: "IDK",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:26 PM",
+    mediaList: [],
+  },
+  {
+    id: "1",
+    message: "Hello",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:23 PM",
+    mediaList: [],
+  },
+  {
+    id: "2",
+    message: "Glad to meet you",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:24 PM",
+    mediaList: [],
+  },
+  {
+    id: "3",
+    message: "ABC",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:25 PM",
+    mediaList: [],
+  },
+  {
+    id: "4",
+    message: "IDK",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:26 PM",
+    mediaList: [],
+  },
+  {
+    id: "1",
+    message: "Hello",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:23 PM",
+    mediaList: [],
+  },
+  {
+    id: "2",
+    message: "Glad to meet you",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:24 PM",
+    mediaList: [],
+  },
+  {
+    id: "3",
+    message: "ABC",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:25 PM",
+    mediaList: [],
+  },
+  {
+    id: "4",
+    message: "IDK",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:26 PM",
+    mediaList: [],
+  },
+  {
+    id: "1",
+    message: "Hello",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:23 PM",
+    mediaList: [],
+  },
+  {
+    id: "2",
+    message: "Glad to meet you",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:24 PM",
+    mediaList: [],
+  },
+  {
+    id: "3",
+    message: "ABC",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:25 PM",
+    mediaList: [],
+  },
+  {
+    id: "4",
+    message: "IDK",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:26 PM",
+    mediaList: [],
+  },
+  {
+    id: "1",
+    message: "Hello",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:23 PM",
+    mediaList: [],
+  },
+  {
+    id: "2",
+    message: "Glad to meet you",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:24 PM",
+    mediaList: [],
+  },
+  {
+    id: "3",
+    message: "ABC",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:25 PM",
+    mediaList: [],
+  },
+  {
+    id: "4",
+    message: "IDK",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:26 PM",
+    mediaList: [],
+  },
+  {
+    id: "1",
+    message: "Hello",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:23 PM",
+    mediaList: [],
+  },
+  {
+    id: "2",
+    message: "Glad to meet you",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:24 PM",
+    mediaList: [],
+  },
+  {
+    id: "3",
+    message: "ABC",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:25 PM",
+    mediaList: [],
+  },
+  {
+    id: "4",
+    message: "IDK",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:26 PM",
+    mediaList: [],
+  },
+  {
+    id: "1",
+    message: "Hello",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:23 PM",
+    mediaList: [],
+  },
+  {
+    id: "2",
+    message: "Glad to meet you",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:24 PM",
+    mediaList: [],
+  },
+  {
+    id: "3",
+    message: "ABC",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:25 PM",
+    mediaList: [],
+  },
+  {
+    id: "4",
+    message: "IDK",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:26 PM",
+    mediaList: [],
+  },
+  {
+    id: "1",
+    message: "Hello",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:23 PM",
+    mediaList: [],
+  },
+  {
+    id: "2",
+    message: "Glad to meet you",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:24 PM",
+    mediaList: [],
+  },
+  {
+    id: "3",
+    message: "ABC",
+    authorId: "1",
+    authorName: "Amelia",
+    createdAt: "12:25 PM",
+    mediaList: [],
+  },
+  {
+    id: "4",
+    message: "IDK",
+    authorId: "2",
+    authorName: "Tuan",
+    createdAt: "12:26 PM",
+    mediaList: [],
   },
 ]
+
+const user = {
+  id: "2",
+}
 
 const Messages = () => {
   const [showSearch, setShowSearch] = useState(false)
   const [currChatRoom, setCurrChatRoom] = useState(0)
   const [showInformation, setShowInformation] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   return (
     <div
       className='flex justify-between gap-2'
       style={{
-        height: window.innerHeight - 100,
+        height: window.innerHeight - 102,
       }}
     >
       {/* Chat room list */}
@@ -185,9 +440,9 @@ const Messages = () => {
       </div>
 
       {/* Messages */}
-      <div className='bg-white py-4 px-4 rounded-xl flex-1 flex flex-col'>
+      <div className='bg-white p-4 rounded-xl flex flex-col flex-1 relative'>
         {/* Chat room header (Name, Avatar) */}
-        <header className='flex items-center justify-between'>
+        <header className='flex items-center justify-between w-full -mx-4 px-4 top-0 h-16 bg-white absolute backdrop-blur bg-opacity-0'>
           <div className='flex items-center'>
             <div className='border-[#eee] border-[1px] rounded-full'>
               <img
@@ -199,7 +454,7 @@ const Messages = () => {
             <h3 className='font-bold text-lg ml-2'>Amelia Waston</h3>
           </div>
 
-          {/* Search */}
+          {/* Information */}
           <button
             className='button-hover p-1 -mr-1 rounded-full'
             onClick={() => setShowInformation(!showInformation)}
@@ -213,10 +468,70 @@ const Messages = () => {
         </header>
 
         {/* Message list */}
-        <div className='flex-1'></div>
+        <div className='flex-1 flex flex-col gap-2 overflow-auto -mx-4 px-4'>
+          {/* Holder */}
+          <div className='min-h-[40px]' />
+
+          {messageList.map(
+            (
+              {
+                id,
+                authorId,
+                authorName,
+                createdAt,
+                message,
+                mediaList,
+              } = message,
+              index
+            ) => {
+              return (
+                <div>
+                  {/* Time mark */}
+                  {index === 0 && (
+                    <div className='w-full flex-wrap text-xs text-gray-600 my-1 text-center'>
+                      {createdAt}
+                    </div>
+                  )}
+
+                  <div
+                    className={classNames([
+                      "flex items-center group w-full gap-2",
+                      authorId === user.id
+                        ? "self-end flex-row-reverse"
+                        : "self-start",
+                    ])}
+                  >
+                    {/* Message */}
+                    <div
+                      key={index}
+                      className={classNames([
+                        "rounded-full w-fit py-2 px-3 text-normalText",
+                        authorId === user.id
+                          ? "bg-linkColor text-white"
+                          : "bg-mainBackground text-textColor",
+                      ])}
+                      data-tip={createdAt}
+                    >
+                      {message}
+                    </div>
+
+                    {/* Undo message button */}
+                    <button
+                      className='p-[9px] rounded-full button-hover group-hover:opacity-100 group-hover:pointer-events-auto opacity-0 pointer-events-none'
+                      data-tip='Undo message'
+                      onClick={() => setShowModal(false)}
+                    >
+                      <AiFillDelete className='text-black' />
+                    </button>
+                  </div>
+                </div>
+              )
+            }
+          )}
+        </div>
 
         {/* Message input */}
-        <div className='flex items-center gap-2 text-normalText -mx-2'>
+        <div className='flex items-center gap-2 text-normalText -mx-2 -mb-4 h-14'>
           {/* Media upload btn */}
           <button className='rounded-full button-hover p-2'>
             <MdOutlineImage className='text-primaryColor text-xl' />

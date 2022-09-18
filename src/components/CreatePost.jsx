@@ -95,7 +95,10 @@ const CreatePost = () => {
   ]
 
   return (
-    <form className='rounded-xl bg-white p-6' onSubmit={onSubmit}>
+    <form
+      className='rounded-xl bg-white p-6 relative -z-10'
+      onSubmit={onSubmit}
+    >
       {/* Textarea */}
       <TextEditor
         content={content}

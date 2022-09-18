@@ -20,7 +20,7 @@ import OptionModal from "./modals/OptionModal"
 // - menuList
 // - isChatRoom   => Whether if this is a Chat room
 // - latestMsg    => Latest message of this chat room
-// - createdAt    => Latest message sent time
+// - updatedAt    => Latest message sent time
 // - read         => Whether if latest message is read
 const Person = (props) => {
   const {
@@ -38,7 +38,7 @@ const Person = (props) => {
     menuList,
     isChatRoom,
     latestMsg,
-    createdAt,
+    updatedAt,
     read,
   } = props
 
@@ -163,7 +163,7 @@ const Person = (props) => {
               </p>
               {"•"}
               <span className='whitespace-nowrap text-idColor'>
-                {createdAt}
+                {updatedAt}
               </span>
             </div>
           </div>
