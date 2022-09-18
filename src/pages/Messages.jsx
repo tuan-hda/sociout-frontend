@@ -1,12 +1,14 @@
 import classNames from "classnames"
 import React from "react"
 import { useState } from "react"
+import { AiOutlineSend } from "react-icons/ai"
 import { FiSearch } from "react-icons/fi"
 import {
   IoMdInformationCircle,
   IoMdInformationCircleOutline,
 } from "react-icons/io"
 import { IoClose } from "react-icons/io5"
+import { MdOutlineImage } from "react-icons/md"
 import { Person } from "../components"
 
 const data = [
@@ -15,84 +17,99 @@ const data = [
     name: "Makima",
     id: "watsonameliaEN",
     latestMsg: "T la thang ben trai",
-    createdAt: "22 mins",
+    createdAt: "1/9/2022 13:54 PM",
+    updatedAt: "22 mins",
   },
   {
     src: require("../img/Mori.jpg"),
     name: "Mori Calliope💀holoEN",
     id: "watsonameliaEN",
     latestMsg: "T la thang ben phai",
-    createdAt: "22 mins",
+    createdAt: "1/9/2022 13:54 PM",
+    updatedAt: "22 mins",
   },
   {
     src: require("../img/Marine.jpg"),
     name: "宝鐘マリン🏴‍☠️＠新曲聞いてください@ホロライブ3期生",
     id: "watsonameliaEN",
     latestMsg: "T la thang o giua may A A  As fawejfka wjekfj",
-    createdAt: "22 mins",
+    createdAt: "1/9/2022 13:54 PM",
+    updatedAt: "22 mins",
   },
   {
     src: require("../img/Gura.jpg"),
     name: "Gawr Gura",
     id: "watsonameliaEN",
     latestMsg: "A Hoang dep trai",
-    createdAt: "22 mins",
+    createdAt: "1/9/2022 13:54 PM",
+    updatedAt: "22 mins",
   },
   {
     src: require("../img/Yagoo.jpg"),
     name: "YAGOO / Motoaki Tanigo",
     id: "watsonameliaEN",
     latestMsg: "ABCD",
-    createdAt: "1 day",
+    createdAt: "1/9/2022 13:54 PM",
+    updatedAt: "1 day",
   },
   {
     src: require("../img/Amelia.jpg"),
     name: "Watson Amelia🔎holoEN",
     id: "watsonameliaEN",
     latestMsg: "DXC",
-    createdAt: "12 hours",
+    updatedAt: "12 hours",
   },
   {
     src: require("../img/Makima.jpg"),
     name: "Makima",
     id: "watsonameliaEN",
     latestMsg: "T la thang ben trai",
-    createdAt: "22 mins",
+    updatedAt: "22 mins",
   },
   {
     src: require("../img/Mori.jpg"),
     name: "Mori Calliope💀holoEN",
     id: "watsonameliaEN",
     latestMsg: "T la thang ben phai",
-    createdAt: "22 mins",
+    updatedAt: "22 mins",
   },
   {
     src: require("../img/Marine.jpg"),
     name: "宝鐘マリン🏴‍☠️＠新曲聞いてください@ホロライブ3期生",
     id: "watsonameliaEN",
     latestMsg: "T la thang o giua may A A  As fawejfka wjekfj",
-    createdAt: "22 mins",
+    updatedAt: "22 mins",
   },
   {
     src: require("../img/Gura.jpg"),
     name: "Gawr Gura",
     id: "watsonameliaEN",
     latestMsg: "A Hoang dep trai",
-    createdAt: "22 mins",
+    updatedAt: "22 mins",
   },
   {
     src: require("../img/Yagoo.jpg"),
     name: "YAGOO / Motoaki Tanigo",
     id: "watsonameliaEN",
     latestMsg: "ABCD",
-    createdAt: "1 day",
+    updatedAt: "1 day",
   },
   {
     src: require("../img/Amelia.jpg"),
     name: "Watson Amelia🔎holoEN",
     id: "watsonameliaEN",
     latestMsg: "DXC",
-    createdAt: "12 hours",
+    updatedAt: "12 hours",
+  },
+]
+
+const messageList = [
+  {
+    id: "1",
+    message: "ABC",
+    authorId: "12",
+    authorName: "Amelia",
+    updatedAt: "12:23 PM",
   },
 ]
 
@@ -111,7 +128,7 @@ const Messages = () => {
       {/* Chat room list */}
       <div className='bg-white px-6 py-4 rounded-xl w-80'>
         {!showSearch ? (
-          <div className='flex items-center justify-between -my-2'>
+          <div className='flex items-center justify-between h-8'>
             <h2 className='font-bold text-lg sticky top-0 bg-white py-2'>
               Chat
             </h2>
@@ -128,10 +145,10 @@ const Messages = () => {
             <input
               type='text'
               placeholder='Search...'
-              className='outline-0 border-0 bg-transparent w-[calc(100%-40px)]'
+              className='outline-0 border-0 -mr-2 bg-transparent w-[calc(100%-40px)]'
             />
             <button
-              className='hover:bg-white rounded-full p-1'
+              className='hover:bg-lightBackground rounded-full p-1'
               onClick={() => setShowSearch(false)}
             >
               <IoClose className='text-base' />
@@ -139,7 +156,7 @@ const Messages = () => {
           </div>
         )}
 
-        <div className='-mx-6 px-6 mt-4 overflow-auto h-[calc(100%-20px)]'>
+        <div className='-mx-6 px-6 mt-4 overflow-auto h-[calc(100%-36px)]'>
           {data.map((chatRoom, index) => (
             <div
               className={classNames([
@@ -157,7 +174,7 @@ const Messages = () => {
                 isChatRoom
                 read={index % 2 === 0}
                 latestMsg={chatRoom.latestMsg}
-                createdAt={chatRoom.createdAt}
+                updatedAt={chatRoom.updatedAt}
                 name={chatRoom.name}
                 src={chatRoom.src}
                 id={chatRoom.id}
@@ -168,7 +185,7 @@ const Messages = () => {
       </div>
 
       {/* Messages */}
-      <div className='bg-white py-4 px-4 rounded-xl flex-1'>
+      <div className='bg-white py-4 px-4 rounded-xl flex-1 flex flex-col'>
         {/* Chat room header (Name, Avatar) */}
         <header className='flex items-center justify-between'>
           <div className='flex items-center'>
@@ -182,6 +199,7 @@ const Messages = () => {
             <h3 className='font-bold text-lg ml-2'>Amelia Waston</h3>
           </div>
 
+          {/* Search */}
           <button
             className='button-hover p-1 -mr-1 rounded-full'
             onClick={() => setShowInformation(!showInformation)}
@@ -193,6 +211,29 @@ const Messages = () => {
             )}
           </button>
         </header>
+
+        {/* Message list */}
+        <div className='flex-1'></div>
+
+        {/* Message input */}
+        <div className='flex items-center gap-2 text-normalText -mx-2'>
+          {/* Media upload btn */}
+          <button className='rounded-full button-hover p-2'>
+            <MdOutlineImage className='text-primaryColor text-xl' />
+          </button>
+
+          {/* Text input */}
+          <input
+            type='text'
+            className='rounded-xl py-2 px-3 flex-1 bg-mainBackground outline-primaryColor'
+            placeholder='Type message'
+          />
+
+          {/* Send btn */}
+          <button className='rounded-full button-hover p-2'>
+            <AiOutlineSend className='text-primaryColor text-xl' />
+          </button>
+        </div>
       </div>
     </div>
   )
