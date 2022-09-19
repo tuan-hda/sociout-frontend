@@ -22,6 +22,7 @@ import OptionModal from "./modals/OptionModal"
 // - latestMsg    => Latest message of this chat room
 // - updatedAt    => Latest message sent time
 // - read         => Whether if latest message is read
+// - float        => Specify if this is a float chat box
 const Person = (props) => {
   const {
     name,
@@ -40,6 +41,7 @@ const Person = (props) => {
     latestMsg,
     updatedAt,
     read,
+    float,
   } = props
 
   const [showMore, setShowMore] = useState(false)
@@ -142,7 +144,12 @@ const Person = (props) => {
 
         {/* Chat room */}
         {isChatRoom && (
-          <div className='ml-2 flex-1 min-w-0 flex justify-between flex-col'>
+          <div
+            className={classNames([
+              "ml-2 flex-1 min-w-0 justify-between flex-col hidden",
+              !float && "medium:flex",
+            ])}
+          >
             {/* Name */}
             {child}
 
@@ -171,7 +178,12 @@ const Person = (props) => {
 
         {/* Unread Message Notification */}
         {isChatRoom && !read && (
-          <p className='w-2 h-2 rounded-full bg-primaryColor' />
+          <p
+            className={classNames([
+              "w-2 h-2 rounded-full bg-primaryColor hidden",
+              !float && "medium:block",
+            ])}
+          />
         )}
       </div>
 

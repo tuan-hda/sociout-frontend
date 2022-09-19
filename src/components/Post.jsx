@@ -163,7 +163,7 @@ const Post = ({ type }) => {
                 {likes !== 0 && (
                   <p
                     className={classNames([
-                      "ml-1 group-hover:text-loveColor transition ease-in-out duration-300",
+                      "ml-1 group-hover:text-loveColor transition ease-in-out duration-300 font-medium",
                       like ? "text-loveColor -translate-y-4" : "text-likeColor",
                     ])}
                   >
@@ -177,7 +177,7 @@ const Post = ({ type }) => {
                     like && "-translate-y-4",
                   ])}
                 >
-                  {likes + 1}
+                  {likes}
                 </p>
               </div>
             </div>
@@ -223,7 +223,7 @@ const Post = ({ type }) => {
                   {amount !== 0 && (
                     <span
                       className={classNames([
-                        "text-xs text-likeColor ml-1",
+                        "text-xs text-likeColor ml-1 font-medium",
                         numberClassName,
                       ])}
                     >

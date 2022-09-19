@@ -1,7 +1,9 @@
 import classNames from "classnames"
 import React from "react"
+import { useRef } from "react"
 import { useState } from "react"
 import { AiFillDelete, AiOutlineSend } from "react-icons/ai"
+import { BiMessageSquareAdd } from "react-icons/bi"
 import { FiSearch } from "react-icons/fi"
 import {
   IoMdInformationCircle,
@@ -179,7 +181,8 @@ const messageList = [
   },
   {
     id: "2",
-    message: "Glad to meet you",
+    message:
+      "Glad to meet you ab ab aba b ab aba ab ab ab abab aab a bba babababab babababa a ab ab",
     authorId: "2",
     authorName: "Tuan",
     createdAt: "12:24 PM",
@@ -187,7 +190,8 @@ const messageList = [
   },
   {
     id: "3",
-    message: "ABC",
+    message:
+      "ABC meet you ab ab aba b ab aba ab ab ab abab aab a bba babababab babababa a ab ab",
     authorId: "1",
     authorName: "Amelia",
     createdAt: "12:25 PM",
@@ -367,11 +371,13 @@ const user = {
   id: "2",
 }
 
-const Messages = () => {
+// float    =>  Specify if this is a float chat box
+const Messages = ({ float }) => {
   const [showSearch, setShowSearch] = useState(false)
   const [currChatRoom, setCurrChatRoom] = useState(0)
   const [showInformation, setShowInformation] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const fileUploadRef = useRef()
 
   return (
     <div
@@ -381,18 +387,42 @@ const Messages = () => {
       }}
     >
       {/* Chat room list */}
-      <div className='bg-white px-6 py-4 rounded-xl w-80'>
+      <div
+        className={classNames([
+          "bg-white px-6 py-4 rounded-xl",
+          !float && "medium:w-80",
+        ])}
+      >
         {!showSearch ? (
           <div className='flex items-center justify-between h-8'>
             <h2 className='font-bold text-lg sticky top-0 bg-white py-2'>
               Chat
             </h2>
-            <button
-              className='button-hover rounded-full p-2 -mr-2'
-              onClick={() => setShowSearch(true)}
-            >
-              <FiSearch />
-            </button>
+
+            <div className='flex items-center gap-2'>
+              {/* Search button */}
+              <button
+                className={classNames([
+                  "button-hover rounded-full p-2 -mr-2 hidden",
+                  !float && "medium:block",
+                ])}
+                onClick={() => setShowSearch(true)}
+                data-tip='Search'
+              >
+                <FiSearch />
+              </button>
+
+              {/* New message button */}
+              <button
+                className={classNames([
+                  "button-hover rounded-full p-2 -mr-2 hidden",
+                  !float && "medium:block",
+                ])}
+                data-tip='New message'
+              >
+                <BiMessageSquareAdd />
+              </button>
+            </div>
           </div>
         ) : (
           <div className='outline-2 outline-primaryColor focus-within:outline rounded-lg bg-mainBackground text-normalText flex items-center gap-2 p-1'>
@@ -411,6 +441,7 @@ const Messages = () => {
           </div>
         )}
 
+        {/* Map chat room list */}
         <div className='-mx-6 px-6 mt-4 overflow-auto h-[calc(100%-36px)]'>
           {data.map((chatRoom, index) => (
             <div
@@ -427,6 +458,7 @@ const Messages = () => {
                 hideAddBtn
                 bigAvatar
                 isChatRoom
+                float={float}
                 read={index % 2 === 0}
                 latestMsg={chatRoom.latestMsg}
                 updatedAt={chatRoom.updatedAt}
@@ -436,120 +468,150 @@ const Messages = () => {
               />
             </div>
           ))}
+
+          {data.length === 0 && (
+            <div>
+              <h4 className='text-normalText text-gray-500 font-medium'>
+                There's no any conversation here
+              </h4>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Messages */}
-      <div className='bg-white p-4 rounded-xl flex flex-col flex-1 relative'>
-        {/* Chat room header (Name, Avatar) */}
-        <header className='flex items-center justify-between w-full -mx-4 px-4 top-0 h-16 bg-white absolute backdrop-blur-lg bg-opacity-0 shadow-sm'>
-          <div className='flex items-center'>
-            <div className='border-[#eee] border-[1px] rounded-full'>
-              <img
-                src={require("../img/Amelia.jpg")}
-                alt='Amelia Avatar'
-                className='rounded-full w-9 h-9'
-              />
+      {!(currChatRoom === -1) ? (
+        <div className='bg-white p-4 rounded-xl flex flex-col flex-1 relative'>
+          {/* Chat room header (Name, Avatar) */}
+          <header className='flex items-center justify-between w-full -mx-4 px-4 top-0 h-16 bg-white absolute backdrop-blur-lg bg-opacity-0 shadow-sm rounded-[12px_12px_0_0] overflow-hidden'>
+            <div className='flex items-center'>
+              <div className='border-[#eee] border-[1px] rounded-full'>
+                <img
+                  src={require("../img/Amelia.jpg")}
+                  alt='Amelia Avatar'
+                  className='rounded-full w-9 h-9'
+                />
+              </div>
+              <h3 className='font-bold text-lg ml-2'>Amelia Waston</h3>
             </div>
-            <h3 className='font-bold text-lg ml-2'>Amelia Waston</h3>
+
+            {/* Information */}
+            <button
+              className='button-hover p-1 -mr-1 rounded-full'
+              onClick={() => setShowInformation(!showInformation)}
+            >
+              {!showInformation ? (
+                <IoMdInformationCircleOutline className='text-2xl' />
+              ) : (
+                <IoMdInformationCircle className='text-2xl text-primaryColor' />
+              )}
+            </button>
+          </header>
+
+          {/* Message list */}
+          <div className='flex-1 flex flex-col gap-2 overflow-auto -mx-4 px-4'>
+            {/* Holder */}
+            <div className='min-h-[44px]' />
+
+            {messageList.map(
+              (
+                {
+                  id,
+                  authorId,
+                  authorName,
+                  createdAt,
+                  message,
+                  mediaList,
+                } = message,
+                index
+              ) => {
+                return (
+                  <div>
+                    {/* Time mark */}
+                    {index === 0 && (
+                      <div className='w-full flex-wrap text-xs text-gray-600 my-1 text-center'>
+                        {createdAt}
+                      </div>
+                    )}
+
+                    <div
+                      className={classNames([
+                        "flex items-center group w-full gap-2",
+                        authorId === user.id
+                          ? "self-end flex-row-reverse"
+                          : "self-start",
+                      ])}
+                    >
+                      {/* Message */}
+                      <div
+                        key={index}
+                        className={classNames([
+                          "rounded-2xl w-fit py-2 px-4 text-normalText max-w-[75%] flex",
+                          authorId === user.id
+                            ? "bg-linkColor text-white"
+                            : "bg-mainBackground text-textColor",
+                        ])}
+                        data-tip={createdAt}
+                      >
+                        {message}
+                      </div>
+
+                      {/* Undo message button */}
+                      <button
+                        className='p-[9px] rounded-full button-hover group-hover:opacity-100 group-hover:pointer-events-auto opacity-0 pointer-events-none'
+                        data-tip='Undo message'
+                        onClick={() => setShowModal(true)}
+                      >
+                        <AiFillDelete className='text-gray-700' />
+                      </button>
+                    </div>
+                  </div>
+                )
+              }
+            )}
           </div>
 
-          {/* Information */}
-          <button
-            className='button-hover p-1 -mr-1 rounded-full'
-            onClick={() => setShowInformation(!showInformation)}
-          >
-            {!showInformation ? (
-              <IoMdInformationCircleOutline className='text-2xl' />
-            ) : (
-              <IoMdInformationCircle className='text-2xl text-primaryColor' />
-            )}
-          </button>
-        </header>
+          {/* Message input */}
+          <div className='flex items-center gap-2 text-normalText -mx-2 -mb-4 h-14'>
+            {/* Media upload btn */}
+            <button
+              className='rounded-full button-hover p-2'
+              onClick={() => fileUploadRef.current.click()}
+            >
+              <MdOutlineImage className='text-primaryColor text-xl' />
+            </button>
 
-        {/* Message list */}
-        <div className='flex-1 flex flex-col gap-2 overflow-auto -mx-4 px-4'>
-          {/* Holder */}
-          <div className='min-h-[44px]' />
+            {/* Text input */}
+            <input
+              type='text'
+              className='rounded-xl py-2 px-3 flex-1 bg-mainBackground outline-primaryColor'
+              placeholder='Type message'
+            />
 
-          {messageList.map(
-            (
-              {
-                id,
-                authorId,
-                authorName,
-                createdAt,
-                message,
-                mediaList,
-              } = message,
-              index
-            ) => {
-              return (
-                <div>
-                  {/* Time mark */}
-                  {index === 0 && (
-                    <div className='w-full flex-wrap text-xs text-gray-600 my-1 text-center'>
-                      {createdAt}
-                    </div>
-                  )}
-
-                  <div
-                    className={classNames([
-                      "flex items-center group w-full gap-2",
-                      authorId === user.id
-                        ? "self-end flex-row-reverse"
-                        : "self-start",
-                    ])}
-                  >
-                    {/* Message */}
-                    <div
-                      key={index}
-                      className={classNames([
-                        "rounded-full w-fit py-2 px-3 text-normalText",
-                        authorId === user.id
-                          ? "bg-linkColor text-white"
-                          : "bg-mainBackground text-textColor",
-                      ])}
-                      data-tip={createdAt}
-                    >
-                      {message}
-                    </div>
-
-                    {/* Undo message button */}
-                    <button
-                      className='p-[9px] rounded-full button-hover group-hover:opacity-100 group-hover:pointer-events-auto opacity-0 pointer-events-none'
-                      data-tip='Undo message'
-                      onClick={() => setShowModal(true)}
-                    >
-                      <AiFillDelete className='text-gray-700' />
-                    </button>
-                  </div>
-                </div>
-              )
-            }
-          )}
+            {/* Send btn */}
+            <button className='rounded-full button-hover p-2'>
+              <AiOutlineSend className='text-primaryColor text-xl' />
+            </button>
+          </div>
         </div>
-
-        {/* Message input */}
-        <div className='flex items-center gap-2 text-normalText -mx-2 -mb-4 h-14'>
-          {/* Media upload btn */}
-          <button className='rounded-full button-hover p-2'>
-            <MdOutlineImage className='text-primaryColor text-xl' />
-          </button>
-
-          {/* Text input */}
-          <input
-            type='text'
-            className='rounded-xl py-2 px-3 flex-1 bg-mainBackground outline-primaryColor'
-            placeholder='Type message'
+      ) : (
+        <div className='bg-white p-4 rounded-xl flex flex-col flex-1 items-center'>
+          {/* Empty message state */}
+          <img
+            src={require("../img/empty_message_state.png")}
+            className='object-contain max-w-xs'
           />
 
-          {/* Send btn */}
-          <button className='rounded-full button-hover p-2'>
-            <AiOutlineSend className='text-primaryColor text-xl' />
+          <h4 className='font-bold text-lg'>There's no message here</h4>
+          <p className='text-normalText text-textColor'>Start a new one now</p>
+          <button className='bg-primaryColor hover:bg-hoverBackground1 transition p-2 rounded-lg text-white font-medium mt-1'>
+            New message
           </button>
         </div>
-      </div>
+      )}
+
+      {/* File upload input */}
+      <input type='file' className='hidden' ref={fileUploadRef} />
 
       {/* Confirm Modal */}
       <ConfirmModal
