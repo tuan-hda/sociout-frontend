@@ -384,11 +384,11 @@ const Messages = ({ float }) => {
   return (
     <div
       className={classNames([
-        "flex justify-between",
+        "flex justify-between max-h-screen",
         !float ? "gap-2" : "shadow-primary rounded-xl",
       ])}
       style={{
-        height: !float ? window.innerHeight - 102 : 540,
+        height: !float ? window.innerHeight - 102 : "100%",
       }}
     >
       {/* Chat room list */}

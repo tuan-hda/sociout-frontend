@@ -68,7 +68,7 @@ const Navbar = () => {
   }, [location])
 
   const getPath = (item) => {
-    if (item.path) return "/@" + item.path
+    if (item.path) return "/" + item.path
     return "/" + (item.title === "Home" ? "" : item.title).toLowerCase()
   }
 
@@ -132,7 +132,7 @@ const Navbar = () => {
             <div className='py-3 px-3 bg-white rounded-xl'>
               <ul className='text-normalText'>
                 <Link
-                  to={"/@" + globalObject.id}
+                  to={"/" + globalObject.id}
                   onClick={() => setShowMenu(false)}
                   className='py-3 px-3 button-hover rounded-xl flex items-center gap-3'
                 >

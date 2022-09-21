@@ -132,7 +132,7 @@ const App = () => {
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<SignUp />} />
               <Route path='/recoverpassword' element={<RecoverPassword />} />
-              <Route path={"/@:id/"} element={<Profile />}>
+              <Route path={"/:id/"} element={<Profile />}>
                 <Route index element={<PostList />} />
                 <Route path='medias' element={<Medias />} />
                 <Route path='likes' element={<Likes />} />
@@ -144,7 +144,7 @@ const App = () => {
               <Route path='/messages' element={<Messages />} />
               <Route path='/notifications' element={<Notifications />} />
               <Route path='/settings' element={<Settings />} />
-              <Route path='/@:id/status/:id' element={<Detail />} />
+              <Route path='/:id/status/:id' element={<Detail />} />
             </Routes>
           </SideBar>
 
