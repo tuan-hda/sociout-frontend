@@ -15,3 +15,5 @@ export { default as ContentContainer } from './ContentContainer'
 export { default as TextEditor } from './TextEditor'
 export { default as Loader } from './Loader'
 export { default as Comment } from './Comment'
+export { default as FloatMessages } from './FloatMessages'
+

@@ -13,6 +13,7 @@ import { IoClose } from "react-icons/io5"
 import { MdOutlineImage } from "react-icons/md"
 import { Person } from "../components"
 import ConfirmModal from "../components/modals/ConfirmModal"
+import ModalWrapper from "../components/modals/ModalWrapper"
 
 const data = [
   {
@@ -376,30 +377,46 @@ const Messages = ({ float }) => {
   const [showSearch, setShowSearch] = useState(false)
   const [currChatRoom, setCurrChatRoom] = useState(0)
   const [showInformation, setShowInformation] = useState(false)
-  const [showModal, setShowModal] = useState(false)
+  const [showModalUndo, setShowModalUndo] = useState(false)
+  const [showModalNewMsg, setShowModalNewMsg] = useState(false)
   const fileUploadRef = useRef()
 
   return (
     <div
-      className='flex justify-between gap-2'
+      className={classNames([
+        "flex justify-between",
+        !float ? "gap-2" : "shadow-primary rounded-xl",
+      ])}
       style={{
-        height: window.innerHeight - 102,
+        height: !float ? window.innerHeight - 102 : 540,
       }}
     >
       {/* Chat room list */}
       <div
         className={classNames([
-          "bg-white px-6 py-4 rounded-xl",
-          !float && "medium:w-80",
+          "bg-white px-6 py-4",
+          !float
+            ? "medium:w-80 rounded-xl"
+            : "border-[#ddd] border-r-[1px] rounded-[12px_0_0_12px]",
         ])}
       >
         {!showSearch ? (
           <div className='flex items-center justify-between h-8'>
-            <h2 className='font-bold text-lg sticky top-0 bg-white py-2'>
+            <h2
+              className={classNames([
+                "font-bold text-lg sticky top-0 bg-white py-2 hidden",
+                !float && "medium:block",
+              ])}
+            >
               Chat
             </h2>
 
-            <div className='flex items-center gap-2'>
+            <div
+              className={classNames([
+                "flex items-center gap-2 ml-2",
+                !float && "medium:ml-0",
+              ])}
+            >
               {/* Search button */}
               <button
                 className={classNames([
@@ -414,13 +431,16 @@ const Messages = ({ float }) => {
 
               {/* New message button */}
               <button
-                className={classNames([
-                  "button-hover rounded-full p-2 -mr-2 hidden",
-                  !float && "medium:block",
-                ])}
+                className='button-hover rounded-full p-2 -mr-2'
                 data-tip='New message'
+                onClick={() => setShowModalNewMsg(true)}
               >
-                <BiMessageSquareAdd />
+                <BiMessageSquareAdd
+                  className={classNames([
+                    "text-xl",
+                    !float && "medium:text-base",
+                  ])}
+                />
               </button>
             </div>
           </div>
@@ -492,7 +512,9 @@ const Messages = ({ float }) => {
                   className='rounded-full w-9 h-9'
                 />
               </div>
-              <h3 className='font-bold text-lg ml-2'>Amelia Waston</h3>
+              <h3 className='font-bold text-lg ml-2 flex-1 text-ellipsis overflow-hidden whitespace-nowrap'>
+                Amelia Waston
+              </h3>
             </div>
 
             {/* Information */}
@@ -513,62 +535,58 @@ const Messages = ({ float }) => {
             {/* Holder */}
             <div className='min-h-[44px]' />
 
-            {messageList.map(
-              (
-                {
-                  id,
-                  authorId,
-                  authorName,
-                  createdAt,
-                  message,
-                  mediaList,
-                } = message,
-                index
-              ) => {
-                return (
-                  <div>
-                    {/* Time mark */}
-                    {index === 0 && (
-                      <div className='w-full flex-wrap text-xs text-gray-600 my-1 text-center'>
-                        {createdAt}
-                      </div>
-                    )}
-
-                    <div
-                      className={classNames([
-                        "flex items-center group w-full gap-2",
-                        authorId === user.id
-                          ? "self-end flex-row-reverse"
-                          : "self-start",
-                      ])}
-                    >
-                      {/* Message */}
-                      <div
-                        key={index}
-                        className={classNames([
-                          "rounded-2xl w-fit py-2 px-4 text-normalText max-w-[75%] flex",
-                          authorId === user.id
-                            ? "bg-linkColor text-white"
-                            : "bg-mainBackground text-textColor",
-                        ])}
-                        data-tip={createdAt}
-                      >
-                        {message}
-                      </div>
-
-                      {/* Undo message button */}
-                      <button
-                        className='p-[9px] rounded-full button-hover group-hover:opacity-100 group-hover:pointer-events-auto opacity-0 pointer-events-none'
-                        data-tip='Undo message'
-                        onClick={() => setShowModal(true)}
-                      >
-                        <AiFillDelete className='text-gray-700' />
-                      </button>
+            {messageList.map((item, index) => {
+              const {
+                //id,
+                authorId,
+                //authorName,
+                createdAt,
+                message,
+                //mediaList,
+              } = item
+              return (
+                <div>
+                  {/* Time mark */}
+                  {index === 0 && (
+                    <div className='w-full flex-wrap text-xs text-gray-600 my-1 text-center'>
+                      {createdAt}
                     </div>
+                  )}
+
+                  <div
+                    className={classNames([
+                      "flex items-center group w-full gap-2",
+                      authorId === user.id
+                        ? "self-end flex-row-reverse"
+                        : "self-start",
+                    ])}
+                  >
+                    {/* Message */}
+                    <div
+                      key={index}
+                      className={classNames([
+                        "rounded-2xl w-fit py-2 px-4 text-normalText max-w-[75%] flex",
+                        authorId === user.id
+                          ? "bg-linkColor text-white"
+                          : "bg-mainBackground text-textColor",
+                      ])}
+                      data-tip={createdAt}
+                    >
+                      {message}
+                    </div>
+
+                    {/* Undo message button */}
+                    <button
+                      className='p-[9px] rounded-full button-hover group-hover:opacity-100 group-hover:pointer-events-auto opacity-0 pointer-events-none'
+                      data-tip='Undo message'
+                      onClick={() => setShowModalUndo(true)}
+                    >
+                      <AiFillDelete className='text-gray-700' />
+                    </button>
                   </div>
-                )
-              }
-            )}
+                </div>
+              )
+            })}
           </div>
 
           {/* Message input */}
@@ -600,6 +618,7 @@ const Messages = ({ float }) => {
           <img
             src={require("../img/empty_message_state.png")}
             className='object-contain max-w-xs'
+            alt='Empty State'
           />
 
           <h4 className='font-bold text-lg'>There's no message here</h4>
@@ -613,12 +632,52 @@ const Messages = ({ float }) => {
       {/* File upload input */}
       <input type='file' className='hidden' ref={fileUploadRef} />
 
-      {/* Confirm Modal */}
+      {/* Confirm Undo Modal */}
       <ConfirmModal
-        isShowing={showModal}
-        setShowing={setShowModal}
+        isShowing={showModalUndo}
+        setShowing={setShowModalUndo}
         text='Are you sure you want to undo this message?'
       />
+
+      {/* New message modal */}
+      <ModalWrapper
+        isShowing={showModalNewMsg}
+        setShowing={setShowModalNewMsg}
+        overlayBg='#676767'
+        center
+      >
+        <form
+          className='bg-white rounded-xl relative w-[400px] p-3 max-w-full overflow-auto'
+          onSubmit={(e) => e.preventDefault()}
+        >
+          {/* Close button */}
+          <button
+            className='button-hover p-2 rounded-full absolute right-2 top-2'
+            onClick={() => setShowModalNewMsg(false)}
+          >
+            <IoClose className='text-lg' />
+          </button>
+
+          <h3 className='font-bold text-center text-lg'>New message</h3>
+
+          {/* User id input and Message */}
+          <div className='text-normalText text-textColor mt-2 space-y-2'>
+            <input
+              className='rounded-lg bg-mainBackground p-2 outline-lightBlue w-full'
+              placeholder='Enter person id...'
+            />
+
+            <textarea
+              className='rounded-lg bg-mainBackground p-2 outline-lightBlue w-full min-h-[96px] max-h-[calc(100vh-200px)]'
+              placeholder='Enter message...'
+            />
+          </div>
+
+          <button className='rounded-lg transition mt-2 p-2 text-normalText bg-primaryColor hover:bg-hoverBackground1 w-full text-center font-semibold text-white'>
+            Send
+          </button>
+        </form>
+      </ModalWrapper>
     </div>
   )
 }

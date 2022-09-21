@@ -1,36 +1,36 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { IoIosArrowForward } from 'react-icons/io'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { TextField, Button, ErrorMessage, Loader } from '../components/index'
-import * as yup from 'yup'
-import { useDispatch, useSelector } from 'react-redux'
-import { clearError, logInAction } from '../actions/index'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
-import 'react-lazy-load-image-component/src/effects/blur.css'
+import React from "react"
+import { Link } from "react-router-dom"
+import { IoIosArrowForward } from "react-icons/io"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { TextField, Button, ErrorMessage, Loader } from "../components/index"
+import * as yup from "yup"
+import { useDispatch, useSelector } from "react-redux"
+import { clearError, logInAction } from "../actions/index"
+import { LazyLoadImage } from "react-lazy-load-image-component"
+import "react-lazy-load-image-component/src/effects/blur.css"
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().min(8).max(16).required(),
-  rememberMe: yup.boolean()
+  rememberMe: yup.boolean(),
 })
 
 const Login = () => {
   const dispatch = useDispatch()
-  const { loading: authLoading, error } = useSelector(state => state.auth)
+  const { loading: authLoading, error } = useSelector((state) => state.auth)
 
   const {
     register,
     handleSubmit,
     clearErrors,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   })
 
   // Handle submit form
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     const { email, password } = data
     dispatch(logInAction(email, password))
   }
@@ -44,7 +44,7 @@ const Login = () => {
         {/* Left */}
         <div className='h-full authRes:block hidden w-full'>
           <LazyLoadImage
-            src={require('../img/login_bg.png')}
+            src={require("../img/login_bg.png")}
             alt='Login background'
             wrapperClassName='object-cover h-full'
             effect='blur'
@@ -84,17 +84,17 @@ const Login = () => {
               <TextField
                 placeholderText='Email'
                 type='text'
-                icon={require('../img/icon/profile.png')}
+                icon={require("../img/icon/profile.png")}
                 name='email'
-                register={register('email')}
+                register={register("email")}
               />
               <TextField
                 placeholderText='Password'
                 type='password'
-                icon={require('../img/icon/password.png')}
+                icon={require("../img/icon/password.png")}
                 name='password'
                 marginTop='20px'
-                register={register('password')}
+                register={register("password")}
               />
 
               {/* Button */}

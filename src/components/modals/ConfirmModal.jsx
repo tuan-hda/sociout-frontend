@@ -1,8 +1,9 @@
 import React from "react"
 import ModalWrapper from "./ModalWrapper"
 import { IoClose } from "react-icons/io5"
+import classNames from "classnames"
 
-const ConfirmModal = ({ isShowing, setShowing, text }) => {
+const ConfirmModal = ({ isShowing, setShowing, text, deleteAction }) => {
   const handleUndo = () => {
     setShowing(false)
   }
@@ -33,7 +34,12 @@ const ConfirmModal = ({ isShowing, setShowing, text }) => {
             Cancel
           </button>
           <button
-            className='flex-1 text-center text-white p-2 rounded-lg bg-primaryColor transition hover:bg-hoverBackground1'
+            className={classNames([
+              "flex-1 text-center text-white p-2 rounded-lg transition",
+              !deleteAction
+                ? "bg-primaryColor hover:bg-hoverBackground1"
+                : "bg-errorColor hover:bg-hoverBackground3",
+            ])}
             onClick={handleUndo}
           >
             Undo

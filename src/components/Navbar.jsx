@@ -73,7 +73,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className='bg-white rounded-xl p-3 pt-6 md:p-6 flex-1 sticky top-[100px]'>
+    <div className='bg-white rounded-xl p-3 pt-6 md:p-6 flex-1 sticky top-[84px]'>
       {/* MENU */}
       <div>
         <h2 className='font-bold text-lg hidden xl:block mb-2'>Menu</h2>

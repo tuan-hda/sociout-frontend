@@ -1,12 +1,7 @@
 import React from "react"
-import Messages from "./Messages"
 
 const Notifications = () => {
-  return (
-    <div>
-      <Messages float />
-    </div>
-  )
+  return <div></div>
 }
 
 export default Notifications

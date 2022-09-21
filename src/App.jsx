@@ -8,7 +8,12 @@ import {
   MiddleContainer,
   RightContainer,
 } from "./components/containers"
-import { Header, Navbar, SuggestionBar } from "./components/index"
+import {
+  FloatMessages,
+  Header,
+  Navbar,
+  SuggestionBar,
+} from "./components/index"
 import jwt from "jwt-decode"
 import {
   Home,
@@ -52,15 +57,16 @@ const SideBar = (props) => {
   if (!excludePath.includes(props.location?.pathname.substring(1)))
     return (
       <div>
-        <div className='h-5 sticky top-16 bg-mainBackground z-10' />
-
         <div className='flex justify-between sm:gap-5 gap-2 relative'>
-          <LeftContainer sticky>
+          <LeftContainer>
             <Navbar />
           </LeftContainer>
 
           {/* Routes */}
-          <MiddleContainer>{props.children}</MiddleContainer>
+          <MiddleContainer>
+            <div className='h-5 bg-mainBackground' />
+            {props.children}
+          </MiddleContainer>
 
           {!focusPath.includes(props.location?.pathname.substring(1)) && (
             <RightContainer>
@@ -119,12 +125,7 @@ const App = () => {
       <Toaster />
       {getHeader(location)}
       <Wrapper>
-        <Container
-          marginTop={
-            excludePath.includes(location.pathname.substring(1)) ? "" : ""
-          }
-          excludePath={excludePath}
-        >
+        <Container excludePath={excludePath}>
           <SideBar location={location}>
             <Routes>
               <Route path='/' element={<Home />} />
@@ -152,6 +153,10 @@ const App = () => {
           )}
         </Container>
       </Wrapper>
+
+      {!excludePath.includes(location.pathname.substring(1)) && (
+        <FloatMessages />
+      )}
 
       <ReactTooltip delayShow={1000} />
     </div>

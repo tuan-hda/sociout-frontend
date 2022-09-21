@@ -1,60 +1,62 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { IoIosArrowForward } from 'react-icons/io'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { TextField, Button, ErrorMessage, Loader } from '../components/index'
-import * as yup from 'yup'
-import { useEffect } from 'react'
-import { useRef } from 'react'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { useSelector } from 'react-redux'
+import React, { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { IoIosArrowForward } from "react-icons/io"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { TextField, Button, ErrorMessage, Loader } from "../components/index"
+import * as yup from "yup"
+import { useEffect } from "react"
+import { useRef } from "react"
+import { LazyLoadImage } from "react-lazy-load-image-component"
+import { useSelector } from "react-redux"
+import { forgetPasswordService } from "../services"
+import toast from "../utils/toast"
 
 const schema = yup.object().shape({
-  email: yup.string().email().required()
+  email: yup.string().email().required(),
 })
 
 const lastStepSchema = yup.object().shape({
   newPassword: yup
     .string()
-    .min(8, 'password must be at least 8 characters')
-    .max(16, 'password must be at most 16 characters')
-    .required('password is required')
-    .matches(/^.*\d.*/g, 'password must contain at least 1 number')
+    .min(8, "password must be at least 8 characters")
+    .max(16, "password must be at most 16 characters")
+    .required("password is required")
+    .matches(/^.*\d.*/g, "password must contain at least 1 number")
     .matches(
       /^.*[A-Z].*/g,
-      'password must contain at least 1 uppercase character'
+      "password must contain at least 1 uppercase character"
     )
     .matches(
       /^.*[a-z].*/g,
-      'password must contain at least 1 lowercase character'
+      "password must contain at least 1 lowercase character"
     ),
   confirmNewPassword: yup
     .string()
-    .oneOf([yup.ref('newPassword'), null], 'passwords must match')
+    .oneOf([yup.ref("newPassword"), null], "passwords must match"),
 })
 
 const RecoverPassword = () => {
   const [loading] = useState(false)
-  const { loading: authLoading } = useSelector(state => state.auth)
+  const { loading: authLoading } = useSelector((state) => state.auth)
 
   // First step schema
   const {
     register,
     handleSubmit,
     clearErrors,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   })
   // Last step schema
   const {
     register: l_register,
     handleSubmit: l_handleSubmit,
     clearErrors: l_clearErrors,
-    formState: { errors: l_errors }
+    formState: { errors: l_errors },
   } = useForm({
-    resolver: yupResolver(lastStepSchema)
+    resolver: yupResolver(lastStepSchema),
   })
 
   const navigate = useNavigate()
@@ -64,21 +66,25 @@ const RecoverPassword = () => {
   //    2. Enter OTP
   //    3. Set new password
   const [currentStep, setStep] = useState(0)
-  const [otp, setOtp] = useState(new Array(6).fill(''))
+  const [otp, setOtp] = useState(new Array(6).fill(""))
   const ref = useRef()
 
   const [otpError, setOtpError] = useState({})
 
   // STEP 1 HANDLING
-  const onMailSubmit = data => {
-    console.log(data)
-    setStep(currentStep + 1)
+  const onMailSubmit = (data) => {
+    forgetPasswordService(data.email)
+      .then(() => {
+        toast("", "OTP code was sent to your email")
+        setStep(currentStep + 1)
+      })
+      .catch((error) => console.log(error))
   }
 
   // STEP 2 HANDLING
   const handleOtpChange = (e, index) => {
     const {
-      target: { value }
+      target: { value },
     } = e
 
     if (!value.match(/^\d+$/)) {
@@ -93,7 +99,7 @@ const RecoverPassword = () => {
   }
 
   const countFilledInputs = () => {
-    let index = otp.filter(x => x !== '').length
+    let index = otp.filter((x) => x !== "").length
     if (index === 6) {
       index = 5
     }
@@ -106,12 +112,12 @@ const RecoverPassword = () => {
   }, [otp])
 
   const handleKeyDown = ({ key }) => {
-    if (key === 'Backspace') {
-      console.log('Handlekeydown')
+    if (key === "Backspace") {
+      console.log("Handlekeydown")
       // Case 1: if all input are filled
-      if (otp[5] !== '') {
+      if (otp[5] !== "") {
         const newOtp = [...otp]
-        newOtp[5] = ''
+        newOtp[5] = ""
         setOtp(newOtp)
         console.log(newOtp)
         return
@@ -122,22 +128,22 @@ const RecoverPassword = () => {
       if (currentIndex < 0) currentIndex = 0
       const newOtp = [...otp]
       console.log(newOtp)
-      newOtp[currentIndex] = ''
+      newOtp[currentIndex] = ""
       setOtp(newOtp)
     }
   }
 
   const getOtp = () => {
-    return otp.reduce((result, current) => (result += current), '')
+    return otp.reduce((result, current) => (result += current), "")
   }
 
-  const onOtpSubmit = e => {
+  const onOtpSubmit = (e) => {
     e.preventDefault()
     if (getOtp().length < 6) {
       setOtpError({
         content: {
-          message: 'You must fill in all fields'
-        }
+          message: "You must fill in all fields",
+        },
       })
       return
     }
@@ -146,34 +152,34 @@ const RecoverPassword = () => {
   }
 
   // STEP 3 HANDLING
-  const onSetNewPasswordSubmit = data => {
+  const onSetNewPasswordSubmit = (data) => {
     console.log(data)
-    navigate('/login')
+    navigate("/login")
   }
 
   // SUMMARY
   const steps = [
     {
-      message: 'We will send you an email',
+      message: "We will send you an email",
       errors: errors,
       submitOption: handleSubmit(onMailSubmit),
-      buttonText: 'Next',
-      clearErrors: clearErrors
+      buttonText: "Next",
+      clearErrors: clearErrors,
     },
     {
-      message: 'Fill the code you received from email',
+      message: "Fill the code you received from email",
       errors: otpError,
       submitOption: onOtpSubmit,
-      buttonText: 'Next',
-      clearErrors: () => setOtpError({})
+      buttonText: "Next",
+      clearErrors: () => setOtpError({}),
     },
     {
-      message: 'Set your new password',
+      message: "Set your new password",
       errors: l_errors,
       submitOption: l_handleSubmit(onSetNewPasswordSubmit),
-      buttonText: 'Finish',
-      clearErrors: l_clearErrors
-    }
+      buttonText: "Finish",
+      clearErrors: l_clearErrors,
+    },
   ]
 
   return (
@@ -185,7 +191,7 @@ const RecoverPassword = () => {
         {/* Left */}
         <div className='h-full authRes:block hidden'>
           <LazyLoadImage
-            src={require('../img/login_bg.png')}
+            src={require("../img/login_bg.png")}
             alt='Login background'
             wrapperClassName='object-cover h-full'
             effect='blur'
@@ -223,9 +229,9 @@ const RecoverPassword = () => {
                 <TextField
                   placeholderText='Email'
                   type='text'
-                  icon={require('../img/icon/profile.png')}
+                  icon={require("../img/icon/profile.png")}
                   name='email'
-                  register={register('email')}
+                  register={register("email")}
                 />
               )}
 
@@ -239,7 +245,7 @@ const RecoverPassword = () => {
                       type='text'
                       className='w-[50px] h-[50px] outline-none bg-blueGray rounded-md text-center font-medium leading-7 text-darkInput focus:outline-lightBlue outline-2 border-none'
                       value={otp[index]}
-                      onChange={e => handleOtpChange(e, index)}
+                      onChange={(e) => handleOtpChange(e, index)}
                       onKeyDown={handleKeyDown}
                     />
                   ))}
@@ -252,18 +258,18 @@ const RecoverPassword = () => {
                   <TextField
                     placeholderText='New password'
                     type='password'
-                    icon={require('../img/icon/password.png')}
+                    icon={require("../img/icon/password.png")}
                     name='newPassword'
                     marginTop='20px'
-                    register={l_register('newPassword')}
+                    register={l_register("newPassword")}
                   />
                   <TextField
                     placeholderText='Confirm new password'
                     type='password'
-                    icon={require('../img/icon/password.png')}
+                    icon={require("../img/icon/password.png")}
                     name='confirmNewPassword'
                     marginTop='20px'
-                    register={l_register('confirmNewPassword')}
+                    register={l_register("confirmNewPassword")}
                   />
                 </React.Fragment>
               )}
