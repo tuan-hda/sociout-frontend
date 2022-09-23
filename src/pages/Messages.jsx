@@ -545,7 +545,7 @@ const Messages = ({ float }) => {
                 //mediaList,
               } = item
               return (
-                <div>
+                <div key={index}>
                   {/* Time mark */}
                   {index === 0 && (
                     <div className='w-full flex-wrap text-xs text-gray-600 my-1 text-center'>

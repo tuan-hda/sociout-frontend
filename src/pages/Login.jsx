@@ -100,7 +100,7 @@ const Login = () => {
               {/* Button */}
               <div className='mt-7 flex justify-between items-center'>
                 <Link
-                  to='/recoverpassword'
+                  to='/recover-password'
                   className='text-textBlue font-semibold'
                 >
                   Forgot password?
@@ -129,7 +129,7 @@ const Login = () => {
                 <span className='text-darkBlue font-medium'>
                   Don't have an account?
                 </span>
-                <Link to='/signup' className='font-semibold text-textBlue'>
+                <Link to='/sign-up' className='font-semibold text-textBlue'>
                   Join now
                 </Link>
               </div>

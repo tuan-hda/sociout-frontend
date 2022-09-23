@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
-import { Link, Outlet, useNavigate } from "react-router-dom"
+import { Link, Outlet } from "react-router-dom"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import "react-lazy-load-image-component/src/effects/blur.css"
 import { BsThreeDots, BsLink45Deg } from "react-icons/bs"
@@ -14,7 +14,6 @@ import { BiLink } from "react-icons/bi"
 import { RiUserUnfollowLine } from "react-icons/ri"
 
 import classNames from "classnames"
-import globalObject from "../utils/globalObject"
 import ModalWrapper from "./../components/modals/ModalWrapper"
 import defaultCover from "../img/default-cover.jpg"
 import copyToClipboard from "./../utils/copyToClipboard"
@@ -22,6 +21,7 @@ import { Navigation, Person, TextField } from "../components"
 import OptionModal from "../components/modals/OptionModal"
 import { MdBlock, MdReport } from "react-icons/md"
 import ReactTooltip from "react-tooltip"
+import { useSelector } from "react-redux"
 
 const EditButton = ({ className, onClick, removed, dataTip }) => {
   return (
@@ -143,11 +143,9 @@ const Profile = () => {
   const [showMore, setShowMore] = useState(false)
   const [showEditProfile, setShowEditProfile] = useState(false)
   const [editInfo, setEditInfo] = useState({})
-
-  const navigate = useNavigate()
+  const { user } = useSelector((state) => state.auth)
 
   const pathname = window.location.pathname
-  const name = "Hoàng Đình Anh Tuấn"
 
   useEffect(() => {
     setProfile({
@@ -183,20 +181,20 @@ const Profile = () => {
           <div className='flex flex-row-reverse items-center justify-between gap-4 mb-4 mt-1'>
             <div className='flex-1'>
               <Person
-                name={globalObject.name}
-                id={globalObject.id}
+                name={user?.firstName + " " + user?.lastName}
+                id={user?.id}
                 src='https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg'
                 hideAddBtn
                 underline
               />
             </div>
-            <div
+            <Link
               className='button-hover rounded-full p-2 text-xl'
               data-tip='Go back'
-              onClick={() => navigate("/@" + globalObject.id)}
+              to={`/${user.id}`}
             >
               <IoArrowBack />
-            </div>
+            </Link>
           </div>
 
           {/* Navigation */}
@@ -245,7 +243,7 @@ const Profile = () => {
                   <BiLink className='text-lg mr-3' /> Copy link to profile
                 </p>,
                 "",
-                () => copyToClipboard(window.location.href),
+                () => copyToClipboard(window.location.hostname + "/" + id),
               ],
               [
                 <p className='flex items-center'>
@@ -373,7 +371,9 @@ const Profile = () => {
       {/* Information */}
       <div className='mt-[7%] text-textColor text-normalText'>
         {/* Name and Id */}
-        <h3 className='font-bold text-xl'>{name}</h3>
+        <h3 className='font-bold text-xl'>
+          {user?.firstName + " " + user?.lastName}
+        </h3>
         <p className='text-idColor'>{id}</p>
 
         {/* Bio */}

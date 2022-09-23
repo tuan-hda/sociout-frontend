@@ -5,11 +5,6 @@ import { useLocation } from "react-router-dom"
 const MiddleContainer = ({ children }) => {
   const location = useLocation()
   const pathname = location.pathname
-  const check = !/^\/messages/.test(pathname)
-  console.log(
-    "🚀 ~ file: MiddleContainer.jsx ~ line 9 ~ MiddleContainer ~ check",
-    check
-  )
 
   return (
     <div

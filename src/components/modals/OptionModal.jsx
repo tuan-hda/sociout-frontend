@@ -18,7 +18,10 @@ const OptionModal = ({ isShowing, setShowing, menuList }) => {
               className ? className : "text-textColor",
             ])}
             key={index}
-            onClick={onClick}
+            onClick={() => {
+              onClick()
+              setShowing(false)
+            }}
           >
             {children}
           </li>

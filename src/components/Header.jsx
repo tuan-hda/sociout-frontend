@@ -12,11 +12,11 @@ import ModalWrapper from "./modals/ModalWrapper"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { logOutAction } from "../actions"
-import { useDispatch } from "react-redux"
-import globalObject from "./../utils/globalObject"
+import { useDispatch, useSelector } from "react-redux"
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false)
+  const { user } = useSelector((state) => state.auth)
 
   const dispatch = useDispatch()
   const avatarProps = {
@@ -40,7 +40,7 @@ const Header = () => {
               <input
                 className='outline-none bg-transparent flex-1 text-normalText'
                 placeholder='Search for people, posts...'
-              ></input>
+              />
             </div>
           </MiddleContainer>
 
@@ -49,9 +49,9 @@ const Header = () => {
             <div className='flex justify-end'>
               <button onClick={() => setShowMenu(true)}>
                 <Avatar
-                  Src={require("../img/Makima.jpg")}
+                  Src={user?.avatar}
                   props={avatarProps}
-                  text='Tuấn'
+                  text={user?.lastName}
                 />
                 <ModalWrapper
                   isShowing={showMenu}
@@ -63,7 +63,7 @@ const Header = () => {
                   <div className='py-3 px-3 bg-white rounded-xl'>
                     <ul className='text-normalText'>
                       <Link
-                        to={"/@" + globalObject.id}
+                        to={`/${user?.id}`}
                         onClick={() => setShowMenu(false)}
                         className='py-3 px-3 button-hover rounded-xl flex items-center gap-3'
                       >

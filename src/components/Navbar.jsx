@@ -1,7 +1,5 @@
 import React, { useState } from "react"
-import { useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
-import capitalize from "../utils/capitalize"
 import {
   AiFillHome,
   AiOutlineHome,
@@ -13,12 +11,10 @@ import {
 import { RiUser3Fill, RiUser3Line } from "react-icons/ri"
 import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io"
 import Avatar from "./Avatar"
-import globalObject from "../utils/globalObject"
-import checkOwnId from "../utils/checkOwnId"
 import ModalWrapper from "./modals/ModalWrapper"
 import { FiUser, FiLogOut } from "react-icons/fi"
 import { logOutAction } from "../actions"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 const menu = [
   {
@@ -40,7 +36,6 @@ const menu = [
     title: "Profile",
     icon: <RiUser3Line />,
     selectedIcon: <RiUser3Fill />,
-    path: globalObject.id,
   },
   {
     title: "Settings",
@@ -50,26 +45,33 @@ const menu = [
 ]
 
 const Navbar = () => {
-  const [currentPage, setPage] = useState("Home")
   const [showMenu, setShowMenu] = useState(false)
+  const { user } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
 
   const location = useLocation()
 
-  useEffect(() => {
-    const pathname = location.pathname
-    if (pathname === "/") {
-      setPage("Home")
-    } else if (checkOwnId(pathname)) {
-      setPage("Profile")
-    } else {
-      setPage(capitalize(location.pathname.substring(1)))
-    }
-  }, [location])
-
   const getPath = (item) => {
-    if (item.path) return "/" + item.path
+    if (item.title === "Profile") return "/" + user?.id
     return "/" + (item.title === "Home" ? "" : item.title).toLowerCase()
+  }
+
+  // Check current page
+  const checkCurrentPage = (item) => {
+    const path = location.pathname.substring(1)
+    if (path === user?.id && item.title === "Profile") {
+      return true
+    }
+
+    if (item.title === "Home" && path === "") {
+      return true
+    }
+
+    if (path === item.title.toLowerCase()) {
+      return true
+    }
+
+    return false
   }
 
   return (
@@ -87,7 +89,7 @@ const Navbar = () => {
                 key={index}
                 className='text-base -mx-1 sm:mx-0 px-3 py-3 sm:py-4 md:py-4 md:px-4 md:-mx-3 block button-hover rounded-2xl'
               >
-                {item.title === currentPage ? (
+                {checkCurrentPage(item) ? (
                   <li className='font-semibold flex justify-center xl:justify-start items-center gap-4'>
                     <span className='text-2xl'>{item.selectedIcon}</span>
                     <span className='hidden xl:inline'>{item.title}</span>
@@ -132,7 +134,7 @@ const Navbar = () => {
             <div className='py-3 px-3 bg-white rounded-xl'>
               <ul className='text-normalText'>
                 <Link
-                  to={"/" + globalObject.id}
+                  to={`/${user?.id}`}
                   onClick={() => setShowMenu(false)}
                   className='py-3 px-3 button-hover rounded-xl flex items-center gap-3'
                 >

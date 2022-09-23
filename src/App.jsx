@@ -94,7 +94,7 @@ const App = () => {
       const decodedObj = jwt(token)
       getMeService(decodedObj.id)
         .then((response) =>
-          dispatch(setUserAction({ ...decodedObj, ...response.data }))
+          dispatch(setUserAction({ ...decodedObj, ...response.data.data }))
         )
         .catch((error) => {
           if (error.response) {
@@ -130,8 +130,8 @@ const App = () => {
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/login' element={<Login />} />
-              <Route path='/signup' element={<SignUp />} />
-              <Route path='/recoverpassword' element={<RecoverPassword />} />
+              <Route path='/sign-up' element={<SignUp />} />
+              <Route path='/recover-password' element={<RecoverPassword />} />
               <Route path={"/:id/"} element={<Profile />}>
                 <Route index element={<PostList />} />
                 <Route path='medias' element={<Medias />} />

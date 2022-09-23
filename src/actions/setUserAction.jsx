@@ -1,9 +1,9 @@
-import * as types from './actionTypes'
+import * as types from "./actionTypes"
 
-const setUserAction = user => {
+const setUserAction = (user) => {
   return {
     type: types.SET_USER,
-    payload: user
+    payload: user,
   }
 }
 

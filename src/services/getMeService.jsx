@@ -1,12 +1,12 @@
-import base from './base'
-import bearer from './bearer'
+import base from "./base"
+import bearer from "./bearer"
 
-const getMeService = userId => {
+const getMeService = () => {
   return new Promise((resolve, reject) => {
     base
-      .post('/user', { userId }, bearer())
-      .then(response => resolve(response))
-      .catch(error => reject(error))
+      .get("/users", bearer())
+      .then((response) => resolve(response))
+      .catch((error) => reject(error))
   })
 }
 
