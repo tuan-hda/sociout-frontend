@@ -17,12 +17,12 @@ const FloatMessages = () => {
       {!/^\/messages/.test(location.pathname) && (
         <div
           className={classNames([
-            "medium:block hidden fixed bottom-0 right-2 z-20 w-[440px] transition-all duration-300 ease-in-out bg-white rounded-xl",
-            !showChat
-              ? "max-h-0"
+            "medium:block hidden fixed right-2 z-20 w-[440px] transition-all duration-500 ease-in-out bg-white rounded-xl max-h-[calc(100vh-48px)] h-[540px]",
+            showChat
+              ? "bottom-0"
               : height - 48 > 540
-              ? "max-h-[540px] h-[540px]"
-              : "max-h-[calc(100vh-48px)] h-[540px]",
+              ? "-bottom-[540px]"
+              : "-bottom-[calc(100vh-48px)]",
           ])}
         >
           {/* Chat header */}
