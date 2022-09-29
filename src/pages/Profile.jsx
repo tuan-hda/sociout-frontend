@@ -96,19 +96,19 @@ const ProfileAvatar = ({ src, edit, editInfo, setEditInfo }) => {
       target: { files },
     } = e
 
-    setEditInfo({ ...editInfo, avatar: URL.createObjectURL(files[0]) })
+    setEditInfo({
+      ...editInfo,
+      avatar: {
+        src: URL.createObjectURL(files[0]),
+        file: files[0],
+      },
+    })
   }
 
   return (
     <div className='absolute left-4 w-1/4 flex items-center justify-center'>
       <LazyLoadImage
-        src={
-          editInfo.avatar
-            ? editInfo.avatar
-            : src
-            ? src
-            : "https://tleliteracy.com/wp-content/uploads/2017/02/default-avatar.png"
-        }
+        src={editInfo.avatar ? editInfo.avatar.src : src}
         alt='Profile Ava'
         effect='blur'
         wrapperClassName='border-4 border-white absolute w-full aspect-square rounded-full overflow-hidden bottom-0 translate-y-1/2'
@@ -149,8 +149,6 @@ const Profile = () => {
 
   useEffect(() => {
     setProfile({
-      avatar:
-        "https://pbs.twimg.com/profile_images/1551250555103633409/TFGJ_IBH_400x400.jpg",
       cover:
         "https://pbs.twimg.com/profile_banners/1283653858510598144/1649185576/1500x500",
     })
@@ -165,9 +163,8 @@ const Profile = () => {
   }, [])
 
   const onSave = () => {
-    console.log("Saved")
-    setShowEditProfile(false)
-    setEditInfo({})
+    console.log(profile)
+    console.log(editInfo)
   }
 
   if (
@@ -219,7 +216,7 @@ const Profile = () => {
         <Cover roundedTop src={profile.cover} />
 
         {/* Avatar */}
-        <ProfileAvatar src={profile.avatar} />
+        <ProfileAvatar src={user?.avatar} />
       </div>
 
       {/* Edit and Option button */}
@@ -304,7 +301,7 @@ const Profile = () => {
                 />
 
                 <ProfileAvatar
-                  src={profile.avatar}
+                  src={user?.avatar}
                   edit
                   editInfo={editInfo}
                   setEditInfo={setEditInfo}
@@ -329,31 +326,38 @@ const Profile = () => {
                   ))}
                 </div>
 
-                {/* Bio */}
+                {/* Date of birth */}
                 <div className='mt-4'>
-                  <p className='font-semibold'>Bio</p>
-
-                  <textarea
-                    name='bio'
-                    className='overflow-auto resize-none w-full bg-blueGray rounded-[10px] mt-2 outline-lightBlue p-[13px] text-textColor font-medium'
+                  <p className='font-semibold'>Date of birth</p>
+                  <TextField
+                    name='name'
+                    kind='normal'
+                    type='date'
+                    wrapperClassname='h-10 w-full mt-2'
+                    inputClassname='text-textColor'
                   />
                 </div>
 
-                {/* Location & Website */}
-                {["Location", "Website", "Date of birth"].map(
-                  (children, index) => (
-                    <div className='mt-4' key={index}>
-                      <p className='font-semibold'>{children}</p>
+                {/* Gender */}
+                <div className='mt-4'>
+                  <p className='font-semibold'>Gender</p>
 
-                      <TextField
-                        name='name'
-                        kind='normal'
-                        wrapperClassname='h-10 w-full mt-2'
-                        inputClassname='text-textColor'
-                      />
+                  <div className='flex justify-between px-4 mt-2'>
+                    <div className='flex items-center gap-2'>
+                      <input type='radio' id='male-radio' name='gender' />
+                      <label htmlFor='male-radio'>Male</label>
                     </div>
-                  )
-                )}
+
+                    <div className='flex items-center gap-2'>
+                      <input type='radio' id='female-radio' name='gender' />
+                      <label htmlFor='female-radio'>Female</label>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                      <input type='radio' id='other-radio' name='gender' />
+                      <label htmlFor='other-radio'>Male</label>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Save button */}

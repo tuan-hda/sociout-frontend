@@ -97,7 +97,7 @@ const Login = () => {
                 register={register("password")}
               />
 
-              {/* Button */}
+              {/* Buttons */}
               <div className='mt-7 flex justify-between items-center'>
                 <Link
                   to='/recover-password'

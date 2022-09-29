@@ -1,39 +1,39 @@
-import React, { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Person } from './index'
-import { useEffect } from 'react'
+import React, { useState } from "react"
+import { Link, useLocation } from "react-router-dom"
+import { Person } from "./index"
+import { useEffect } from "react"
 
 const people = [
   {
-    src: require('../img/Makima.jpg'),
-    name: 'Makima',
-    id: 'makima'
+    src: require("../img/Makima.jpg"),
+    name: "Makima",
+    id: "makima",
   },
   {
-    src: require('../img/Mori.jpg'),
-    name: 'Mori Calliope💀holoEN',
-    id: 'moricalliope'
+    src: require("../img/Mori.jpg"),
+    name: "Mori Calliope💀holoEN",
+    id: "moricalliope",
   },
   {
-    src: require('../img/Marine.jpg'),
-    name: '宝鐘マリン🏴‍☠️＠新曲聞いてください@ホロライブ3期生',
-    id: 'houshoumarine'
+    src: require("../img/Marine.jpg"),
+    name: "宝鐘マリン🏴‍☠️＠新曲聞いてください@ホロライブ3期生",
+    id: "houshoumarine",
   },
   {
-    src: require('../img/Gura.jpg'),
-    name: 'Gawr Gura',
-    id: 'gawrgura'
+    src: require("../img/Gura.jpg"),
+    name: "Gawr Gura",
+    id: "gawrgura",
   },
   {
-    src: require('../img/Yagoo.jpg'),
-    name: 'YAGOO / Motoaki Tanigo',
-    id: 'tanigox'
+    src: require("../img/Yagoo.jpg"),
+    name: "YAGOO / Motoaki Tanigo",
+    id: "tanigox",
   },
   {
-    src: require('../img/Amelia.jpg'),
-    name: 'Watson Amelia🔎holoEN',
-    id: 'watsonameliaEN'
-  }
+    src: require("../img/Amelia.jpg"),
+    name: "Watson Amelia🔎holoEN",
+    id: "watsonameliaEN",
+  },
 ]
 
 const SuggestionBar = () => {
@@ -49,8 +49,8 @@ const SuggestionBar = () => {
   }, [location])
 
   return (
-    <div className='top-[84px] sticky'>
-      {/*Author info */}
+    <div className='sticky top-[84px] mt-5'>
+      {/* Author info */}
       {showAuthorInfo && (
         <div className='bg-white rounded-xl p-6 mb-4'>
           <Person
@@ -74,7 +74,7 @@ const SuggestionBar = () => {
         <ul className='mt-4'>
           {people.map((person, index) => (
             <li key={index} className='-mx-3 p-3 button-hover rounded-2xl'>
-              <Link to={'/@' + person.id}>
+              <Link to={"/@" + person.id}>
                 <Person
                   src={person.src}
                   name={person.name}

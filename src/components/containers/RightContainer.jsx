@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react"
 
-const RightContainer = props => {
+const RightContainer = (props) => {
   return (
     <div className='max-w-side flex-1 medium:block hidden'>
       {props.children}

@@ -36,13 +36,12 @@ const ModalWrapper = (props) => {
   return (
     <div
       onMouseUp={(e) => e.stopPropagation()}
-      onKeyDown={(e) => console.log(e)}
       className={classNames([
-        "top-0 left-0 w-full z-20 transition",
+        "top-0 left-0 w-full z-20 transition cursor-default",
         center
           ? "items-center justify-center flex fixed right-0 bottom-0"
           : "absolute",
-        !isShowing && "opacity-0 pointer-events-none",
+        !isShowing && "hidden",
       ])}
     >
       {/* Overlay */}

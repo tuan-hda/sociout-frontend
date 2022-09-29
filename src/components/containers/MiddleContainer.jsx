@@ -2,7 +2,7 @@ import classNames from "classnames"
 import React from "react"
 import { useLocation } from "react-router-dom"
 
-const MiddleContainer = ({ children }) => {
+const MiddleContainer = (props) => {
   const location = useLocation()
   const pathname = location.pathname
 
@@ -11,9 +11,10 @@ const MiddleContainer = ({ children }) => {
       className={classNames([
         "flex-1 min-w-[100px]",
         !/^\/messages/.test(pathname) ? "max-w-main" : "max-w-full",
+        props.mainContent && "min-h-[508px]",
       ])}
     >
-      {children}
+      {props.children}
     </div>
   )
 }

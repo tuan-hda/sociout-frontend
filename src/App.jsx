@@ -46,7 +46,7 @@ const Wrapper = ({ children }) => {
   return children
 }
 
-const excludePath = ["login", "signup", "recoverpassword"]
+const excludePath = ["login", "sign-up", "recover-password"]
 const focusPath = ["messages"]
 
 const getHeader = (location) => {
@@ -56,24 +56,22 @@ const getHeader = (location) => {
 const SideBar = (props) => {
   if (!excludePath.includes(props.location?.pathname.substring(1)))
     return (
-      <div>
-        <div className='flex justify-between sm:gap-5 gap-2 relative'>
-          <LeftContainer>
-            <Navbar />
-          </LeftContainer>
+      <div className='flex justify-between sm:gap-5 gap-2'>
+        <LeftContainer>
+          <Navbar />
+        </LeftContainer>
 
-          {/* Routes */}
-          <MiddleContainer>
-            <div className='h-5 bg-mainBackground' />
-            {props.children}
-          </MiddleContainer>
+        {/* Routes */}
+        <MiddleContainer mainContent>
+          <div className='h-5 bg-mainBackground' />
+          {props.children}
+        </MiddleContainer>
 
-          {!focusPath.includes(props.location?.pathname.substring(1)) && (
-            <RightContainer>
-              <SuggestionBar />
-            </RightContainer>
-          )}
-        </div>
+        {!focusPath.includes(props.location?.pathname.substring(1)) && (
+          <RightContainer sticky>
+            <SuggestionBar />
+          </RightContainer>
+        )}
       </div>
     )
 
@@ -85,12 +83,12 @@ const token = localStorage.getItem("token")
 const App = () => {
   const location = useLocation()
   const dispatch = useDispatch()
-  const auth = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth)
   const navigate = useNavigate()
 
   useEffect(() => {
     // If still in login session
-    if (token && !auth.user) {
+    if (token) {
       const decodedObj = jwt(token)
       getMeService(decodedObj.id)
         .then((response) =>
@@ -111,14 +109,10 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    if (
-      auth &&
-      auth.user &&
-      excludePath.includes(location.pathname.substring(1))
-    ) {
+    if (user && excludePath.includes(location.pathname.substring(1))) {
       navigate("/")
     }
-  }, [auth, navigate, location])
+  }, [user, location])
 
   return (
     <div>

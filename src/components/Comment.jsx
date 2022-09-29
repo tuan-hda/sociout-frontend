@@ -35,7 +35,6 @@ const Comment = (props) => {
   const commentRef = useRef(null)
   useEffect(() => {
     setWidth(commentRef.current.clientWidth)
-    console.log(width)
   })
 
   // Like/Unlike handle
